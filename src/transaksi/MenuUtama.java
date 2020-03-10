@@ -1,24 +1,53 @@
 package transaksi;
 
 import config.Koneksi_1;
+import config.PojoLaporanHarian;
+import java.awt.List;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.File;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import static jdk.nashorn.internal.objects.NativeRegExp.source;
+import net.sf.jasperreports.engine.JasperCompileManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.data.JRTableModelDataSource;
+import net.sf.jasperreports.view.JasperViewer;
 
 public class MenuUtama extends javax.swing.JFrame {
 
+    ArrayList<PojoLaporanHarian> lapHarian;
     public static String nama_user;
 
     public MenuUtama() {
         initComponents();
         datatabel();
+        lapHarian = new ArrayList<>();
+        System.out.println(dataLap().get(1));
     }
-    
-      private void datatabel() {
+
+    private ArrayList dataLap() {
+        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+        for (int i = 0; i < jTable1.getRowCount(); i++) {
+            PojoLaporanHarian pojoLaporanHarian = new PojoLaporanHarian();
+            pojoLaporanHarian.setKode(model.getValueAt(i, 0).toString());
+            pojoLaporanHarian.setProduk(model.getValueAt(i, 1).toString());
+            pojoLaporanHarian.setStokAwal(model.getValueAt(i, 2).toString());
+            pojoLaporanHarian.setHarga(model.getValueAt(i, 3).toString());
+            pojoLaporanHarian.setTerjual(model.getValueAt(i, 4).toString());
+            pojoLaporanHarian.setJumlah(model.getValueAt(i, 5).toString());
+            lapHarian.add(pojoLaporanHarian);
+        }
+        return lapHarian;
+    }
+
+    private void datatabel() {
         DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
         try {
             String sql = "SELECT * FROM produk";
@@ -37,7 +66,7 @@ public class MenuUtama extends javax.swing.JFrame {
 
         try {
             String kd_produk;
-            int total=0;
+            int total = 0;
             for (int i = 0; i < model.getRowCount(); i++) {
                 kd_produk = model.getValueAt(i, 0).toString();
                 String sql = "SELECT SUM(transaksi_detail.trd_qty) AS terjual,produk.pd_stock as stok FROM transaksi_detail JOIN transaksi_header"
@@ -48,10 +77,10 @@ public class MenuUtama extends javax.swing.JFrame {
                 while (rs.next()) {
                     String S_terjual = rs.getString("terjual");
                     S_terjual = S_terjual == null ? S_terjual = "0" : S_terjual;
-                    model.setValueAt( Integer.parseInt(S_terjual) + Integer.parseInt(rs.getString("stok")), i, 2);
+                    model.setValueAt(Integer.parseInt(S_terjual) + Integer.parseInt(rs.getString("stok")), i, 2);
                     model.setValueAt(Integer.parseInt(S_terjual), i, 4);
-                    model.setValueAt(Integer.parseInt(S_terjual) *  Integer.parseInt(model.getValueAt(i, 3).toString()), i, 5);
-                    total+=Integer.parseInt(S_terjual) *  Integer.parseInt(model.getValueAt(i, 3).toString());
+                    model.setValueAt(Integer.parseInt(S_terjual) * Integer.parseInt(model.getValueAt(i, 3).toString()), i, 5);
+                    total += Integer.parseInt(S_terjual) * Integer.parseInt(model.getValueAt(i, 3).toString());
                 }
 
             }
@@ -69,7 +98,6 @@ public class MenuUtama extends javax.swing.JFrame {
     public static void setNama_user(String nama_user) {
         MenuUtama.nama_user = nama_user;
     }
-
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -89,6 +117,7 @@ public class MenuUtama extends javax.swing.JFrame {
         jTable1 = new javax.swing.JTable();
         tx_total = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -226,6 +255,13 @@ public class MenuUtama extends javax.swing.JFrame {
 
         jLabel2.setText("TOTAL");
 
+        jButton1.setText("CETAK LAPORAN");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -233,14 +269,15 @@ public class MenuUtama extends javax.swing.JFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jScrollPane1))
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(jButton1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jLabel2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -257,11 +294,15 @@ public class MenuUtama extends javax.swing.JFrame {
                         .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 404, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(tx_total, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel2))
-                        .addGap(0, 10, Short.MAX_VALUE)))
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(tx_total, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel2))
+                                .addGap(0, 16, Short.MAX_VALUE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                                .addGap(0, 0, Short.MAX_VALUE)
+                                .addComponent(jButton1)))))
                 .addContainerGap())
         );
 
@@ -313,6 +354,22 @@ public class MenuUtama extends javax.swing.JFrame {
 
     }//GEN-LAST:event_jTable1MouseClicked
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        try {
+            File file = new File("src/report/LapHarian.jrxml");
+            JasperReport jasperReport = JasperCompileManager.compileReport(file);
+            DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+            JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, null, new JRTableModelDataSource(model));
+            JasperViewer.viewReport(jasperPrint, false);
+
+        } catch (Exception e) {
+            System.out.println(e);
+
+        }
+
+    }//GEN-LAST:event_jButton1ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -356,6 +413,7 @@ public class MenuUtama extends javax.swing.JFrame {
     private javax.swing.JButton bt_stok;
     private javax.swing.JButton bt_transaksi;
     private javax.swing.JButton bt_user;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
@@ -366,5 +424,4 @@ public class MenuUtama extends javax.swing.JFrame {
     private javax.swing.JTextField tx_total;
     // End of variables declaration//GEN-END:variables
 
-  
 }

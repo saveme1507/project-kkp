@@ -1,49 +1,20 @@
 package config;
 
-
 public class PojoLaporanHarian {
 
-    private int kode,stokAwal,Harga,terjual,jumlah;
+    private String kode;
     private String produk;
+    private String stokAwal;
+    private String Harga;
+    private String terjual;
+    private String jumlah;
 
-    public int getKode() {
+    public String getKode() {
         return kode;
     }
 
-    public void setKode(int kode) {
+    public void setKode(String kode) {
         this.kode = kode;
-    }
-
-    public int getStokAwal() {
-        return stokAwal;
-    }
-
-    public void setStokAwal(int stokAwal) {
-        this.stokAwal = stokAwal;
-    }
-
-    public int getHarga() {
-        return Harga;
-    }
-
-    public void setHarga(int Harga) {
-        this.Harga = Harga;
-    }
-
-    public int getTerjual() {
-        return terjual;
-    }
-
-    public void setTerjual(int terjual) {
-        this.terjual = terjual;
-    }
-
-    public int getJumlah() {
-        return jumlah;
-    }
-
-    public void setJumlah(int jumlah) {
-        this.jumlah = jumlah;
     }
 
     public String getProduk() {
@@ -53,5 +24,37 @@ public class PojoLaporanHarian {
     public void setProduk(String produk) {
         this.produk = produk;
     }
-    
+
+    public String getStokAwal() {
+        return stokAwal;
+    }
+
+    public void setStokAwal(String stokAwal) {
+        this.stokAwal = stokAwal;
+    }
+
+    public String getHarga() {
+        return Harga;
+    }
+
+    public void setHarga(String Harga) {
+        this.Harga = Harga;
+    }
+
+    public String getTerjual() {
+        return terjual;
+    }
+
+    public void setTerjual(String terjual) {
+        this.terjual = terjual;
+    }
+
+    public String getJumlah() {
+        return jumlah;
+    }
+
+    public void setJumlah(String jumlah) {
+        this.jumlah = jumlah;
+    }
+
 }
