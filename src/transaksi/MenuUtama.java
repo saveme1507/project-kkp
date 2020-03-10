@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package transaksi;
 
 import config.Koneksi_1;
@@ -14,10 +9,6 @@ import java.sql.SQLException;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
-/**
- *
- * @author Yunida Hani Lestari
- */
 public class MenuUtama extends javax.swing.JFrame {
 
     public static String nama_user;
@@ -26,6 +17,59 @@ public class MenuUtama extends javax.swing.JFrame {
         initComponents();
         datatabel();
     }
+    
+      private void datatabel() {
+        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+        try {
+            String sql = "SELECT * FROM produk";
+            ResultSet hasil = Koneksi_1.con_stat().executeQuery(sql);
+            while (hasil.next()) {
+                model.addRow(new Object[]{
+                    hasil.getString("pd_kode"),
+                    hasil.getString("pd_nama"),
+                    "",
+                    hasil.getString("pd_harga")
+                });
+            }
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+
+        try {
+            String kd_produk;
+            int total=0;
+            for (int i = 0; i < model.getRowCount(); i++) {
+                kd_produk = model.getValueAt(i, 0).toString();
+                String sql = "SELECT SUM(transaksi_detail.trd_qty) AS terjual,produk.pd_stock as stok FROM transaksi_detail JOIN transaksi_header"
+                        + " ON transaksi_detail.trd_no_transaksi=transaksi_header.trh_no_transaksi JOIN produk "
+                        + "ON transaksi_detail.trd_pd_kode=produk.pd_kode WHERE transaksi_header.trh_updatedate = '2020-03-08' "
+                        + " AND transaksi_detail.trd_pd_kode=" + kd_produk;
+                ResultSet rs = Koneksi_1.con_stat().executeQuery(sql);
+                while (rs.next()) {
+                    String S_terjual = rs.getString("terjual");
+                    S_terjual = S_terjual == null ? S_terjual = "0" : S_terjual;
+                    model.setValueAt( Integer.parseInt(S_terjual) + Integer.parseInt(rs.getString("stok")), i, 2);
+                    model.setValueAt(Integer.parseInt(S_terjual), i, 4);
+                    model.setValueAt(Integer.parseInt(S_terjual) *  Integer.parseInt(model.getValueAt(i, 3).toString()), i, 5);
+                    total+=Integer.parseInt(S_terjual) *  Integer.parseInt(model.getValueAt(i, 3).toString());
+                }
+
+            }
+            tx_total.setText(String.valueOf(total));
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+
+    }
+
+    public static String getNama_user() {
+        return nama_user;
+    }
+
+    public static void setNama_user(String nama_user) {
+        MenuUtama.nama_user = nama_user;
+    }
+
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -61,16 +105,16 @@ public class MenuUtama extends javax.swing.JFrame {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(185, 185, 185)
+                .addGap(184, 184, 184)
                 .addComponent(jLabel1)
-                .addContainerGap(185, Short.MAX_VALUE))
+                .addContainerGap(186, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(29, Short.MAX_VALUE)
+                .addContainerGap(16, Short.MAX_VALUE)
                 .addComponent(jLabel1)
-                .addGap(24, 24, 24))
+                .addGap(14, 14, 14))
         );
 
         jPanel3.setBackground(new java.awt.Color(255, 255, 255));
@@ -85,7 +129,7 @@ public class MenuUtama extends javax.swing.JFrame {
         });
 
         bt_laporan_harian.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        bt_laporan_harian.setText("LAPORAN HARIAN");
+        bt_laporan_harian.setText("LAPORAN BULANAN");
         bt_laporan_harian.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 bt_laporan_harianActionPerformed(evt);
@@ -212,12 +256,12 @@ public class MenuUtama extends javax.swing.JFrame {
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 387, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 404, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(tx_total, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel2))
-                        .addGap(0, 4, Short.MAX_VALUE)))
+                        .addGap(0, 10, Short.MAX_VALUE)))
                 .addContainerGap())
         );
 
@@ -322,56 +366,5 @@ public class MenuUtama extends javax.swing.JFrame {
     private javax.swing.JTextField tx_total;
     // End of variables declaration//GEN-END:variables
 
-    private void datatabel() {
-        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
-        try {
-            String sql = "SELECT * FROM produk";
-            ResultSet hasil = Koneksi_1.con_stat().executeQuery(sql);
-            while (hasil.next()) {
-                model.addRow(new Object[]{
-                    hasil.getString("pd_kode"),
-                    hasil.getString("pd_nama"),
-                    "",
-                    hasil.getString("pd_harga")
-                });
-            }
-        } catch (SQLException e) {
-            System.out.println(e);
-        }
-
-        try {
-            String kd_produk;
-            int total=0;
-            for (int i = 0; i < model.getRowCount(); i++) {
-                kd_produk = model.getValueAt(i, 0).toString();
-                String sql = "SELECT SUM(transaksi_detail.trd_qty) AS terjual,produk.pd_stock as stok FROM transaksi_detail JOIN transaksi_header"
-                        + " ON transaksi_detail.trd_no_transaksi=transaksi_header.trh_no_transaksi JOIN produk "
-                        + "ON transaksi_detail.trd_pd_kode=produk.pd_kode WHERE transaksi_header.trh_updatedate = '2020-03-08' "
-                        + " AND transaksi_detail.trd_pd_kode=" + kd_produk;
-                ResultSet rs = Koneksi_1.con_stat().executeQuery(sql);
-                while (rs.next()) {
-                    String S_terjual = rs.getString("terjual");
-                    S_terjual = S_terjual == null ? S_terjual = "0" : S_terjual;
-                    model.setValueAt( Integer.parseInt(S_terjual) + Integer.parseInt(rs.getString("stok")), i, 2);
-                    model.setValueAt(Integer.parseInt(S_terjual), i, 4);
-                    model.setValueAt(Integer.parseInt(S_terjual) *  Integer.parseInt(model.getValueAt(i, 3).toString()), i, 5);
-                    total+=Integer.parseInt(S_terjual) *  Integer.parseInt(model.getValueAt(i, 3).toString());
-                }
-
-            }
-            tx_total.setText(String.valueOf(total));
-        } catch (Exception e) {
-            System.out.println(e);
-        }
-
-    }
-
-    public static String getNama_user() {
-        return nama_user;
-    }
-
-    public static void setNama_user(String nama_user) {
-        MenuUtama.nama_user = nama_user;
-    }
-
+  
 }
