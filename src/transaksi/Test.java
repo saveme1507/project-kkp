@@ -18,6 +18,10 @@ public class Test {
         // TODO code application logic here  
         System.out.println(getDate());
         System.out.println(setPeriode());
+        for (int i = 0; i < 10; i++) {
+            int no=1+i;
+            System.out.println(no);
+        }
     }
 
     private static String getDate() {

@@ -366,8 +366,9 @@ public class MenuUtama extends javax.swing.JFrame {
             ItemLaporan itemLaporan;
             itemList.clear();
             for (int i = 0; i < model.getRowCount(); i++) {
+                int no = i + 1;
                 itemLaporan = new ItemLaporan(
-                        i=+1,
+                        no,
                         Integer.parseInt(model.getValueAt(i, 0).toString()),
                         model.getValueAt(i, 1).toString(),
                         Integer.parseInt(model.getValueAt(i, 2).toString()),

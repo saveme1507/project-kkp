@@ -237,7 +237,7 @@ JAKARTA BARAT Telp 0878 8579 6712]]></text>
 				<textFieldExpression><![CDATA[$F{jumlah}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement uuid="4f4b8f16-c410-4e96-b018-ac0d55d3c9c8" x="70" y="0" width="28" height="17"/>
+				<reportElement uuid="4f4b8f16-c410-4e96-b018-ac0d55d3c9c8" style="Table_TD" x="70" y="0" width="28" height="17"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$F{no}]]></textFieldExpression>
 			</textField>
