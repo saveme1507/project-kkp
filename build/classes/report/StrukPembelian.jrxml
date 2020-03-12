@@ -124,7 +124,7 @@
 	<title>
 		<band height="63" splitType="Stretch">
 			<staticText>
-				<reportElement uuid="0abbe72b-025b-4131-82cf-cb762cf55130" x="52" y="7" width="96" height="24" forecolor="#333333"/>
+				<reportElement uuid="0abbe72b-025b-4131-82cf-cb762cf55130" x="38" y="7" width="123" height="24" forecolor="#333333"/>
 				<textElement textAlignment="Center" verticalAlignment="Top">
 					<font fontName="Algerian" size="14" isBold="true"/>
 				</textElement>

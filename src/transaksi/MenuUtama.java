@@ -1,7 +1,7 @@
 package transaksi;
 
+import config.ItemLaporan;
 import config.Koneksi_1;
-import config.PojoLaporanHarian;
 import java.awt.List;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -9,42 +9,35 @@ import java.io.File;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
+import java.util.HashMap;
+import java.util.Map;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import static jdk.nashorn.internal.objects.NativeRegExp.source;
+import net.sf.jasperreports.engine.JREmptyDataSource;
+import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 import net.sf.jasperreports.engine.data.JRTableModelDataSource;
+import net.sf.jasperreports.engine.design.JasperDesign;
+import net.sf.jasperreports.engine.xml.JRXmlLoader;
 import net.sf.jasperreports.view.JasperViewer;
 
 public class MenuUtama extends javax.swing.JFrame {
 
-    ArrayList<PojoLaporanHarian> lapHarian;
     public static String nama_user;
+    private ArrayList<ItemLaporan> itemLaporan = new ArrayList<>();
 
     public MenuUtama() {
         initComponents();
         datatabel();
-        lapHarian = new ArrayList<>();
-        System.out.println(dataLap().get(1));
-    }
-
-    private ArrayList dataLap() {
-        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
-        for (int i = 0; i < jTable1.getRowCount(); i++) {
-            PojoLaporanHarian pojoLaporanHarian = new PojoLaporanHarian();
-            pojoLaporanHarian.setKode(model.getValueAt(i, 0).toString());
-            pojoLaporanHarian.setProduk(model.getValueAt(i, 1).toString());
-            pojoLaporanHarian.setStokAwal(model.getValueAt(i, 2).toString());
-            pojoLaporanHarian.setHarga(model.getValueAt(i, 3).toString());
-            pojoLaporanHarian.setTerjual(model.getValueAt(i, 4).toString());
-            pojoLaporanHarian.setJumlah(model.getValueAt(i, 5).toString());
-            lapHarian.add(pojoLaporanHarian);
-        }
-        return lapHarian;
     }
 
     private void datatabel() {
@@ -89,6 +82,17 @@ public class MenuUtama extends javax.swing.JFrame {
             System.out.println(e);
         }
 
+    }
+
+    private String stringDate() {
+        int hari, bulan, tahun;
+        GregorianCalendar date = new GregorianCalendar();
+        String namabulan[] = {"Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"};
+        hari = date.get(Calendar.DAY_OF_MONTH);
+        bulan = date.get(Calendar.MONTH);
+        tahun = date.get(Calendar.YEAR);
+        String tglSekarang = String.valueOf(hari + " " + namabulan[bulan].toUpperCase() + " " + tahun);
+        return tglSekarang;
     }
 
     public static String getNama_user() {
@@ -357,13 +361,32 @@ public class MenuUtama extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
         try {
-            File file = new File("src/report/LapHarian.jrxml");
-            JasperReport jasperReport = JasperCompileManager.compileReport(file);
             DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
-            JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, null, new JRTableModelDataSource(model));
+            ArrayList itemList = new ArrayList();
+            ItemLaporan itemLaporan;
+            itemList.clear();
+            for (int i = 0; i < model.getRowCount(); i++) {
+                itemLaporan = new ItemLaporan(
+                        i=+1,
+                        Integer.parseInt(model.getValueAt(i, 0).toString()),
+                        model.getValueAt(i, 1).toString(),
+                        Integer.parseInt(model.getValueAt(i, 2).toString()),
+                        Integer.parseInt(model.getValueAt(i, 3).toString()),
+                        Integer.parseInt(model.getValueAt(i, 4).toString()),
+                        Integer.parseInt(model.getValueAt(i, 5).toString())
+                );
+                itemList.add(itemLaporan);
+            }
+            Map map = new HashMap();
+            map.put("tanggal", stringDate());
+            map.put("total", Integer.parseInt(tx_total.getText()));
+            File file = new File("src/report/LapHarian.jrxml");
+            JasperDesign jasperDesign = JRXmlLoader.load(file);
+            JasperReport jasperReport = JasperCompileManager.compileReport(jasperDesign);
+            JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, map, new JRBeanCollectionDataSource(itemList));
             JasperViewer.viewReport(jasperPrint, false);
 
-        } catch (Exception e) {
+        } catch (JRException e) {
             System.out.println(e);
 
         }
@@ -402,6 +425,7 @@ public class MenuUtama extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new MenuUtama().setVisible(true);
+
             }
         });
     }
@@ -420,7 +444,7 @@ public class MenuUtama extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
+    private static javax.swing.JTable jTable1;
     private javax.swing.JTextField tx_total;
     // End of variables declaration//GEN-END:variables
 
