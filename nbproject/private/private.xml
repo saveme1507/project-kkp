@@ -4,16 +4,22 @@
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
             <file>file:/F:/Project%20Netbeans/Transaksi/src/transaksi/MenuUtama.java</file>
+            <file>file:/F:/Project%20Netbeans/Transaksi/src/config/ItemLapBulanan.java</file>
             <file>file:/F:/Project%20Netbeans/Transaksi/src/transaksi/Test.java</file>
+            <file>file:/F:/Project%20Netbeans/Transaksi/src/report/LaporanBulanan.jrxml</file>
             <file>file:/F:/Project%20Netbeans/Transaksi/src/transaksi/InputStok.java</file>
             <file>file:/F:/Project%20Netbeans/Transaksi/src/transaksi/EditAkun.java</file>
             <file>file:/F:/Project%20Netbeans/Transaksi/src/config/CurrentDate.java</file>
             <file>file:/F:/Project%20Netbeans/Transaksi/src/transaksi/LaporanBulanan.java</file>
+            <file>file:/F:/Project%20Netbeans/Transaksi/src/report/StrukPembelian.jrxml</file>
+            <file>file:/F:/Project%20Netbeans/Transaksi/src/report/LaporanHarian.jrxml</file>
             <file>file:/F:/Project%20Netbeans/Transaksi/src/transaksi/Transaksi.java</file>
+            <file>file:/F:/Project%20Netbeans/Transaksi/src/config/ItemLapHarian.java</file>
             <file>file:/F:/Project%20Netbeans/Transaksi/src/transaksi/Login.java</file>
             <file>file:/F:/Project%20Netbeans/Transaksi/src/transaksi/CariProduk.java</file>
             <file>file:/F:/Project%20Netbeans/Transaksi/src/transaksi/MasterPromo.java</file>
             <file>file:/F:/Project%20Netbeans/Transaksi/src/transaksi/TambahAkun.java</file>
+            <file>file:/F:/Project%20Netbeans/Transaksi/src/report/LapHarian.jrxml</file>
             <file>file:/F:/Project%20Netbeans/Transaksi/src/transaksi/LaporanHarian.java</file>
             <file>file:/F:/Project%20Netbeans/Transaksi/src/transaksi/MasterProduk.java</file>
             <file>file:/F:/Project%20Netbeans/Transaksi/src/config/ItemLaporan.java</file>

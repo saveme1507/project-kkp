@@ -112,13 +112,14 @@ public class MenuUtama extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
         bt_stok = new javax.swing.JButton();
-        bt_laporan_harian = new javax.swing.JButton();
+        bt_laporanBulanan = new javax.swing.JButton();
         bt_master_promo = new javax.swing.JButton();
         bt_user = new javax.swing.JButton();
         bt_transaksi = new javax.swing.JButton();
         bt_master_produk = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
+        bt_laporanHarian = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
         tx_total = new javax.swing.JTextField();
@@ -163,11 +164,11 @@ public class MenuUtama extends javax.swing.JFrame {
             }
         });
 
-        bt_laporan_harian.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        bt_laporan_harian.setText("LAPORAN BULANAN");
-        bt_laporan_harian.addActionListener(new java.awt.event.ActionListener() {
+        bt_laporanBulanan.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        bt_laporanBulanan.setText("LAPORAN BULANAN");
+        bt_laporanBulanan.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                bt_laporan_harianActionPerformed(evt);
+                bt_laporanBulananActionPerformed(evt);
             }
         });
 
@@ -203,33 +204,44 @@ public class MenuUtama extends javax.swing.JFrame {
             }
         });
 
+        jLabel3.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(0, 0, 0));
         jLabel3.setText("SELAMAT DATANG");
 
+        jLabel4.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(0, 0, 0));
         jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel4.setText("NAMA USER LOGIN");
         jLabel4.setFocusable(false);
         jLabel4.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
 
+        bt_laporanHarian.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        bt_laporanHarian.setText("LAPORAN HARIAN");
+        bt_laporanHarian.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bt_laporanHarianActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
+                .addGap(28, 28, 28)
+                .addComponent(jLabel3)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(bt_stok, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(bt_laporan_harian, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(bt_laporanBulanan, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(bt_master_promo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(bt_user, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(bt_transaksi, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(bt_master_produk, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jLabel3)
-                        .addGap(34, 34, 34))
-                    .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(bt_laporanHarian, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         jPanel3Layout.setVerticalGroup(
@@ -241,15 +253,17 @@ public class MenuUtama extends javax.swing.JFrame {
                 .addComponent(jLabel4)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(bt_stok, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(bt_transaksi, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(bt_laporan_harian, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(bt_laporanHarian, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(bt_laporanBulanan, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(bt_master_promo, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(bt_master_produk, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(bt_user, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -356,10 +370,10 @@ public class MenuUtama extends javax.swing.JFrame {
         new Transaksi().setVisible(true);
     }//GEN-LAST:event_bt_transaksiActionPerformed
 
-    private void bt_laporan_harianActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_laporan_harianActionPerformed
+    private void bt_laporanBulananActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_laporanBulananActionPerformed
         // TODO add your handling code here:
-        new LaporanHarian().setVisible(true);
-    }//GEN-LAST:event_bt_laporan_harianActionPerformed
+        new LaporanBulanan().setVisible(true);
+    }//GEN-LAST:event_bt_laporanBulananActionPerformed
 
     private void bt_master_promoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_master_promoActionPerformed
         // TODO add your handling code here:
@@ -412,6 +426,11 @@ public class MenuUtama extends javax.swing.JFrame {
 
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    private void bt_laporanHarianActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_laporanHarianActionPerformed
+        // TODO add your handling code here:
+        new LaporanHarian().setVisible(true);
+    }//GEN-LAST:event_bt_laporanHarianActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -450,7 +469,8 @@ public class MenuUtama extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton bt_laporan_harian;
+    private javax.swing.JButton bt_laporanBulanan;
+    private javax.swing.JButton bt_laporanHarian;
     private javax.swing.JButton bt_master_produk;
     private javax.swing.JButton bt_master_promo;
     private javax.swing.JButton bt_stok;
