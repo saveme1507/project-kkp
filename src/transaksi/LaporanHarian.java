@@ -268,8 +268,8 @@ public class LaporanHarian extends javax.swing.JFrame {
                 itemList.add(itemLapHarian);
             }
             Map map = new HashMap();
-            map.put("tanggal", CurrentDate.tgl_skrg_string());
-            map.put("total", Integer.parseInt(tx_total.getText()));
+            map.put("tgl_harian", CurrentDate.tgl_skrg_string());
+            map.put("total_harian", Integer.parseInt(tx_total.getText()));
             File file = new File("src/report/LaporanHarian.jrxml");
             JasperDesign jasperDesign = JRXmlLoader.load(file);
             JasperReport jasperReport = JasperCompileManager.compileReport(jasperDesign);

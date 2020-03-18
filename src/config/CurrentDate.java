@@ -15,7 +15,8 @@ public class CurrentDate {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         return sdf.format(cal.getTime());
     }
-     public static String tgl_skrg_string() {
+
+    public static String tgl_skrg_string() {
         int hari, bulan, tahun;
         GregorianCalendar date = new GregorianCalendar();
         String namabulan[] = {"Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"};
@@ -26,4 +27,10 @@ public class CurrentDate {
         return tglSekarang;
     }
 
+    public static String periodeBulan(int bulan) {
+        String namabulan[] = {"Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"};
+        String periode = namabulan[bulan].toUpperCase();
+        return periode;
+    }
+    
 }

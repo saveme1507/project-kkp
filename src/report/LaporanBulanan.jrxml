@@ -1,27 +1,157 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="null" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="867bc927-e089-4877-aec5-1ea1a90e7fcc">
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="null" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" isFloatColumnFooter="true" uuid="867bc927-e089-4877-aec5-1ea1a90e7fcc">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<style name="table">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<subDataset name="Table Dataset 1" uuid="934f1df3-c15c-4187-bdd4-97d63797c935"/>
+	<parameter name="total" class="java.lang.Integer"/>
+	<parameter name="periode" class="java.lang.String"/>
+	<field name="no" class="java.lang.Integer"/>
+	<field name="jml_transaksi" class="java.lang.Integer"/>
+	<field name="jml_pendapatan" class="java.lang.Integer"/>
+	<field name="tanggal" class="java.lang.String"/>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
 	<title>
-		<band height="79" splitType="Stretch"/>
+		<band height="56" splitType="Stretch">
+			<staticText>
+				<reportElement uuid="0abbe72b-025b-4131-82cf-cb762cf55130" x="210" y="-1" width="135" height="26" forecolor="#333333"/>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font size="12" isBold="true" isItalic="false"/>
+				</textElement>
+				<text><![CDATA[RUMAH MAKAN]]></text>
+			</staticText>
+			<line>
+				<reportElement uuid="2073f76f-e567-42d4-9d50-b9b6d88fc5db" x="0" y="55" width="555" height="1"/>
+			</line>
+			<staticText>
+				<reportElement uuid="13593612-1951-4058-ac84-e9361b456197" x="147" y="28" width="261" height="27" forecolor="#333333"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="9"/>
+				</textElement>
+				<text><![CDATA[JL. MERUYA ILIR, PASAR PENGAMPUNGAN MERUYA 
+JAKARTA BARAT Telp 0878 8579 6712]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="0abbe72b-025b-4131-82cf-cb762cf55130" x="206" y="6" width="142" height="24" forecolor="#333333"/>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font fontName="Algerian" size="16" isBold="true"/>
+				</textElement>
+				<text><![CDATA[BERKAH BUANA]]></text>
+			</staticText>
+		</band>
 	</title>
 	<pageHeader>
-		<band height="35" splitType="Stretch"/>
+		<band height="35" splitType="Stretch">
+			<textField>
+				<reportElement uuid="b6ada509-3a39-4c15-b85a-9d8b10778406" x="296" y="0" width="100" height="35"/>
+				<textElement verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{periode}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="0abbe72b-025b-4131-82cf-cb762cf55130" x="177" y="0" width="119" height="35" forecolor="#333333"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isBold="true" isItalic="false"/>
+				</textElement>
+				<text><![CDATA[LAPORAN HARIAN]]></text>
+			</staticText>
+		</band>
 	</pageHeader>
 	<columnHeader>
-		<band height="61" splitType="Stretch"/>
+		<band height="19" splitType="Stretch">
+			<staticText>
+				<reportElement uuid="58b7e1dc-3b52-45ad-b917-f8af80f97ffd" style="table_TH" mode="Opaque" x="128" y="0" width="23" height="19" backcolor="#99CCFF"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[NO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="08326831-7318-4df9-9527-e1fec44b1752" style="table_TH" mode="Opaque" x="150" y="0" width="64" height="19" backcolor="#99CCFF"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[TANGGAL]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="27a095c7-bdfe-4198-82fe-5db6c5227f32" style="table_TH" mode="Opaque" x="214" y="0" width="110" height="19" backcolor="#99CCFF"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[JUMLAH TRANSAKSI]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="5b50ca1e-22ca-44c8-bad4-7966a8b5f1fc" style="table_TH" mode="Opaque" x="323" y="0" width="118" height="19" backcolor="#99CCFF"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[JUMLAH PENDAPATAN]]></text>
+			</staticText>
+		</band>
 	</columnHeader>
 	<detail>
-		<band height="125" splitType="Stretch"/>
+		<band height="17" splitType="Stretch">
+			<textField>
+				<reportElement uuid="c66251b9-3d9e-4065-acb9-01fe966eeefa" style="table_TD" x="128" y="0" width="23" height="17"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{no}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="77c5c4ec-a0b6-4085-ab41-43e64c2fd250" style="table_TD" x="150" y="0" width="64" height="17"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{tanggal}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="6b36470e-7ed7-434e-9b7a-1e4445b34a09" style="table_TD" x="214" y="0" width="110" height="17"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{jml_transaksi}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="3f262813-88b7-464f-ab6b-d051531bad8f" style="table_TD" x="323" y="0" width="118" height="17"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<paragraph rightIndent="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{jml_pendapatan}]]></textFieldExpression>
+			</textField>
+		</band>
 	</detail>
 	<columnFooter>
-		<band height="45" splitType="Stretch"/>
+		<band height="20" splitType="Stretch">
+			<textField>
+				<reportElement uuid="323ed70d-247f-41a2-bfab-158b231056a5" style="table_CH" x="323" y="0" width="118" height="20"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<paragraph rightIndent="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{total}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="5b50ca1e-22ca-44c8-bad4-7966a8b5f1fc" style="table_CH" x="283" y="0" width="40" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[TOTAL]]></text>
+			</staticText>
+		</band>
 	</columnFooter>
-	<pageFooter>
-		<band height="54" splitType="Stretch"/>
-	</pageFooter>
-	<summary>
-		<band height="42" splitType="Stretch"/>
-	</summary>
 </jasperReport>

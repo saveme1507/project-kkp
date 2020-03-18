@@ -1,12 +1,27 @@
 package transaksi;
 
+import config.CurrentDate;
+import config.ItemLapBulanan;
+import config.ItemLapHarian;
 import config.Koneksi_1;
+import java.io.File;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
+import java.util.Map;
 import javax.swing.table.DefaultTableModel;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperCompileManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
+import net.sf.jasperreports.engine.design.JasperDesign;
+import net.sf.jasperreports.engine.xml.JRXmlLoader;
+import net.sf.jasperreports.view.JasperViewer;
 
 public class LaporanBulanan extends javax.swing.JFrame {
 
@@ -54,20 +69,6 @@ public class LaporanBulanan extends javax.swing.JFrame {
         }
     }
 
-    private String dateChose() {
-        SimpleDateFormat dcn = new SimpleDateFormat("MM");
-        String bulan = dcn.format(jMonthChooser1.getMonth());
-        String tahun = String.valueOf(jYearChooser1.getYear());
-        String date = bulan + "-" + tahun;
-        return date;
-    }
-
-    private void setBulan() {
-        String namabulan[] = {"Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"};
-        jMonthChooser1.setMonth(Calendar.MONTH);
-        jYearChooser1.setYear(Calendar.YEAR);
-    }
-
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -82,6 +83,7 @@ public class LaporanBulanan extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         jMonthChooser1 = new com.toedter.calendar.JMonthChooser();
         jYearChooser1 = new com.toedter.calendar.JYearChooser();
+        bt_cetak = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -96,16 +98,16 @@ public class LaporanBulanan extends javax.swing.JFrame {
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addContainerGap(187, Short.MAX_VALUE)
+                .addContainerGap(248, Short.MAX_VALUE)
                 .addComponent(jLabel1)
-                .addGap(263, 263, 263))
+                .addGap(202, 202, 202))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(26, 26, 26)
+                .addGap(14, 14, 14)
                 .addComponent(jLabel1)
-                .addContainerGap(39, Short.MAX_VALUE))
+                .addContainerGap(24, Short.MAX_VALUE))
         );
 
         bt_tampil.setText("TAMPIL");
@@ -153,6 +155,13 @@ public class LaporanBulanan extends javax.swing.JFrame {
         jYearChooser1.setStartYear(2020);
         jYearChooser1.setYear(Calendar.YEAR);
 
+        bt_cetak.setText("CETAK");
+        bt_cetak.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bt_cetakActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -170,7 +179,8 @@ public class LaporanBulanan extends javax.swing.JFrame {
                         .addComponent(bt_tampil)
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(bt_cetak)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jLabel2)
                         .addGap(18, 18, 18)
                         .addComponent(tx_total, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -187,12 +197,13 @@ public class LaporanBulanan extends javax.swing.JFrame {
                     .addComponent(jYearChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jMonthChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 466, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 499, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(tx_total, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel2))
-                .addGap(16, 16, 16))
+                    .addComponent(jLabel2)
+                    .addComponent(bt_cetak, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(10, 10, 10))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -211,8 +222,39 @@ public class LaporanBulanan extends javax.swing.JFrame {
 
     private void bt_tampilActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_tampilActionPerformed
         // TODO add your handling code here:
-        dataTabel();
+        dataTabel();    
     }//GEN-LAST:event_bt_tampilActionPerformed
+
+    private void bt_cetakActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_cetakActionPerformed
+         //print laporan
+        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+        try {
+            ArrayList itemList = new ArrayList();
+            ItemLapBulanan itemLapBulanan;
+            itemList.clear();
+            for (int i = 0; i < model.getRowCount(); i++) {
+                itemLapBulanan = new ItemLapBulanan(
+                        Integer.parseInt(model.getValueAt(i, 0).toString()),
+                        Integer.parseInt(model.getValueAt(i, 2).toString()),
+                        Integer.parseInt(model.getValueAt(i, 3).toString()),
+                        model.getValueAt(i, 1).toString()
+                );
+                itemList.add(itemLapBulanan);
+            }
+            Map map = new HashMap();
+            map.put("periode",config.CurrentDate.periodeBulan(jMonthChooser1.getMonth())+" "+jYearChooser1.getYear());
+            map.put("total", Integer.parseInt(tx_total.getText()));
+            File file = new File("src/report/LaporanBulanan.jrxml");
+            JasperDesign jasperDesign = JRXmlLoader.load(file);
+            JasperReport jasperReport = JasperCompileManager.compileReport(jasperDesign);
+            JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, map, new JRBeanCollectionDataSource(itemList));
+            JasperViewer.viewReport(jasperPrint, false);
+
+        } catch (JRException e) {
+            System.out.println(e);
+
+        }
+    }//GEN-LAST:event_bt_cetakActionPerformed
 
     public static void main(String args[]) {
         java.awt.EventQueue.invokeLater(new Runnable() {
@@ -223,6 +265,7 @@ public class LaporanBulanan extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton bt_cetak;
     private javax.swing.JButton bt_tampil;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
