@@ -1,6 +1,8 @@
 package transaksi;
 
 import config.CurrentDate;
+import config.ItemLapHarian;
+import config.ItemStruk;
 import config.Koneksi_1;
 import java.awt.List;
 import java.awt.event.KeyEvent;
@@ -17,6 +19,7 @@ import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.text.NumberFormatter;
 import net.sf.jasperreports.engine.JRDataSource;
+import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
@@ -76,7 +79,7 @@ public class Transaksi extends javax.swing.JFrame {
         DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
         model.addRow(new Object[]{
             tx_kd.getText(),
-            tx_nama.getText(),
+               tx_nama.getText(),
             tx_harga.getText(),
             tx_qty.getText(),
             e
@@ -91,18 +94,49 @@ public class Transaksi extends javax.swing.JFrame {
     }
 
     private void printStruk() {
+//        try {
+//            File file = new File("src/report/StrukPembelian.jrxml");
+//            JasperDesign jasperDesign = JRXmlLoader.load(file);
+//            int no_transaksi = Integer.parseInt(tx_no.getText());
+//            Map param = new HashMap();
+//            param.put("no_tranksaksi", no_transaksi);
+//            JasperReport jasperReport = JasperCompileManager.compileReport(jasperDesign);
+//            JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, param, Koneksi_1.con());
+//            JasperViewer.viewReport(jasperPrint, false);
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            System.out.println(e);
+//        }
+
+        //print laporan
+        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
         try {
-            File file = new File("src/report/StrukPembelian.jrxml");
+            ArrayList itemList = new ArrayList();
+            ItemStruk itemStruk;
+            itemList.clear();
+            for (int i = 0; i < model.getRowCount(); i++) {
+                itemStruk = new ItemStruk(
+                        model.getValueAt(i, 1).toString(),
+                        Integer.parseInt(model.getValueAt(i, 2).toString()),
+                        Integer.parseInt(model.getValueAt(i, 3).toString()),
+                        Integer.parseInt(model.getValueAt(i, 4).toString().replace(",", "").replace("-", "").replace(".", ""))
+                );
+                itemList.add(itemStruk);
+            }
+            Map map = new HashMap();
+            map.put("noTransaksi", Integer.parseInt(tx_no.getText()));
+            map.put("total", Integer.parseInt( tx_total.getText().replace(",", "").replace("-", "").replace(".", "")));
+            map.put("bayar", Integer.parseInt(tx_bayar.getText()));
+            map.put("kembali", Integer.parseInt(tx_kembali.getText().replace(",", "").replace("-", "").replace(".", "")));
+            File file = new File("src/report/LapStrukPembelian.jrxml");
             JasperDesign jasperDesign = JRXmlLoader.load(file);
-            int no_transaksi = Integer.parseInt(tx_no.getText());
-            Map param = new HashMap();
-            param.put("no_tranksaksi", no_transaksi);
             JasperReport jasperReport = JasperCompileManager.compileReport(jasperDesign);
-            JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, param, Koneksi_1.con());
+            JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, map, new JRBeanCollectionDataSource(itemList));
             JasperViewer.viewReport(jasperPrint, false);
-        } catch (Exception e) {
-            e.printStackTrace();
+
+        } catch (JRException e) {
             System.out.println(e);
+
         }
     }
 
@@ -155,7 +189,7 @@ public class Transaksi extends javax.swing.JFrame {
         lb_eror1 = new javax.swing.JLabel();
         lb_eror2 = new javax.swing.JLabel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         jPanel1.setBackground(new java.awt.Color(0, 102, 153));
 
@@ -382,9 +416,9 @@ public class Transaksi extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(32, 32, 32)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(32, 32, 32)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel3)
                             .addComponent(tx_no, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -412,9 +446,7 @@ public class Transaksi extends javax.swing.JFrame {
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGap(6, 6, 6)
                                 .addComponent(lb_eror1))))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 289, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 289, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 34, Short.MAX_VALUE)
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(21, 21, 21)
@@ -460,18 +492,18 @@ public class Transaksi extends javax.swing.JFrame {
 
     private void bt_cetakActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_cetakActionPerformed
         // TODO add your handling code here:
-        try {
-            File file = new File("src/report/StrukPembelian.jrxml");
-            JasperDesign jasperDesign = JRXmlLoader.load(file);
-            int no_transaksi = Integer.parseInt(tx_no.getText());
-            Map param = new HashMap();
-            param.put("no_tranksaksi", no_transaksi);
-            JasperReport jasperReport = JasperCompileManager.compileReport(jasperDesign);
-            JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, param, Koneksi_1.con());
-            JasperViewer.viewReport(jasperPrint, false);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+//        try {
+//            File file = new File("src/report/StrukPembelian.jrxml");
+//            JasperDesign jasperDesign = JRXmlLoader.load(file);
+//            int no_transaksi = Integer.parseInt(tx_no.getText());
+//            Map param = new HashMap();
+//            param.put("no_tranksaksi", no_transaksi);
+//            JasperReport jasperReport = JasperCompileManager.compileReport(jasperDesign);
+//            JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, param, Koneksi_1.con());
+//            JasperViewer.viewReport(jasperPrint, false);
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
     }//GEN-LAST:event_bt_cetakActionPerformed
 
     private void bt_tambahActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_tambahActionPerformed

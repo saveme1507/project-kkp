@@ -88,7 +88,7 @@ public class LaporanHarian extends javax.swing.JFrame {
         bt_simpan = new javax.swing.JButton();
         bt_cetak = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         jPanel1.setBackground(new java.awt.Color(0, 102, 153));
 
