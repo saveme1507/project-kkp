@@ -37,11 +37,12 @@ public class MenuUtama extends javax.swing.JFrame {
     public MenuUtama() {
         initComponents();
         datatabel();
-        jLabel4.setText(nama_user.toUpperCase());
+//        jLabel4.setText(nama_user.toUpperCase());
     }
 
     private void datatabel() {
         DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+        model.setRowCount(0);
         try {
             String sql = "SELECT * FROM produk";
             ResultSet hasil = Koneksi_1.con_stat().executeQuery(sql);
@@ -64,7 +65,7 @@ public class MenuUtama extends javax.swing.JFrame {
                 kd_produk = model.getValueAt(i, 0).toString();
                 String sql = "SELECT SUM(transaksi_detail.trd_qty) AS terjual,produk.pd_stock as stok FROM transaksi_detail JOIN transaksi_header"
                         + " ON transaksi_detail.trd_no_transaksi=transaksi_header.trh_no_transaksi JOIN produk "
-                        + "ON transaksi_detail.trd_pd_kode=produk.pd_kode WHERE transaksi_header.trh_updatedate = '2020-03-08' "
+                        + "ON transaksi_detail.trd_pd_kode=produk.pd_kode WHERE transaksi_header.trh_updatedate = ' " + config.CurrentDate.tgl_skrg() + " ' "
                         + " AND transaksi_detail.trd_pd_kode=" + kd_produk;
                 ResultSet rs = Koneksi_1.con_stat().executeQuery(sql);
                 while (rs.next()) {
@@ -158,6 +159,11 @@ public class MenuUtama extends javax.swing.JFrame {
         bt_stok.setBackground(new java.awt.Color(0, 102, 204));
         bt_stok.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         bt_stok.setText("STOK");
+        bt_stok.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                bt_stokFocusGained(evt);
+            }
+        });
         bt_stok.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 bt_stokActionPerformed(evt);
@@ -190,6 +196,11 @@ public class MenuUtama extends javax.swing.JFrame {
 
         bt_transaksi.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         bt_transaksi.setText("TRANSAKSI");
+        bt_transaksi.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                bt_transaksiFocusGained(evt);
+            }
+        });
         bt_transaksi.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 bt_transaksiActionPerformed(evt);
@@ -357,41 +368,35 @@ public class MenuUtama extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void bt_userActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_userActionPerformed
-        // TODO add your handling code here:
         new EditAkun().setVisible(true);
     }//GEN-LAST:event_bt_userActionPerformed
 
     private void bt_stokActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_stokActionPerformed
-        // TODO add your handling code here:
+        new InputStok().setVisible(true);
     }//GEN-LAST:event_bt_stokActionPerformed
 
     private void bt_transaksiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_transaksiActionPerformed
-        // TODO add your handling code here:
         new Transaksi().setVisible(true);
     }//GEN-LAST:event_bt_transaksiActionPerformed
 
     private void bt_laporanBulananActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_laporanBulananActionPerformed
-        // TODO add your handling code here:
         new LaporanBulanan().setVisible(true);
     }//GEN-LAST:event_bt_laporanBulananActionPerformed
 
     private void bt_master_promoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_master_promoActionPerformed
-        // TODO add your handling code here:
+        new MasterPromo().setVisible(true);
     }//GEN-LAST:event_bt_master_promoActionPerformed
 
     private void bt_master_produkActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_master_produkActionPerformed
-        // TODO add your handling code here:
         new MasterProduk().setVisible(true);
     }//GEN-LAST:event_bt_master_produkActionPerformed
 
     private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
-        // TODO add your handling code here:
         DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
 
     }//GEN-LAST:event_jTable1MouseClicked
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
         try {
             DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
             ArrayList itemList = new ArrayList();
@@ -427,39 +432,18 @@ public class MenuUtama extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void bt_laporanHarianActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_laporanHarianActionPerformed
-        // TODO add your handling code here:
         new LaporanHarian().setVisible(true);
     }//GEN-LAST:event_bt_laporanHarianActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(MenuUtama.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(MenuUtama.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(MenuUtama.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(MenuUtama.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-        //</editor-fold>
+    private void bt_stokFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_bt_stokFocusGained
+        datatabel();
+    }//GEN-LAST:event_bt_stokFocusGained
 
-        /* Create and display the form */
+    private void bt_transaksiFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_bt_transaksiFocusGained
+        datatabel();
+    }//GEN-LAST:event_bt_transaksiFocusGained
+
+    public static void main(String args[]) {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new MenuUtama().setVisible(true);

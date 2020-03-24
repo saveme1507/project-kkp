@@ -202,6 +202,7 @@
                 <Property name="text" type="java.lang.String" value="STOK"/>
               </Properties>
               <Events>
+                <EventHandler event="focusGained" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="bt_stokFocusGained"/>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="bt_stokActionPerformed"/>
               </Events>
             </Component>
@@ -246,6 +247,7 @@
                 <Property name="text" type="java.lang.String" value="TRANSAKSI"/>
               </Properties>
               <Events>
+                <EventHandler event="focusGained" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="bt_transaksiFocusGained"/>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="bt_transaksiActionPerformed"/>
               </Events>
             </Component>

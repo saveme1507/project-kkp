@@ -588,7 +588,7 @@ public class Transaksi extends javax.swing.JFrame {
             }
         }
 
-        //commit
+        //commit                                                                                        
         if (header && stok && detail == true) {
             int opsi = JOptionPane.showConfirmDialog(null, "Print struk pembelian ?", "Transaksi berhasil disimpan", JOptionPane.YES_NO_OPTION);
             if (opsi == JOptionPane.YES_OPTION) {
