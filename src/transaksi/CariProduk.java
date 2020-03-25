@@ -49,17 +49,17 @@ public class CariProduk extends javax.swing.JFrame {
         jTable1.setModel(tabMode);
         String isi="";
         try {
-            String sql = "SELECT mph_kode,mph_nama,mph_harga FROM master_promo_header";
+            String sql = "SELECT mph_kode, mph_kategori, mph_nama,mph_harga FROM master_promo_header";
             ResultSet hasil = Koneksi_1.con_stat().executeQuery(sql);
             while (hasil.next()) {
-                String sql2 = "SELECT mpd_produk FROM master_promo_detail WHERE mpd_kode="+hasil.getString("mph_kode");
+                String sql2 = "SELECT mpd_produk FROM master_promo_detail WHERE mpd_kode='"+hasil.getString("mph_kode")+"'";
                 ResultSet rs = Koneksi_1.con_stat().executeQuery(sql2);
                 while (rs.next()){
-                    isi += rs.getString("mpd_produk")+"+";
+                    isi += rs.getString("mpd_produk")+", ";
                 }
                 tabMode.addRow(new Object[]{
                     hasil.getString("mph_kode"),
-                    hasil.getString("mph_nama"),
+                    hasil.getString("mph_kategori")+" "+hasil.getString("mph_nama"),
                     hasil.getString("mph_harga"),
                     isi
                     });

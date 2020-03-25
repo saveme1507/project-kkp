@@ -37,7 +37,9 @@ public class MenuUtama extends javax.swing.JFrame {
     public MenuUtama() {
         initComponents();
         datatabel();
+        bt_cetak.setVisible(false);
 //        jLabel4.setText(nama_user.toUpperCase());
+
     }
 
     private void datatabel() {
@@ -50,7 +52,7 @@ public class MenuUtama extends javax.swing.JFrame {
                 model.addRow(new Object[]{
                     hasil.getString("pd_kode"),
                     hasil.getString("pd_nama"),
-                    "",
+                    hasil.getString("pd_stock"),
                     hasil.getString("pd_harga")
                 });
             }
@@ -58,30 +60,30 @@ public class MenuUtama extends javax.swing.JFrame {
             System.out.println(e);
         }
 
-        try {
-            String kd_produk;
-            int total = 0;
-            for (int i = 0; i < model.getRowCount(); i++) {
-                kd_produk = model.getValueAt(i, 0).toString();
-                String sql = "SELECT SUM(transaksi_detail.trd_qty) AS terjual,produk.pd_stock as stok FROM transaksi_detail JOIN transaksi_header"
-                        + " ON transaksi_detail.trd_no_transaksi=transaksi_header.trh_no_transaksi JOIN produk "
-                        + "ON transaksi_detail.trd_pd_kode=produk.pd_kode WHERE transaksi_header.trh_updatedate = ' " + config.CurrentDate.tgl_skrg() + " ' "
-                        + " AND transaksi_detail.trd_pd_kode=" + kd_produk;
-                ResultSet rs = Koneksi_1.con_stat().executeQuery(sql);
-                while (rs.next()) {
-                    String S_terjual = rs.getString("terjual");
-                    S_terjual = S_terjual == null ? S_terjual = "0" : S_terjual;
-                    model.setValueAt(Integer.parseInt(S_terjual) + Integer.parseInt(rs.getString("stok")), i, 2);
-                    model.setValueAt(Integer.parseInt(S_terjual), i, 4);
-                    model.setValueAt(Integer.parseInt(S_terjual) * Integer.parseInt(model.getValueAt(i, 3).toString()), i, 5);
-                    total += Integer.parseInt(S_terjual) * Integer.parseInt(model.getValueAt(i, 3).toString());
-                }
-
-            }
-            tx_total.setText(String.valueOf(total));
-        } catch (Exception e) {
-            System.out.println(e);
-        }
+//        try {
+//            String kd_produk;
+//            int total = 0;
+//            for (int i = 0; i < model.getRowCount(); i++) {
+//                kd_produk = model.getValueAt(i, 0).toString();
+//                String sql = "SELECT SUM(transaksi_detail.trd_qty) AS terjual,produk.pd_stock as stok FROM transaksi_detail JOIN transaksi_header"
+//                        + " ON transaksi_detail.trd_no_transaksi=transaksi_header.trh_no_transaksi JOIN produk "
+//                        + "ON transaksi_detail.trd_pd_kode=produk.pd_kode WHERE transaksi_header.trh_updatedate = ' " + config.CurrentDate.tgl_skrg() + " ' "
+//                        + " AND transaksi_detail.trd_pd_kode=" + kd_produk;
+//                ResultSet rs = Koneksi_1.con_stat().executeQuery(sql);
+//                while (rs.next()) {
+//                    String S_terjual = rs.getString("terjual");
+//                    S_terjual = S_terjual == null ? S_terjual = "0" : S_terjual;
+//                    model.setValueAt(Integer.parseInt(S_terjual) + Integer.parseInt(rs.getString("stok")), i, 2);
+//                    model.setValueAt(Integer.parseInt(S_terjual), i, 4);
+//                    model.setValueAt(Integer.parseInt(S_terjual) * Integer.parseInt(model.getValueAt(i, 3).toString()), i, 5);
+//                    total += Integer.parseInt(S_terjual) * Integer.parseInt(model.getValueAt(i, 3).toString());
+//                }
+//
+//            }
+//            tx_total.setText(String.valueOf(total));
+//        } catch (Exception e) {
+//            System.out.println(e);
+//        }
 
     }
 
@@ -123,9 +125,7 @@ public class MenuUtama extends javax.swing.JFrame {
         bt_laporanHarian = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
-        tx_total = new javax.swing.JTextField();
-        jLabel2 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
+        bt_cetak = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -284,11 +284,11 @@ public class MenuUtama extends javax.swing.JFrame {
 
             },
             new String [] {
-                "KODE", "PRODUK", "STOK AWAL", "HARGA", "TERJUAL", "JUMLAH"
+                "KODE", "PRODUK", "STOK", "HARGA"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false
+                false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -302,12 +302,10 @@ public class MenuUtama extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(jTable1);
 
-        jLabel2.setText("TOTAL");
-
-        jButton1.setText("CETAK LAPORAN");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        bt_cetak.setText("CETAK LAPORAN");
+        bt_cetak.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                bt_cetakActionPerformed(evt);
             }
         });
 
@@ -326,12 +324,8 @@ public class MenuUtama extends javax.swing.JFrame {
                             .addComponent(jScrollPane1))
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(jButton1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jLabel2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(tx_total, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(14, 14, 14))))
+                        .addComponent(bt_cetak)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -344,10 +338,7 @@ public class MenuUtama extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 404, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
-                            .addComponent(tx_total, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel2)
-                            .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(bt_cetak, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -396,40 +387,40 @@ public class MenuUtama extends javax.swing.JFrame {
 
     }//GEN-LAST:event_jTable1MouseClicked
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        try {
-            DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
-            ArrayList itemList = new ArrayList();
-            ItemLaporan itemLaporan;
-            itemList.clear();
-            for (int i = 0; i < model.getRowCount(); i++) {
-                int no = i + 1;
-                itemLaporan = new ItemLaporan(
-                        no,
-                        Integer.parseInt(model.getValueAt(i, 0).toString()),
-                        model.getValueAt(i, 1).toString(),
-                        Integer.parseInt(model.getValueAt(i, 2).toString()),
-                        Integer.parseInt(model.getValueAt(i, 3).toString()),
-                        Integer.parseInt(model.getValueAt(i, 4).toString()),
-                        Integer.parseInt(model.getValueAt(i, 5).toString())
-                );
-                itemList.add(itemLaporan);
-            }
-            Map map = new HashMap();
-            map.put("tanggal", stringDate());
-            map.put("total", Integer.parseInt(tx_total.getText()));
-            File file = new File("src/report/LapHarian.jrxml");
-            JasperDesign jasperDesign = JRXmlLoader.load(file);
-            JasperReport jasperReport = JasperCompileManager.compileReport(jasperDesign);
-            JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, map, new JRBeanCollectionDataSource(itemList));
-            JasperViewer.viewReport(jasperPrint, false);
+    private void bt_cetakActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_cetakActionPerformed
+//        try {
+//            DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+//            ArrayList itemList = new ArrayList();
+//            ItemLaporan itemLaporan;
+//            itemList.clear();
+//            for (int i = 0; i < model.getRowCount(); i++) {
+//                int no = i + 1;
+//                itemLaporan = new ItemLaporan(
+//                        no,
+//                        Integer.parseInt(model.getValueAt(i, 0).toString()),
+//                        model.getValueAt(i, 1).toString(),
+//                        Integer.parseInt(model.getValueAt(i, 2).toString()),
+//                        Integer.parseInt(model.getValueAt(i, 3).toString()),
+//                        Integer.parseInt(model.getValueAt(i, 4).toString()),
+//                        Integer.parseInt(model.getValueAt(i, 5).toString())
+//                );
+//                itemList.add(itemLaporan);
+//            }
+//            Map map = new HashMap();
+//            map.put("tanggal", stringDate());
+//            map.put("total", Integer.parseInt(tx_total.getText()));
+//            File file = new File("src/report/LapHarian.jrxml");
+//            JasperDesign jasperDesign = JRXmlLoader.load(file);
+//            JasperReport jasperReport = JasperCompileManager.compileReport(jasperDesign);
+//            JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, map, new JRBeanCollectionDataSource(itemList));
+//            JasperViewer.viewReport(jasperPrint, false);
+//
+//        } catch (JRException e) {
+//            System.out.println(e);
+//
+//        }
 
-        } catch (JRException e) {
-            System.out.println(e);
-
-        }
-
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_bt_cetakActionPerformed
 
     private void bt_laporanHarianActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_laporanHarianActionPerformed
         new LaporanHarian().setVisible(true);
@@ -453,6 +444,7 @@ public class MenuUtama extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton bt_cetak;
     private javax.swing.JButton bt_laporanBulanan;
     private javax.swing.JButton bt_laporanHarian;
     private javax.swing.JButton bt_master_produk;
@@ -460,9 +452,7 @@ public class MenuUtama extends javax.swing.JFrame {
     private javax.swing.JButton bt_stok;
     private javax.swing.JButton bt_transaksi;
     private javax.swing.JButton bt_user;
-    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JPanel jPanel1;
@@ -470,7 +460,6 @@ public class MenuUtama extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
     private static javax.swing.JTable jTable1;
-    private javax.swing.JTextField tx_total;
     // End of variables declaration//GEN-END:variables
 
 }

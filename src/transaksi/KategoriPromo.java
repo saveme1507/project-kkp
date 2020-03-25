@@ -26,8 +26,8 @@ public class KategoriPromo extends javax.swing.JFrame {
             ResultSet rs = Koneksi_1.con_stat().executeQuery(sql);
             while (rs.next()) {
                 model.addRow(new Object[]{
-                    rs.getString("id"),
-                    rs.getString("nama")
+                    rs.getString("mpk_id"),
+                    rs.getString("mpk_nama")
                 });
             }
         } catch (Exception e) {
@@ -178,7 +178,7 @@ public class KategoriPromo extends javax.swing.JFrame {
 
     private void bt_editActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_editActionPerformed
         try {
-            String sql = "UPDATE master_promo_kategori SET nama=? WHERE id=?";
+            String sql = "UPDATE master_promo_kategori SET mpk_nama=? WHERE mpk_id=?";
             PreparedStatement ps = Koneksi_1.con().prepareStatement(sql);
             ps.setString(1, tx_kategori.getText());
             ps.setString(2, tx_id.getText());
@@ -193,7 +193,7 @@ public class KategoriPromo extends javax.swing.JFrame {
 
     private void bt_hapusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_hapusActionPerformed
         try {
-            String sql = "DELETE FROM master_promo_kategori WHERE id=?";
+            String sql = "DELETE FROM master_promo_kategori WHERE mpk_id=?";
             PreparedStatement ps = Koneksi_1.con().prepareStatement(sql);
             ps.setString(1, tx_id.getText());
             ps.executeUpdate();
@@ -207,7 +207,7 @@ public class KategoriPromo extends javax.swing.JFrame {
 
     private void bt_simpanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_simpanActionPerformed
         try {
-            String sql = "INSERT INTO master_promo_kategori (nama) VALUES (?)";
+            String sql = "INSERT INTO master_promo_kategori (mpk_nama) VALUES (?)";
             PreparedStatement ps = Koneksi_1.con().prepareStatement(sql);
             ps.setString(1, tx_kategori.getText());
             ps.executeUpdate();

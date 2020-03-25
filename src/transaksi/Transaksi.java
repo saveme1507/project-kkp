@@ -34,7 +34,6 @@ public class Transaksi extends javax.swing.JFrame {
     DefaultTableModel tabMode;
     DecimalFormat df = new DecimalFormat("##,###,###.-");
     double total, bayar, kembali;
-   
 
     public Transaksi() {
         initComponents();
@@ -79,7 +78,7 @@ public class Transaksi extends javax.swing.JFrame {
         DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
         model.addRow(new Object[]{
             tx_kd.getText(),
-               tx_nama.getText(),
+            tx_nama.getText(),
             tx_harga.getText(),
             tx_qty.getText(),
             e
@@ -125,7 +124,7 @@ public class Transaksi extends javax.swing.JFrame {
             }
             Map map = new HashMap();
             map.put("noTransaksi", Integer.parseInt(tx_no.getText()));
-            map.put("total", Integer.parseInt( tx_total.getText().replace(",", "").replace("-", "").replace(".", "")));
+            map.put("total", Integer.parseInt(tx_total.getText().replace(",", "").replace("-", "").replace(".", "")));
             map.put("bayar", Integer.parseInt(tx_bayar.getText()));
             map.put("kembali", Integer.parseInt(tx_kembali.getText().replace(",", "").replace("-", "").replace(".", "")));
             File file = new File("src/report/LapStrukPembelian.jrxml");
@@ -154,6 +153,7 @@ public class Transaksi extends javax.swing.JFrame {
         tx_bayar.setText("");
         tx_kembali.setText("");
         tx_no.setText(String.valueOf(no_transaksi()));
+        total=0;
     }
 
     @SuppressWarnings("unchecked")
@@ -573,18 +573,45 @@ public class Transaksi extends javax.swing.JFrame {
             }
 
             //pengurangan setok
+            ArrayList<ItemKode> listProduk = new ArrayList();
+            ItemKode itemKode;
             try {
                 DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+                for (int i = 0; i < jTable1.getRowCount(); i++) {
+                    String sql = "SELECT mpd_pd_kode FROM master_promo_detail WHERE mpd_kode='"+model.getValueAt(i, 0).toString()+"'";
+                    ResultSet rs = Koneksi_1.con_stat().executeQuery(sql);
+                    if (model.getValueAt(i, 0).toString().startsWith("P")) {
+                        while (rs.next()) {
+                            itemKode = new ItemKode(
+                                    Integer.parseInt(rs.getString("mpd_pd_kode")),
+                                    Integer.parseInt(model.getValueAt(i, 3).toString())
+                            );
+                            listProduk.add(itemKode);
+                        }
+                    } else {
+                        itemKode = new ItemKode(
+                                Integer.parseInt(model.getValueAt(i, 0).toString()),
+                                Integer.parseInt(model.getValueAt(i, 3).toString())
+                        );
+                        listProduk.add(itemKode);
+                    }
+                }
+            } catch (Exception e) {
+                System.out.println("menyimpan item pengurangan gagal :" + e);
+            }
+
+            try {
                 String sql = "UPDATE produk SET pd_stock=pd_stock - ?  WHERE pd_kode=?";
                 PreparedStatement ps = Koneksi_1.con().prepareStatement(sql);
-                for (int i = 0; i < jTable1.getRowCount(); i++) {
-                    ps.setString(1, model.getValueAt(i, 3).toString());
-                    ps.setString(2, model.getValueAt(i, 0).toString());
+                for (int i = 0; i < listProduk.size(); i++) {
+                    ps.setInt(1, listProduk.get(i).qty);
+                    ps.setInt(2, listProduk.get(i).kode);
                     ps.executeUpdate();
+                    System.out.println(listProduk.get(i).kode);
                 }
                 stok = true;
             } catch (Exception e) {
-                System.out.println("pengurangan stok gagal :" + e);
+                System.out.println("pengurangan stok" + e);
             }
         }
 
@@ -709,3 +736,29 @@ public class Transaksi extends javax.swing.JFrame {
 
 }
 
+class ItemKode {
+
+    int kode, qty;
+
+    public ItemKode(int kode, int qty) {
+        this.kode = kode;
+        this.qty = qty;
+    }
+
+    public int getKode() {
+        return kode;
+    }
+
+    public void setKode(int kode) {
+        this.kode = kode;
+    }
+
+    public int getQty() {
+        return qty;
+    }
+
+    public void setQty(int qty) {
+        this.qty = qty;
+    }
+
+}

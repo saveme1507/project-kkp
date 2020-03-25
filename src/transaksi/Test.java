@@ -2,6 +2,7 @@ package transaksi;
 
 import config.Koneksi_1;
 import config.Koneksi_2;
+import java.awt.List;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.text.SimpleDateFormat;
@@ -12,16 +13,10 @@ import javax.swing.JOptionPane;
 
 public class Test {
 
-    ArrayList<Integer> terjual = new ArrayList<>();
+    ArrayList<item> kode = new ArrayList<>();
 
     public static void main(String[] args) {
-        // TODO code application logic here  
-        System.out.println(getDate());
-        System.out.println(setPeriode());
-        for (int i = 0; i < 10; i++) {
-            int no=1+i;
-            System.out.println(no);
-        }
+        
     }
 
     private static String getDate() {
@@ -47,4 +42,31 @@ public class Test {
 //    
 //        return date;
 //    }
+
+   class item{
+       int kode,qty;
+
+        public item(int kode, int qty) {
+            this.kode = kode;
+            this.qty = qty;
+        }
+
+        public int getKode() {
+            return kode;
+        }
+
+        public void setKode(int kode) {
+            this.kode = kode;
+        }
+
+        public int getQty() {
+            return qty;
+        }
+
+        public void setQty(int qty) {
+            this.qty = qty;
+        }
+       
+   }
+    
 }

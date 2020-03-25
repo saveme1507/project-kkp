@@ -20,7 +20,7 @@ public class MasterProduk extends javax.swing.JFrame {
     }
 
     private void datatabel() {
-        Object[] Baris = {"Kode", "Kategori", "Nama", "Satuan", "Harga", "Update"};
+        Object[] Baris = {"Kode", "Nama", "Satuan", "Harga", "Update"};
         tabMode = new DefaultTableModel(null, Baris);
         jtable.setModel(tabMode);
         try {
@@ -29,7 +29,6 @@ public class MasterProduk extends javax.swing.JFrame {
             while (hasil.next()) {
                 tabMode.addRow(new Object[]{
                     hasil.getString("pd_kode"),
-                    hasil.getString("pd_kategori"),
                     hasil.getString("pd_nama"),
                     hasil.getString("pd_satuan"),
                     hasil.getString("pd_harga"),
@@ -46,7 +45,6 @@ public class MasterProduk extends javax.swing.JFrame {
         tx_nama.setText("");
         tx_harga.setText("");
         cb_satuan.setSelectedIndex(0);
-        cb_kategori.setSelectedIndex(0);
         tx_id.setText("");
     }
 
@@ -68,8 +66,6 @@ public class MasterProduk extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         jtable = new javax.swing.JTable();
         tx_id = new javax.swing.JLabel();
-        cb_kategori = new javax.swing.JComboBox<>();
-        jLabel7 = new javax.swing.JLabel();
         bt_hapus = new javax.swing.JButton();
         bt_edit = new javax.swing.JButton();
 
@@ -169,12 +165,6 @@ public class MasterProduk extends javax.swing.JFrame {
             jtable.getColumnModel().getColumn(3).setResizable(false);
         }
 
-        cb_kategori.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Makanan", "Minuman" }));
-
-        jLabel7.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jLabel7.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel7.setText("KATEGORI");
-
         bt_hapus.setBackground(new java.awt.Color(255, 255, 255));
         bt_hapus.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         bt_hapus.setText("HAPUS");
@@ -212,16 +202,13 @@ public class MasterProduk extends javax.swing.JFrame {
                                     .addComponent(tx_harga)
                                     .addComponent(cb_satuan, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                .addComponent(jLabel3)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 29, Short.MAX_VALUE)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel3)
-                                    .addComponent(jLabel7))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                     .addComponent(tx_id)
-                                    .addComponent(cb_kategori, 0, 176, Short.MAX_VALUE)
-                                    .addComponent(tx_nama)))
+                                    .addComponent(tx_nama, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE)))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                                .addGap(0, 97, Short.MAX_VALUE)
+                                .addGap(0, 0, Short.MAX_VALUE)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                                         .addComponent(bt_simpan, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -244,10 +231,6 @@ public class MasterProduk extends javax.swing.JFrame {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(tx_id)
-                        .addGap(13, 13, 13)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel7)
-                            .addComponent(cb_kategori, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel3)
@@ -291,20 +274,18 @@ public class MasterProduk extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void bt_simpanMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bt_simpanMouseClicked
-        // TODO add your handling code here:
         if (tx_nama.getText().length() == 0) {
             JOptionPane.showMessageDialog(this, "Nama produk tidak boleh kosong");
         } else if (tx_harga.getText().length() == 0) {
             JOptionPane.showMessageDialog(this, "Harga tidak boleh kosong");
         } else {
             try {
-                String sql = "INSERT INTO produk(pd_nama,pd_satuan,pd_harga,pd_updatedate,pd_kategori) VALUES (?,?,?,?,?)";
+                String sql = "INSERT INTO produk(pd_nama,pd_satuan,pd_harga,pd_updatedate) VALUES (?,?,?,?)";
                 PreparedStatement ps = Koneksi_1.con().prepareStatement(sql);
                 ps.setString(1, tx_nama.getText());
                 ps.setString(2, cb_satuan.getSelectedItem().toString());
                 ps.setString(3, tx_harga.getText());
                 ps.setString(4, CurrentDate.tgl_skrg());
-                ps.setString(5, cb_kategori.getSelectedItem().toString());
                 ps.executeUpdate();
                 JOptionPane.showMessageDialog(this, "Data berhasil di simpan");
                 kosong();
@@ -324,21 +305,15 @@ public class MasterProduk extends javax.swing.JFrame {
         DefaultTableModel model = (DefaultTableModel) jtable.getModel();
         int row = jtable.getSelectedRow();
         tx_id.setText(model.getValueAt(row, 0).toString());
-        tx_nama.setText(model.getValueAt(row, 2).toString());
-        tx_harga.setText(model.getValueAt(row, 4).toString());
-        if (model.getValueAt(row, 1).toString().equals("Makanan")) {
-            cb_kategori.setSelectedIndex(0);
-        } else {
-            cb_kategori.setSelectedIndex(1);
-        }
-
-        if (model.getValueAt(row, 3).toString().equalsIgnoreCase("porsi")) {
+        tx_nama.setText(model.getValueAt(row, 1).toString());
+        tx_harga.setText(model.getValueAt(row, 3).toString());
+        if (model.getValueAt(row, 2).toString().equalsIgnoreCase("porsi")) {
             cb_satuan.setSelectedIndex(0);
-        } else if (model.getValueAt(row, 3).toString().equalsIgnoreCase("buah")) {
+        } else if (model.getValueAt(row, 2).toString().equalsIgnoreCase("buah")) {
             cb_satuan.setSelectedIndex(1);
-        } else if (model.getValueAt(row, 3).toString().equalsIgnoreCase("potong")) {
+        } else if (model.getValueAt(row, 2).toString().equalsIgnoreCase("potong")) {
             cb_satuan.setSelectedIndex(2);
-        } else if (model.getValueAt(row, 3).toString().equalsIgnoreCase("sendok")) {
+        } else if (model.getValueAt(row, 2).toString().equalsIgnoreCase("sendok")) {
             cb_satuan.setSelectedIndex(3);
         }
 
@@ -367,14 +342,13 @@ public class MasterProduk extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Harga tidak boleh kosong");
         } else {
             try {
-                String sql = "UPDATE produk SET pd_kategori=?,pd_nama=?,pd_satuan=?,pd_harga=?,pd_updatedate=? WHERE pd_kode=?";
+                String sql = "UPDATE produk SET pd_nama=?,pd_satuan=?,pd_harga=?,pd_updatedate=? WHERE pd_kode=?";
                 PreparedStatement ps = Koneksi_1.con().prepareStatement(sql);
-                ps.setString(1, cb_kategori.getSelectedItem().toString());
-                ps.setString(2, tx_nama.getText());
-                ps.setString(3, cb_satuan.getSelectedItem().toString());
-                ps.setString(4, tx_harga.getText());
-                ps.setString(5, config.CurrentDate.tgl_skrg());
-                ps.setString(6, tx_id.getText());
+                ps.setString(1, tx_nama.getText());
+                ps.setString(2, cb_satuan.getSelectedItem().toString());
+                ps.setString(3, tx_harga.getText());
+                ps.setString(4, config.CurrentDate.tgl_skrg());
+                ps.setString(5, tx_id.getText());
                 ps.executeUpdate();
                 JOptionPane.showMessageDialog(this, "Data berhasil di edit");
                 kosong();
@@ -389,6 +363,7 @@ public class MasterProduk extends javax.swing.JFrame {
 
     private void bt_batalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_batalActionPerformed
         kosong();
+        bt_simpan.setEnabled(true);
     }//GEN-LAST:event_bt_batalActionPerformed
 
     /**
@@ -432,13 +407,11 @@ public class MasterProduk extends javax.swing.JFrame {
     private javax.swing.JButton bt_edit;
     private javax.swing.JButton bt_hapus;
     private javax.swing.JButton bt_simpan;
-    private javax.swing.JComboBox<String> cb_kategori;
     private javax.swing.JComboBox<String> cb_satuan;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;

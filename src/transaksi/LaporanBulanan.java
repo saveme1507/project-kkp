@@ -50,7 +50,7 @@ public class LaporanBulanan extends javax.swing.JFrame {
             int i = 1;
             int j = 0;
             for (int k = 0; k < tanggal.size(); k++) {
-                String sql = "SELECT lph_tanggal, COUNT(lph_kd_transaksi) AS jml_transaksi, SUM(lph_total) AS total FROM laporan WHERE "
+                String sql = "SELECT lph_tanggal, COUNT(lph_transaksi) AS jml_transaksi, SUM(lph_total) AS total FROM laporan WHERE "
                         + "lph_tanggal=' " + tanggal.get(k)+" ' ";
                 ResultSet hasil = Koneksi_1.con_stat().executeQuery(sql);
                 if (hasil.next()) {

@@ -37,14 +37,12 @@ public class LaporanHarian extends javax.swing.JFrame {
     private void dataTabel() {
         DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
         model.setRowCount(0);
-        int i = 1;
         int j = 0;
         try {
             String sql = "SELECT trh_no_transaksi,trh_total,trh_updatedate FROM `transaksi_header` WHERE trh_updatedate = ' " + dateChose() + " ' ";
             ResultSet hasil = Koneksi_1.con_stat().executeQuery(sql);
             while (hasil.next()) {
                 model.addRow(new Object[]{
-                    String.valueOf(i++),
                     hasil.getString("trh_no_transaksi"),
                     hasil.getString("trh_updatedate"),
                     hasil.getString("trh_total")
@@ -125,11 +123,11 @@ public class LaporanHarian extends javax.swing.JFrame {
 
             },
             new String [] {
-                "NO", "NO TRANSAKSI", "TANGGAL", "JUMLAH"
+                "NO TRANSAKSI", "TANGGAL", "JUMLAH"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false
+                false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -141,9 +139,8 @@ public class LaporanHarian extends javax.swing.JFrame {
             jTable1.getColumnModel().getColumn(0).setResizable(false);
             jTable1.getColumnModel().getColumn(0).setPreferredWidth(2);
             jTable1.getColumnModel().getColumn(1).setResizable(false);
-            jTable1.getColumnModel().getColumn(1).setPreferredWidth(2);
             jTable1.getColumnModel().getColumn(2).setResizable(false);
-            jTable1.getColumnModel().getColumn(3).setPreferredWidth(8);
+            jTable1.getColumnModel().getColumn(2).setPreferredWidth(8);
         }
 
         jLabel2.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
@@ -234,7 +231,7 @@ public class LaporanHarian extends javax.swing.JFrame {
         // simpan laporan ke tabel laporan
         DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
         try {
-            String sql = "INSERT INTO laporan(lph_tanggal,lph_kd_transaksi,lph_total) VALUES(?,?,?)";
+            String sql = "INSERT INTO laporan(lph_tanggal,lph_transaksi,lph_total) VALUES(?,?,?)";
             PreparedStatement ps = Koneksi_1.con().prepareStatement(sql);
             for (int i = 0; i < model.getRowCount(); i++) {
                 ps.setString(1, model.getValueAt(i, 2).toString());
@@ -262,9 +259,8 @@ public class LaporanHarian extends javax.swing.JFrame {
                 int no = i + 1;
                 itemLapHarian = new ItemLapHarian(
                         Integer.parseInt(model.getValueAt(i, 0).toString()),
-                        Integer.parseInt(model.getValueAt(i, 1).toString()),
-                        model.getValueAt(i, 2).toString(),
-                        Integer.parseInt(model.getValueAt(i, 3).toString())
+                        model.getValueAt(i, 1).toString(),
+                        Integer.parseInt(model.getValueAt(i, 2).toString())
                 );
                 itemList.add(itemLapHarian);
             }

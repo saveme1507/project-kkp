@@ -13,36 +13,36 @@ public class MasterPromo extends javax.swing.JFrame {
         kategori();
         dataTabel();
 //        tx_id.setVisible(false);
-        tx_id.setText(String.valueOf(noID()));
+        tx_id.setText(noID());
     }
 
     private void kategori() {
         cb_kategori.removeAllItems();
         try {
-            String sql = "SELECT nama FROM master_promo_kategori";
+            String sql = "SELECT mpk_nama FROM master_promo_kategori";
             ResultSet rs = Koneksi_1.con_stat().executeQuery(sql);
             while (rs.next()) {
-                cb_kategori.addItem(rs.getString("nama"));
+                cb_kategori.addItem(rs.getString("mpk_nama"));
             }
         } catch (Exception e) {
             System.out.println(e);
         }
     }
 
-    private int noID() {
+    private String noID() {
         String noAwal = null;
-        int noSekarang = 0;
+        String noSekarang = "";
         try {
-            String sql = "SELECT MAX(mph_kode) AS sekarang FROM master_promo_header";
+            String sql = "SELECT MAX(mph_kode) AS nomer FROM master_promo_header";
             ResultSet rs = Koneksi_1.con_stat().executeQuery(sql);
             if (rs.next()) {
-                noAwal = rs.getString("sekarang");
+                noAwal = rs.getString("nomer");
             }
 
             if (noAwal == null) {
-                noSekarang = 1;
+                noSekarang = "P1";
             } else {
-                noSekarang = Integer.valueOf(noAwal) + 1;
+                noSekarang = "P"+String.valueOf(Integer.parseInt(noAwal.replace("P", ""))+1);
             }
         } catch (Exception e) {
             System.out.println(e);
@@ -57,6 +57,7 @@ public class MasterPromo extends javax.swing.JFrame {
         cb_kategori.setSelectedIndex(0);
         DefaultTableModel model = (DefaultTableModel) tb_isiPaket.getModel();
         model.setRowCount(0);
+        tx_id.setText(noID());
     }
 
     private void dataTabel() {
@@ -82,7 +83,7 @@ public class MasterPromo extends javax.swing.JFrame {
         try {
             DefaultTableModel model = (DefaultTableModel) tb_isiPaket.getModel();
             model.setRowCount(0);
-            String sql = "SELECT mpd_pd_kode,mpd_produk FROM master_promo_detail WHERE mpd_kode=" + tx_id.getText();
+            String sql = "SELECT mpd_pd_kode,mpd_produk FROM master_promo_detail WHERE mpd_kode= '"+tx_id.getText()+"'" ;
             ResultSet rs = Koneksi_1.con_stat().executeQuery(sql);
             while (rs.next()) {
                 model.addRow(new Object[]{
@@ -255,7 +256,7 @@ public class MasterPromo extends javax.swing.JFrame {
         });
 
         bt_tambahKtgr.setFont(new java.awt.Font("Dialog", 0, 10)); // NOI18N
-        bt_tambahKtgr.setText("Tambah Isi Paket");
+        bt_tambahKtgr.setText("Tambah Kategori");
         bt_tambahKtgr.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
                 bt_tambahKtgrFocusGained(evt);
@@ -300,12 +301,9 @@ public class MasterPromo extends javax.swing.JFrame {
                                             .addComponent(jButton1))
                                         .addGroup(jPanel1Layout.createSequentialGroup()
                                             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                .addGroup(jPanel1Layout.createSequentialGroup()
-                                                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
-                                                .addGroup(jPanel1Layout.createSequentialGroup()
-                                                    .addComponent(jLabel5)
-                                                    .addGap(26, 26, 26)))
+                                                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addComponent(jLabel5))
+                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                                 .addComponent(cb_kategori, 0, 264, Short.MAX_VALUE)
                                                 .addComponent(tx_namaPromo)))
@@ -369,6 +367,7 @@ public class MasterPromo extends javax.swing.JFrame {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void bt_hapusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_hapusActionPerformed
