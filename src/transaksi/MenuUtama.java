@@ -5,6 +5,8 @@ import config.Koneksi_1;
 import java.awt.List;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.File;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -38,8 +40,9 @@ public class MenuUtama extends javax.swing.JFrame {
         initComponents();
         datatabel();
         bt_cetak.setVisible(false);
-//        jLabel4.setText(nama_user.toUpperCase());
-
+        inputStok();
+        jLabel4.setText(nama_user.toUpperCase());
+        confirmClose();
     }
 
     private void datatabel() {
@@ -84,18 +87,19 @@ public class MenuUtama extends javax.swing.JFrame {
 //        } catch (Exception e) {
 //            System.out.println(e);
 //        }
-
     }
 
-    private String stringDate() {
-        int hari, bulan, tahun;
-        GregorianCalendar date = new GregorianCalendar();
-        String namabulan[] = {"Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"};
-        hari = date.get(Calendar.DAY_OF_MONTH);
-        bulan = date.get(Calendar.MONTH);
-        tahun = date.get(Calendar.YEAR);
-        String tglSekarang = String.valueOf(hari + " " + namabulan[bulan].toUpperCase() + " " + tahun);
-        return tglSekarang;
+    private void inputStok() {
+        if (config.CurrentDate.jam() >= 6 && config.CurrentDate.jam() <= 9) {
+            try {
+                String sql = "SELECT pd_updatedate FROM produk WHERE pd_updatedate='" + config.CurrentDate.tgl_skrg() + "' GROUP BY pd_updatedate";
+                ResultSet rs = Koneksi_1.con_stat().executeQuery(sql);
+                if (!rs.next()) {
+                    new InputStok().setVisible(true);
+                }
+            } catch (Exception e) {
+            }
+        }
     }
 
     public static String getNama_user() {
@@ -104,6 +108,27 @@ public class MenuUtama extends javax.swing.JFrame {
 
     public static void setNama_user(String nama_user) {
         MenuUtama.nama_user = nama_user;
+    }
+
+    private void confirmClose() {
+        this.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                doExit();
+            }
+        });
+    }
+
+    public void doExit() {
+        int confirm = JOptionPane.showConfirmDialog(this,
+                "Konfirmasi Keluar Aplikasi",
+                "Yakin untuk keluar dari program",
+                JOptionPane.YES_NO_OPTION,
+                JOptionPane.QUESTION_MESSAGE);
+
+        if (confirm == JOptionPane.YES_OPTION) {
+            System.exit(0);
+        }
     }
 
     @SuppressWarnings("unchecked")
@@ -127,7 +152,7 @@ public class MenuUtama extends javax.swing.JFrame {
         jTable1 = new javax.swing.JTable();
         bt_cetak = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
 
         jPanel2.setBackground(new java.awt.Color(0, 102, 153));
 
@@ -318,14 +343,11 @@ public class MenuUtama extends javax.swing.JFrame {
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jScrollPane1))
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(bt_cetak)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jScrollPane1))
+                    .addComponent(bt_cetak))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -363,7 +385,16 @@ public class MenuUtama extends javax.swing.JFrame {
     }//GEN-LAST:event_bt_userActionPerformed
 
     private void bt_stokActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_stokActionPerformed
-        new InputStok().setVisible(true);
+        try {
+            String sql = "SELECT pd_updatedate FROM produk WHERE pd_updatedate='" + config.CurrentDate.tgl_skrg() + "' GROUP BY pd_updatedate";
+            ResultSet rs = Koneksi_1.con_stat().executeQuery(sql);
+            if (rs.next()) {
+                JOptionPane.showMessageDialog(this, "Stok sudah di input");
+            } else {
+                new InputStok().setVisible(true);
+            }
+        } catch (Exception e) {
+        }
     }//GEN-LAST:event_bt_stokActionPerformed
 
     private void bt_transaksiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_transaksiActionPerformed

@@ -33,4 +33,11 @@ public class CurrentDate {
         return periode;
     }
     
+    public static int jam(){
+        int jam;
+        GregorianCalendar date =  new GregorianCalendar();
+        jam = date.get(Calendar.HOUR_OF_DAY);
+        return jam;
+    }
+    
 }

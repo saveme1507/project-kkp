@@ -32,6 +32,7 @@ public class LaporanHarian extends javax.swing.JFrame {
         initComponents();
         jDateChooser1.setDate(Calendar.getInstance().getTime());
         dataTabel();
+        
     }
 
     private void dataTabel() {
@@ -57,7 +58,11 @@ public class LaporanHarian extends javax.swing.JFrame {
             if (rs.next()) {
                 bt_simpan.setVisible(false);
             } else {
-                bt_simpan.setVisible(true);
+                if(jTable1.getRowCount()<=0){
+                    bt_simpan.setVisible(false);
+                }else{
+                    bt_simpan.setVisible(true);
+                }
             }
         } catch (SQLException e) {
             System.out.println(e);

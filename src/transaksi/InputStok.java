@@ -14,6 +14,7 @@ public class InputStok extends javax.swing.JFrame {
     public InputStok() {
         initComponents();
         datatabel();
+        inputStok();
     }
 
     private void datatabel() {
@@ -37,6 +38,22 @@ public class InputStok extends javax.swing.JFrame {
             System.out.println("error :" + e);
         }
     }
+    private void inputStok() {
+        if (config.CurrentDate.jam() >= 0 && config.CurrentDate.jam() <= 2) {
+            try {
+                String sql = "SELECT pd_updatedate FROM produk WHERE pd_updatedate='" + config.CurrentDate.tgl_skrg() + "' GROUP BY pd_updatedate";
+                ResultSet rs = Koneksi_1.con_stat().executeQuery(sql);
+                if (! rs.next()) {
+                    new InputStok().setVisible(true);
+                }else{
+                     dispose();
+                    JOptionPane.showMessageDialog(this,"Stok sudah di input sebelumnya");
+                   
+                }
+            } catch (Exception e) {
+            }
+        }
+    }
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -50,6 +67,7 @@ public class InputStok extends javax.swing.JFrame {
         bt_simpan = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setUndecorated(true);
 
         jPanel1.setBackground(new java.awt.Color(0, 102, 153));
 
@@ -171,15 +189,16 @@ public class InputStok extends javax.swing.JFrame {
         if (opsi == JOptionPane.YES_OPTION) {
             try {
                 DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
-                String sql = "UPDATE produk SET pd_stock=? WHERE pd_kode=?";
+                String sql = "UPDATE produk SET pd_stock=?,pd_updatedate=? WHERE pd_kode=?";
                 PreparedStatement ps = Koneksi_1.con().prepareStatement(sql);
                 for (int i = 0; i < jTable1.getRowCount(); i++) {
                     ps.setString(1, model.getValueAt(i, 4).toString());
-                    ps.setString(2, model.getValueAt(i, 0).toString());
+                    ps.setString(2, config.CurrentDate.tgl_skrg());
+                    ps.setString(3, model.getValueAt(i, 0).toString());
                     ps.executeUpdate();
                 }
                 datatabel();
-                bt_simpan.setEnabled(false);
+                dispose();
             } catch (Exception e) {
                 System.out.println(e);
             }

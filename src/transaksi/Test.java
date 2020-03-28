@@ -16,6 +16,8 @@ public class Test {
     ArrayList<item> kode = new ArrayList<>();
 
     public static void main(String[] args) {
+        System.out.println(config.CurrentDate.jam());
+        
         
     }
 
