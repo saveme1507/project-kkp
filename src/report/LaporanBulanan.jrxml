@@ -72,11 +72,11 @@ JAKARTA BARAT Telp 0878 8579 6712]]></text>
 				<textFieldExpression><![CDATA[$P{periode}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement uuid="0abbe72b-025b-4131-82cf-cb762cf55130" x="177" y="0" width="119" height="35" forecolor="#333333"/>
+				<reportElement uuid="0abbe72b-025b-4131-82cf-cb762cf55130" x="174" y="0" width="122" height="35" forecolor="#333333"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="12" isBold="true" isItalic="false"/>
 				</textElement>
-				<text><![CDATA[LAPORAN HARIAN]]></text>
+				<text><![CDATA[LAPORAN BULANAN]]></text>
 			</staticText>
 		</band>
 	</pageHeader>

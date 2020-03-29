@@ -141,10 +141,4 @@ JAKARTA BARAT Telp 0878 8579 6712]]></text>
 			</staticText>
 		</band>
 	</columnFooter>
-	<pageFooter>
-		<band height="54" splitType="Stretch"/>
-	</pageFooter>
-	<summary>
-		<band height="42" splitType="Stretch"/>
-	</summary>
 </jasperReport>

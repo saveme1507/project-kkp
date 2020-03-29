@@ -223,6 +223,7 @@ public class LaporanBulanan extends javax.swing.JFrame {
 
     private void bt_tampilActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_tampilActionPerformed
         // TODO add your handling code here:
+        tx_total.setText("");
         dataTabel();    
     }//GEN-LAST:event_bt_tampilActionPerformed
 
