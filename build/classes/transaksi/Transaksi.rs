@@ -1,0 +1,2 @@
+transaksi.Transaksi
+transaksi.ItemKode

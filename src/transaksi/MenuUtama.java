@@ -18,7 +18,10 @@ import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.Map;
 import javax.swing.JOptionPane;
+import javax.swing.SwingConstants;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumn;
 import static jdk.nashorn.internal.objects.NativeRegExp.source;
 import net.sf.jasperreports.engine.JREmptyDataSource;
 import net.sf.jasperreports.engine.JRException;
@@ -43,6 +46,7 @@ public class MenuUtama extends javax.swing.JFrame {
         inputStok();
         jLabel4.setText(nama_user.toUpperCase());
         confirmClose();
+        
     }
 
     private void datatabel() {
@@ -59,34 +63,10 @@ public class MenuUtama extends javax.swing.JFrame {
                     hasil.getString("pd_harga")
                 });
             }
+            settingKolom();
         } catch (SQLException e) {
             System.out.println(e);
         }
-
-//        try {
-//            String kd_produk;
-//            int total = 0;
-//            for (int i = 0; i < model.getRowCount(); i++) {
-//                kd_produk = model.getValueAt(i, 0).toString();
-//                String sql = "SELECT SUM(transaksi_detail.trd_qty) AS terjual,produk.pd_stock as stok FROM transaksi_detail JOIN transaksi_header"
-//                        + " ON transaksi_detail.trd_no_transaksi=transaksi_header.trh_no_transaksi JOIN produk "
-//                        + "ON transaksi_detail.trd_pd_kode=produk.pd_kode WHERE transaksi_header.trh_updatedate = ' " + config.CurrentDate.tgl_skrg() + " ' "
-//                        + " AND transaksi_detail.trd_pd_kode=" + kd_produk;
-//                ResultSet rs = Koneksi_1.con_stat().executeQuery(sql);
-//                while (rs.next()) {
-//                    String S_terjual = rs.getString("terjual");
-//                    S_terjual = S_terjual == null ? S_terjual = "0" : S_terjual;
-//                    model.setValueAt(Integer.parseInt(S_terjual) + Integer.parseInt(rs.getString("stok")), i, 2);
-//                    model.setValueAt(Integer.parseInt(S_terjual), i, 4);
-//                    model.setValueAt(Integer.parseInt(S_terjual) * Integer.parseInt(model.getValueAt(i, 3).toString()), i, 5);
-//                    total += Integer.parseInt(S_terjual) * Integer.parseInt(model.getValueAt(i, 3).toString());
-//                }
-//
-//            }
-//            tx_total.setText(String.valueOf(total));
-//        } catch (Exception e) {
-//            System.out.println(e);
-//        }
     }
 
     private void inputStok() {
@@ -130,6 +110,30 @@ public class MenuUtama extends javax.swing.JFrame {
             System.exit(0);
         }
     }
+    
+    public void settingKolom(){
+                // lebar kolom
+                TableColumn column;
+                jTable1.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_OFF); 
+                column = jTable1.getColumnModel().getColumn(0); 
+                column.setPreferredWidth(60);
+                column = jTable1.getColumnModel().getColumn(1); 
+                column.setPreferredWidth(505);
+                column = jTable1.getColumnModel().getColumn(2); 
+                column.setPreferredWidth(60);
+                column = jTable1.getColumnModel().getColumn(3); 
+                column.setPreferredWidth(100);
+                
+                // align kolom
+                DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+                DefaultTableCellRenderer rightRenderer = new DefaultTableCellRenderer();
+                centerRenderer.setHorizontalAlignment( SwingConstants.CENTER );
+                rightRenderer.setHorizontalAlignment(SwingConstants.RIGHT);
+                jTable1.getColumnModel().getColumn(0).setCellRenderer( centerRenderer );
+                jTable1.getColumnModel().getColumn(2).setCellRenderer( centerRenderer );
+                jTable1.getColumnModel().getColumn(3).setCellRenderer( rightRenderer );
+                
+        }
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -326,6 +330,12 @@ public class MenuUtama extends javax.swing.JFrame {
             }
         });
         jScrollPane1.setViewportView(jTable1);
+        if (jTable1.getColumnModel().getColumnCount() > 0) {
+            jTable1.getColumnModel().getColumn(0).setResizable(false);
+            jTable1.getColumnModel().getColumn(1).setResizable(false);
+            jTable1.getColumnModel().getColumn(2).setResizable(false);
+            jTable1.getColumnModel().getColumn(3).setResizable(false);
+        }
 
         bt_cetak.setText("CETAK LAPORAN");
         bt_cetak.addActionListener(new java.awt.event.ActionListener() {
