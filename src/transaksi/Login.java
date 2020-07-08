@@ -6,7 +6,6 @@ import java.sql.Statement;
 import java.sql.ResultSet;
 import javax.swing.JOptionPane;
 
-
 public class Login extends javax.swing.JFrame {
        
     public Login() {
@@ -214,6 +213,5 @@ public class Login extends javax.swing.JFrame {
     private javax.swing.JPasswordField tx_pass;
     private javax.swing.JTextField tx_user;
     // End of variables declaration//GEN-END:variables
-
     
 }
