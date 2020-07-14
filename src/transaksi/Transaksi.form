@@ -65,8 +65,8 @@
                                   </Group>
                               </Group>
                               <Group type="102" alignment="1" attributes="0">
-                                  <Component id="bt_cetak" min="-2" pref="108" max="-2" attributes="0"/>
-                                  <EmptySpace min="-2" pref="27" max="-2" attributes="0"/>
+                                  <Component id="bt_kembali" min="-2" pref="108" max="-2" attributes="0"/>
+                                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
                                   <Component id="bt_simpan" min="-2" pref="108" max="-2" attributes="0"/>
                               </Group>
                               <Group type="102" alignment="1" attributes="0">
@@ -179,7 +179,7 @@
                   <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="bt_simpan" alignment="3" min="-2" pref="38" max="-2" attributes="0"/>
-                      <Component id="bt_cetak" alignment="3" min="-2" pref="38" max="-2" attributes="0"/>
+                      <Component id="bt_kembali" alignment="3" min="-2" pref="38" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
               </Group>
@@ -341,7 +341,7 @@
                 </Property>
                 <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">
                   <TableColumnModel selectionModel="0">
-                    <Column maxWidth="-1" minWidth="-1" prefWidth="2" resizable="false">
+                    <Column maxWidth="-1" minWidth="-1" prefWidth="1" resizable="false">
                       <Title/>
                       <Editor/>
                       <Renderer/>
@@ -372,6 +372,9 @@
                   <TableHeader reorderingAllowed="true" resizingAllowed="true"/>
                 </Property>
               </Properties>
+              <Events>
+                <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jTable1MouseClicked"/>
+              </Events>
             </Component>
           </SubComponents>
         </Container>
@@ -417,17 +420,6 @@
           </Events>
         </Component>
         <Component class="javax.swing.JTextField" name="tx_total">
-        </Component>
-        <Component class="javax.swing.JButton" name="bt_cetak">
-          <Properties>
-            <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-              <Color blue="ff" green="ff" red="ff" type="rgb"/>
-            </Property>
-            <Property name="text" type="java.lang.String" value="CETAK"/>
-          </Properties>
-          <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="bt_cetakActionPerformed"/>
-          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="bt_simpan">
           <Properties>
@@ -479,6 +471,17 @@
               <Color blue="ff" green="ff" red="ff" type="rgb"/>
             </Property>
           </Properties>
+        </Component>
+        <Component class="javax.swing.JButton" name="bt_kembali">
+          <Properties>
+            <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="ff" green="ff" red="ff" type="rgb"/>
+            </Property>
+            <Property name="text" type="java.lang.String" value="KEMBALI"/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="bt_kembaliActionPerformed"/>
+          </Events>
         </Component>
       </SubComponents>
     </Container>

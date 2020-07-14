@@ -1,15 +1,20 @@
 package transaksi;
 
 import config.Koneksi_1;
+import java.awt.HeadlessException;
+import java.awt.event.ActionEvent;
+import java.awt.event.KeyEvent;
 import java.sql.Connection;
 import java.sql.Statement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import javax.swing.JOptionPane;
 
 public class Login extends javax.swing.JFrame {
        
     public Login() {
         initComponents();
+        tx_user.requestFocus();
     }
 
     /**
@@ -43,7 +48,6 @@ public class Login extends javax.swing.JFrame {
         );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setAutoRequestFocus(false);
         setBackground(new java.awt.Color(0, 102, 204));
 
         jPanel1.setBackground(new java.awt.Color(0, 102, 204));
@@ -78,12 +82,29 @@ public class Login extends javax.swing.JFrame {
         jLabel3.setForeground(new java.awt.Color(255, 255, 255));
         jLabel3.setText("PASSWORD :");
 
+        tx_user.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                tx_userKeyPressed(evt);
+            }
+        });
+
         bt_login.setBackground(new java.awt.Color(255, 255, 255));
         bt_login.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         bt_login.setText("LOGIN");
-        bt_login.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                bt_loginMouseClicked(evt);
+        bt_login.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bt_loginActionPerformed(evt);
+            }
+        });
+
+        tx_pass.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                tx_passActionPerformed(evt);
+            }
+        });
+        tx_pass.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                tx_passKeyPressed(evt);
             }
         });
 
@@ -139,9 +160,26 @@ public class Login extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void bt_loginMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bt_loginMouseClicked
-        // TODO add your handling code here:
-        try{
+    private void tx_userKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tx_userKeyPressed
+        int kode=evt.getKeyCode();
+        if(kode==KeyEvent.VK_ENTER)
+        tx_pass.requestFocus();
+    }//GEN-LAST:event_tx_userKeyPressed
+
+    private void tx_passKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tx_passKeyPressed
+        if (evt.getKeyCode() == 10) {
+        int kode=evt.getKeyCode();
+        if(kode==evt.VK_ENTER)
+        bt_login.requestFocus();
+        }
+    }//GEN-LAST:event_tx_passKeyPressed
+
+    private void tx_passActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tx_passActionPerformed
+        bt_loginActionPerformed(evt);
+    }//GEN-LAST:event_tx_passActionPerformed
+
+    private void bt_loginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_loginActionPerformed
+         try{
             //cek field kosong
             if(tx_user.getText().length()==0){
                 JOptionPane.showMessageDialog(this, "Username tidak boleh kosong");
@@ -161,10 +199,10 @@ public class Login extends javax.swing.JFrame {
             }else{
                 JOptionPane.showMessageDialog(this, "Username atau Password salah");
             }
-        }catch(Exception e){
+        }catch(HeadlessException | SQLException e){
 
         }
-    }//GEN-LAST:event_bt_loginMouseClicked
+    }//GEN-LAST:event_bt_loginActionPerformed
 
     /**
      * @param args the command line arguments
@@ -213,5 +251,6 @@ public class Login extends javax.swing.JFrame {
     private javax.swing.JPasswordField tx_pass;
     private javax.swing.JTextField tx_user;
     // End of variables declaration//GEN-END:variables
-    
+
+      
 }

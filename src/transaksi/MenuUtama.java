@@ -36,17 +36,13 @@ import net.sf.jasperreports.engine.xml.JRXmlLoader;
 import net.sf.jasperreports.view.JasperViewer;
 
 public class MenuUtama extends javax.swing.JFrame {
-
-    public static String nama_user;
+    public static String nama_user = getNama_user();
 
     public MenuUtama() {
         initComponents();
         datatabel();
-        bt_cetak.setVisible(false);
-        inputStok();
         jLabel4.setText(nama_user.toUpperCase());
-        confirmClose();
-        
+        confirmClose();        
     }
 
     private void datatabel() {
@@ -69,18 +65,6 @@ public class MenuUtama extends javax.swing.JFrame {
         }
     }
 
-    private void inputStok() {
-        if (config.CurrentDate.jam() >= 6 && config.CurrentDate.jam() <= 9) {
-            try {
-                String sql = "SELECT pd_updatedate FROM produk WHERE pd_updatedate='" + config.CurrentDate.tgl_skrg() + "' GROUP BY pd_updatedate";
-                ResultSet rs = Koneksi_1.con_stat().executeQuery(sql);
-                if (!rs.next()) {
-                    new InputStok().setVisible(true);
-                }
-            } catch (Exception e) {
-            }
-        }
-    }
 
     public static String getNama_user() {
         return nama_user;
@@ -118,7 +102,7 @@ public class MenuUtama extends javax.swing.JFrame {
                 column = jTable1.getColumnModel().getColumn(0); 
                 column.setPreferredWidth(60);
                 column = jTable1.getColumnModel().getColumn(1); 
-                column.setPreferredWidth(505);
+                column.setPreferredWidth(510);
                 column = jTable1.getColumnModel().getColumn(2); 
                 column.setPreferredWidth(60);
                 column = jTable1.getColumnModel().getColumn(3); 
@@ -337,7 +321,7 @@ public class MenuUtama extends javax.swing.JFrame {
             jTable1.getColumnModel().getColumn(3).setResizable(false);
         }
 
-        bt_cetak.setText("CETAK LAPORAN");
+        bt_cetak.setText("CETAK STOK");
         bt_cetak.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 bt_cetakActionPerformed(evt);
@@ -395,16 +379,7 @@ public class MenuUtama extends javax.swing.JFrame {
     }//GEN-LAST:event_bt_userActionPerformed
 
     private void bt_stokActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_stokActionPerformed
-        try {
-            String sql = "SELECT pd_updatedate FROM produk WHERE pd_updatedate='" + config.CurrentDate.tgl_skrg() + "' GROUP BY pd_updatedate";
-            ResultSet rs = Koneksi_1.con_stat().executeQuery(sql);
-            if (rs.next()) {
-                JOptionPane.showMessageDialog(this, "Stok sudah di input");
-            } else {
-                new InputStok().setVisible(true);
-            }
-        } catch (Exception e) {
-        }
+        new InputStok().setVisible(true);
     }//GEN-LAST:event_bt_stokActionPerformed
 
     private void bt_transaksiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_transaksiActionPerformed
@@ -429,37 +404,33 @@ public class MenuUtama extends javax.swing.JFrame {
     }//GEN-LAST:event_jTable1MouseClicked
 
     private void bt_cetakActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_cetakActionPerformed
-//        try {
-//            DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
-//            ArrayList itemList = new ArrayList();
-//            ItemLaporan itemLaporan;
-//            itemList.clear();
-//            for (int i = 0; i < model.getRowCount(); i++) {
-//                int no = i + 1;
-//                itemLaporan = new ItemLaporan(
-//                        no,
-//                        Integer.parseInt(model.getValueAt(i, 0).toString()),
-//                        model.getValueAt(i, 1).toString(),
-//                        Integer.parseInt(model.getValueAt(i, 2).toString()),
-//                        Integer.parseInt(model.getValueAt(i, 3).toString()),
-//                        Integer.parseInt(model.getValueAt(i, 4).toString()),
-//                        Integer.parseInt(model.getValueAt(i, 5).toString())
-//                );
-//                itemList.add(itemLaporan);
-//            }
-//            Map map = new HashMap();
-//            map.put("tanggal", stringDate());
-//            map.put("total", Integer.parseInt(tx_total.getText()));
-//            File file = new File("src/report/LapHarian.jrxml");
-//            JasperDesign jasperDesign = JRXmlLoader.load(file);
-//            JasperReport jasperReport = JasperCompileManager.compileReport(jasperDesign);
-//            JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, map, new JRBeanCollectionDataSource(itemList));
-//            JasperViewer.viewReport(jasperPrint, false);
-//
-//        } catch (JRException e) {
-//            System.out.println(e);
-//
-//        }
+        try {
+            DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+            ArrayList itemList = new ArrayList();
+            ItemLaporan itemLaporan;
+            itemList.clear();
+            for (int i = 0; i < model.getRowCount(); i++) {
+                int no = i + 1;
+                itemLaporan = new ItemLaporan(
+                        model.getValueAt(i, 0).toString(),
+                        model.getValueAt(i, 1).toString(),
+                        Integer.parseInt(model.getValueAt(i, 3).toString()),
+                        Integer.parseInt(model.getValueAt(i, 2).toString())
+                );
+                itemList.add(itemLaporan);
+            }
+            Map map = new HashMap();
+            map.put("tanggal", config.CurrentDate.tgl_skrg_string());
+            File file = new File("src/report/LapHarian.jrxml");
+            JasperDesign jasperDesign = JRXmlLoader.load(file);
+            JasperReport jasperReport = JasperCompileManager.compileReport(jasperDesign);
+            JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, map, new JRBeanCollectionDataSource(itemList));
+            JasperViewer.viewReport(jasperPrint, false);
+
+        } catch (JRException e) {
+            System.out.println(e);
+
+        }
 
     }//GEN-LAST:event_bt_cetakActionPerformed
 

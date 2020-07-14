@@ -3,54 +3,30 @@ package config;
 import java.util.ArrayList;
 
 public class ItemLaporan {
-    private int no = 0;
-    private int kode = 0;
-    private String produk = "";
-    private int stok_awal = 0;
-    private int harga = 0;
-    private int terjual = 0;
-    private int jumlah = 0;
+    String kode,nama;
+    int harga,stok;
 
-    public ItemLaporan(int no, int kode, String produk, int stok_awal, int harga, int terjual, int jumlah) {
-        this.no = no;
+    public ItemLaporan(String kode, String nama, int harga, int stok) {
         this.kode = kode;
-        this.produk = produk;
-        this.stok_awal = stok_awal;
+        this.nama = nama;
         this.harga = harga;
-        this.terjual = terjual;
-        this.jumlah = jumlah;
+        this.stok = stok;
     }
 
-    public int getNo() {
-        return no;
-    }
-
-    public void setNo(int no) {
-        this.no = no;
-    }
-
-    public int getKode() {
+    public String getKode() {
         return kode;
     }
 
-    public void setKode(int kode) {
+    public void setKode(String kode) {
         this.kode = kode;
     }
 
-    public String getProduk() {
-        return produk;
+    public String getNama() {
+        return nama;
     }
 
-    public void setProduk(String produk) {
-        this.produk = produk;
-    }
-
-    public int getStok_awal() {
-        return stok_awal;
-    }
-
-    public void setStok_awal(int stok_awal) {
-        this.stok_awal = stok_awal;
+    public void setNama(String nama) {
+        this.nama = nama;
     }
 
     public int getHarga() {
@@ -61,21 +37,11 @@ public class ItemLaporan {
         this.harga = harga;
     }
 
-    public int getTerjual() {
-        return terjual;
+    public int getStok() {
+        return stok;
     }
 
-    public void setTerjual(int terjual) {
-        this.terjual = terjual;
+    public void setStok(int stok) {
+        this.stok = stok;
     }
-
-    public int getJumlah() {
-        return jumlah;
-    }
-
-    public void setJumlah(int jumlah) {
-        this.jumlah = jumlah;
-    }
-
- 
 }

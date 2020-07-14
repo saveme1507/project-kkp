@@ -258,6 +258,7 @@ public class EditAkun extends javax.swing.JFrame {
                 ps.executeUpdate();
                 dataLama();
                 JOptionPane.showMessageDialog(this, "Data berhasil diubah");
+                dispose();
             } catch (Exception e) {
                 System.out.println(e);
             }
@@ -277,6 +278,8 @@ public class EditAkun extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null,"Data Berhasil Dihapus");
             new Login().setVisible(true);
             dispose();
+            System.exit(0);
+            new Login().setVisible(true);
         }catch(Exception e){
             System.out.println(e);
         }

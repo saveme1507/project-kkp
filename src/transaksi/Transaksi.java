@@ -7,8 +7,10 @@ import config.Koneksi_1;
 import java.awt.List;
 import java.awt.event.KeyEvent;
 import java.io.File;
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.ArrayList;
@@ -16,6 +18,8 @@ import java.util.HashMap;
 import java.util.Map;
 import javax.swing.JFormattedTextField;
 import javax.swing.JOptionPane;
+import javax.swing.SwingConstants;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.text.NumberFormatter;
 import net.sf.jasperreports.engine.JRDataSource;
@@ -30,7 +34,7 @@ import net.sf.jasperreports.engine.xml.JRXmlLoader;
 import net.sf.jasperreports.view.JasperViewer;
 
 public class Transaksi extends javax.swing.JFrame {
-
+    private final Connection conn = Koneksi_1.con();
     DefaultTableModel tabMode;
     DecimalFormat df = new DecimalFormat("##,###,###.-");
     double total, bayar, kembali;
@@ -38,7 +42,6 @@ public class Transaksi extends javax.swing.JFrame {
     public Transaksi() {
         initComponents();
         no_transaksi();
-        bt_cetak.setVisible(false);
         tx_no.setText(String.valueOf(no_transaksi()));
         tx_no.setEditable(false);
         tx_kd.setEditable(false);
@@ -66,6 +69,7 @@ public class Transaksi extends javax.swing.JFrame {
         } catch (Exception e) {
             System.out.println(e);
         }
+        System.out.println(String.valueOf(noSekarang));
         return noSekarang;
     }
 
@@ -83,30 +87,30 @@ public class Transaksi extends javax.swing.JFrame {
             tx_qty.getText(),
             e
         });
-
-        total += c;
-        tx_total.setText(String.valueOf(df.format(total)));
+           
+        settingKolom();
+        hitungTotal();
+//        total += c;
+//        tx_total.setText(String.valueOf(df.format(total)));
 
         CariProduk.setNama("");
         CariProduk.setHarga("");
         CariProduk.setKode("");
     }
+      public void settingKolom(){
+                // align kolom
+                DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+                DefaultTableCellRenderer rightRenderer = new DefaultTableCellRenderer();
+                centerRenderer.setHorizontalAlignment( SwingConstants.CENTER );
+                rightRenderer.setHorizontalAlignment(SwingConstants.RIGHT);
+                jTable1.getColumnModel().getColumn(0).setCellRenderer( centerRenderer );
+                jTable1.getColumnModel().getColumn(3).setCellRenderer( centerRenderer );
+                jTable1.getColumnModel().getColumn(2).setCellRenderer( rightRenderer );
+                jTable1.getColumnModel().getColumn(4).setCellRenderer( rightRenderer );
+                
+        }
 
     private void printStruk() {
-//        try {
-//            File file = new File("src/report/StrukPembelian.jrxml");
-//            JasperDesign jasperDesign = JRXmlLoader.load(file);
-//            int no_transaksi = Integer.parseInt(tx_no.getText());
-//            Map param = new HashMap();
-//            param.put("no_tranksaksi", no_transaksi);
-//            JasperReport jasperReport = JasperCompileManager.compileReport(jasperDesign);
-//            JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, param, Koneksi_1.con());
-//            JasperViewer.viewReport(jasperPrint, false);
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//            System.out.println(e);
-//        }
-
         //print laporan
         DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
         try {
@@ -135,7 +139,6 @@ public class Transaksi extends javax.swing.JFrame {
 
         } catch (JRException e) {
             System.out.println(e);
-
         }
     }
 
@@ -144,6 +147,7 @@ public class Transaksi extends javax.swing.JFrame {
         tx_nama.setText("");
         tx_harga.setText("");
         tx_qty.setText("");
+     
     }
 
     private void kosongHeader() {
@@ -154,6 +158,7 @@ public class Transaksi extends javax.swing.JFrame {
         tx_kembali.setText("");
         tx_no.setText(String.valueOf(no_transaksi()));
         total=0;
+        hitungTotal();
     }
 
     @SuppressWarnings("unchecked")
@@ -183,11 +188,11 @@ public class Transaksi extends javax.swing.JFrame {
         tx_kembali = new javax.swing.JTextField();
         tx_bayar = new javax.swing.JTextField();
         tx_total = new javax.swing.JTextField();
-        bt_cetak = new javax.swing.JButton();
         bt_simpan = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         lb_eror1 = new javax.swing.JLabel();
         lb_eror2 = new javax.swing.JLabel();
+        bt_kembali = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -285,10 +290,15 @@ public class Transaksi extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
+        jTable1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTable1MouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(jTable1);
         if (jTable1.getColumnModel().getColumnCount() > 0) {
             jTable1.getColumnModel().getColumn(0).setResizable(false);
-            jTable1.getColumnModel().getColumn(0).setPreferredWidth(2);
+            jTable1.getColumnModel().getColumn(0).setPreferredWidth(1);
             jTable1.getColumnModel().getColumn(1).setResizable(false);
             jTable1.getColumnModel().getColumn(1).setPreferredWidth(120);
             jTable1.getColumnModel().getColumn(2).setResizable(false);
@@ -320,14 +330,6 @@ public class Transaksi extends javax.swing.JFrame {
             }
         });
 
-        bt_cetak.setBackground(new java.awt.Color(255, 255, 255));
-        bt_cetak.setText("CETAK");
-        bt_cetak.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                bt_cetakActionPerformed(evt);
-            }
-        });
-
         bt_simpan.setBackground(new java.awt.Color(255, 255, 255));
         bt_simpan.setText("SIMPAN");
         bt_simpan.addActionListener(new java.awt.event.ActionListener() {
@@ -355,6 +357,14 @@ public class Transaksi extends javax.swing.JFrame {
         lb_eror2.setFont(new java.awt.Font("DialogInput", 0, 12)); // NOI18N
         lb_eror2.setForeground(new java.awt.Color(255, 255, 255));
 
+        bt_kembali.setBackground(new java.awt.Color(255, 255, 255));
+        bt_kembali.setText("KEMBALI");
+        bt_kembali.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bt_kembaliActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -378,8 +388,8 @@ public class Transaksi extends javax.swing.JFrame {
                                     .addComponent(tx_kembali, javax.swing.GroupLayout.PREFERRED_SIZE, 274, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(lb_eror2, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)))
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(bt_cetak, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(27, 27, 27)
+                                .addComponent(bt_kembali, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(bt_simpan, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -466,7 +476,7 @@ public class Transaksi extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(bt_simpan, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(bt_cetak, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(bt_kembali, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18))
         );
 
@@ -490,26 +500,16 @@ public class Transaksi extends javax.swing.JFrame {
         new CariProduk().setVisible(true);
     }//GEN-LAST:event_bt_cariActionPerformed
 
-    private void bt_cetakActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_cetakActionPerformed
-        // TODO add your handling code here:
-//        try {
-//            File file = new File("src/report/StrukPembelian.jrxml");
-//            JasperDesign jasperDesign = JRXmlLoader.load(file);
-//            int no_transaksi = Integer.parseInt(tx_no.getText());
-//            Map param = new HashMap();
-//            param.put("no_tranksaksi", no_transaksi);
-//            JasperReport jasperReport = JasperCompileManager.compileReport(jasperDesign);
-//            JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, param, Koneksi_1.con());
-//            JasperViewer.viewReport(jasperPrint, false);
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-    }//GEN-LAST:event_bt_cetakActionPerformed
-
     private void bt_tambahActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_tambahActionPerformed
-        // TODO add your handling code here:
-        datatabel();
-        kosong();
+        if(tx_kd.getText().isEmpty()){
+            JOptionPane.showMessageDialog(this, "Silahkan pilih produk");
+        }else if(tx_qty.getText().isEmpty()){
+            JOptionPane.showMessageDialog(this, "Silahkan masukan qty pembelian");
+        }else{
+            datatabel();
+            kosong();
+            hitungTotal();
+        }
     }//GEN-LAST:event_bt_tambahActionPerformed
 
     private void bt_cariFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_bt_cariFocusGained
@@ -533,14 +533,22 @@ public class Transaksi extends javax.swing.JFrame {
     }//GEN-LAST:event_tx_bayarKeyPressed
 
     private void bt_simpanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_simpanActionPerformed
-        Boolean header = null, detail = null, stok = null;
-        if (tx_bayar.getText().equals("")) {
+        boolean header = false, detail = false, item = false, penguranganStok = false;
+        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+        ArrayList<ItemKode> listProduk = new ArrayList();
+        ItemKode itemKode;
+        
+        if(jTable1.getModel().getRowCount()==0){
+            JOptionPane.showMessageDialog(this, "Data pembelian belum dimasukan");
+        }else if (tx_bayar.getText().isEmpty()) {
             JOptionPane.showMessageDialog(null, "Masukan jumlah bayar");
         } else {
-            // input transaksi header
+            // input ke database
             try {
+                conn.setAutoCommit(false);
+                // insert transaksi header
                 String sql = "INSERT INTO transaksi_header (trh_no_transaksi,trh_total,trh_bayar,trh_kembali,trh_updatedate) VALUES (?,?,?,?,?)";
-                PreparedStatement ps = Koneksi_1.con().prepareStatement(sql);
+                PreparedStatement ps = conn.prepareStatement(sql);
                 ps.setString(1, tx_no.getText());
                 ps.setString(2, tx_total.getText().replace(",", "").replace("-", "").replace(".", ""));
                 ps.setString(3, tx_bayar.getText());
@@ -548,38 +556,24 @@ public class Transaksi extends javax.swing.JFrame {
                 ps.setString(5, CurrentDate.tgl_skrg());
                 ps.executeUpdate();
                 header = true;
-            } catch (Exception e) {
-//                JOptionPane.showMessageDialog(this, "Error menyimpan data");
-                System.out.println("Tambah data header transaksi gagal : " + e);
-            }
-
-            //input transaksi detail
-            try {
-                DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
-                String sql = "INSERT INTO transaksi_detail (trd_no_transaksi,trd_pd_kode,trd_qty,trd_harga) VALUES (?,?,?,?)";
-                PreparedStatement ps = Koneksi_1.con().prepareStatement(sql);
+                
+                //  insert transaksi detail
+                String sql2 = "INSERT INTO transaksi_detail (trd_no_transaksi,trd_pd_kode,trd_qty,trd_harga) VALUES (?,?,?,?)";
+                PreparedStatement ps2 = conn.prepareStatement(sql2);
                 for (int i = 0; i < jTable1.getRowCount(); i++) {
-                    ps.setString(1, tx_no.getText());
-                    ps.setString(2, model.getValueAt(i, 0).toString());
-                    ps.setString(3, model.getValueAt(i, 3).toString());
-                    ps.setString(4, model.getValueAt(i, 2).toString());
-                    ps.executeUpdate();
+                    ps2.setString(1, tx_no.getText());
+                    ps2.setString(2, model.getValueAt(i, 0).toString());
+                    ps2.setString(3, model.getValueAt(i, 3).toString());
+                    ps2.setString(4, model.getValueAt(i, 2).toString());
+                    ps2.executeUpdate();
                 }
-                kosong();
                 detail = true;
-            } catch (Exception e) {
-//                JOptionPane.showMessageDialog(this, "Error menyimpan data 2");
-                System.out.println("Tambah data detail transaksi gagal : " + e);
-            }
-
-            //pengurangan setok
-            ArrayList<ItemKode> listProduk = new ArrayList();
-            ItemKode itemKode;
-            try {
-                DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
-                for (int i = 0; i < jTable1.getRowCount(); i++) {
-                    String sql = "SELECT mpd_pd_kode FROM master_promo_detail WHERE mpd_kode='"+model.getValueAt(i, 0).toString()+"'";
-                    ResultSet rs = Koneksi_1.con_stat().executeQuery(sql);
+                
+                // get jumlah item di beli
+                for (int i = 0; i < model.getRowCount(); i++) {
+                    String sql3 = "SELECT mpd_pd_kode FROM master_promo_detail WHERE mpd_kode='"+model.getValueAt(i, 0).toString()+"'";
+                    java.sql.Statement stat = conn.createStatement();
+                    ResultSet rs = stat.executeQuery(sql3);
                     if (model.getValueAt(i, 0).toString().startsWith("P")) {
                         while (rs.next()) {
                             itemKode = new ItemKode(
@@ -596,36 +590,34 @@ public class Transaksi extends javax.swing.JFrame {
                         listProduk.add(itemKode);
                     }
                 }
-            } catch (Exception e) {
-                System.out.println("menyimpan item pengurangan gagal :" + e);
-            }
-
-            try {
-                String sql = "UPDATE produk SET pd_stock=pd_stock - ?  WHERE pd_kode=?";
-                PreparedStatement ps = Koneksi_1.con().prepareStatement(sql);
+                item = true;
+                
+                // pengurangan stok
+                String sql4 = "UPDATE produk SET pd_stock=pd_stock - ?  WHERE pd_kode=?";
+                PreparedStatement ps4 = conn.prepareStatement(sql4);
                 for (int i = 0; i < listProduk.size(); i++) {
-                    ps.setInt(1, listProduk.get(i).qty);
-                    ps.setInt(2, listProduk.get(i).kode);
-                    ps.executeUpdate();
+                    ps4.setInt(1, listProduk.get(i).qty);
+                    ps4.setInt(2, listProduk.get(i).kode);
+                    ps4.executeUpdate();
                     System.out.println(listProduk.get(i).kode);
                 }
-                stok = true;
-            } catch (Exception e) {
-                System.out.println("pengurangan stok" + e);
+                penguranganStok = true;
+                
+                // commit
+                if(header && detail && item && penguranganStok == true){
+                    conn.commit();
+                    int opsi = JOptionPane.showConfirmDialog(null, "Print struk pembelian ?", "Transaksi berhasil disimpan", JOptionPane.YES_NO_OPTION);
+                    if (opsi == JOptionPane.YES_OPTION) {
+                        printStruk();
+                        kosongHeader();
+                    } else {
+                        kosongHeader();
+                    }
+                }
+            } catch (SQLException e) {
+                JOptionPane.showMessageDialog(this, "Error menyimpan data");
+                System.out.println(e);
             }
-        }
-
-        //commit                                                                                        
-        if (header && stok && detail == true) {
-            int opsi = JOptionPane.showConfirmDialog(null, "Print struk pembelian ?", "Transaksi berhasil disimpan", JOptionPane.YES_NO_OPTION);
-            if (opsi == JOptionPane.YES_OPTION) {
-                printStruk();
-                kosongHeader();
-            } else {
-                kosongHeader();
-            }
-        } else {
-            JOptionPane.showMessageDialog(null, "Transaksi gagal di simpan");
         }
     }//GEN-LAST:event_bt_simpanActionPerformed
 
@@ -653,6 +645,25 @@ public class Transaksi extends javax.swing.JFrame {
             evt.consume();
         }
     }//GEN-LAST:event_tx_bayarKeyTyped
+
+    private void bt_kembaliActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_kembaliActionPerformed
+        dispose();
+    }//GEN-LAST:event_bt_kembaliActionPerformed
+
+    private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
+        DefaultTableModel model = (DefaultTableModel)jTable1.getModel();
+        int row = jTable1.getSelectedRow();
+        String pesan = "Hapus "+model.getValueAt(row, 1).toString()+" ?";
+        int jawab = JOptionPane.showOptionDialog(this,
+                pesan ,
+                "Konfirmasi Hapus",
+                JOptionPane.YES_NO_OPTION,
+                JOptionPane.QUESTION_MESSAGE, null, null, null);
+
+        if (jawab == JOptionPane.YES_OPTION) {
+           model.removeRow(row);
+        }
+    }//GEN-LAST:event_jTable1MouseClicked
 
     /**
      * @param args the command line arguments
@@ -700,7 +711,7 @@ public class Transaksi extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton bt_cari;
-    private javax.swing.JButton bt_cetak;
+    private javax.swing.JButton bt_kembali;
     private javax.swing.JButton bt_simpan;
     private javax.swing.JButton bt_tambah;
     private javax.swing.JLabel jLabel1;
@@ -728,12 +739,24 @@ public class Transaksi extends javax.swing.JFrame {
     private javax.swing.JTextField tx_qty;
     private javax.swing.JTextField tx_total;
     // End of variables declaration//GEN-END:variables
- static class panelbackground {
+    static class panelbackground {
 
         public panelbackground() {
         }
     }
 
+    private void hitungTotal(){
+        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+        int row = jTable1.getRowCount();
+        int jumlah = 0;
+        for (int i = 0; i < row; i++) {
+            jumlah += Integer.parseInt(model.getValueAt(i, 4).toString().replace(".", "").replace(",","").replace("-", ""));
+            System.out.println(String.valueOf(jumlah));
+        }
+       tx_total.setText(String.valueOf(df.format(jumlah)));
+    }
+    
+    
 }
 
 class ItemKode {

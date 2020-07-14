@@ -343,7 +343,7 @@
         </Container>
         <Component class="javax.swing.JButton" name="bt_cetak">
           <Properties>
-            <Property name="text" type="java.lang.String" value="CETAK LAPORAN"/>
+            <Property name="text" type="java.lang.String" value="CETAK STOK"/>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="bt_cetakActionPerformed"/>

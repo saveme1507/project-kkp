@@ -49,19 +49,21 @@
                       <Component id="jPanel2" max="32767" attributes="0"/>
                       <Group type="102" attributes="0">
                           <Component id="jScrollPane1" pref="529" max="32767" attributes="0"/>
-                          <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Group type="102" alignment="0" attributes="0">
-                                  <Component id="tx_id" min="-2" max="-2" attributes="0"/>
-                                  <EmptySpace min="-2" pref="2" max="-2" attributes="0"/>
+                                  <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="0" attributes="0">
                                       <Component id="bt_tambahKtgr" min="-2" max="-2" attributes="0"/>
-                                      <Group type="103" groupAlignment="0" attributes="0">
-                                          <Component id="jScrollPane2" alignment="1" min="-2" pref="264" max="-2" attributes="0"/>
+                                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                          <Group type="102" alignment="1" attributes="0">
+                                              <Component id="tx_id" min="-2" max="-2" attributes="0"/>
+                                              <EmptySpace max="32767" attributes="0"/>
+                                              <Component id="jScrollPane2" min="-2" pref="264" max="-2" attributes="0"/>
+                                          </Group>
                                           <Group type="102" attributes="0">
                                               <Component id="jLabel7" min="-2" pref="179" max="-2" attributes="0"/>
                                               <EmptySpace max="-2" attributes="0"/>
-                                              <Component id="jButton1" min="-2" max="-2" attributes="0"/>
+                                              <Component id="bt_tambahIsi" min="-2" max="-2" attributes="0"/>
                                           </Group>
                                           <Group type="102" alignment="0" attributes="0">
                                               <Group type="103" groupAlignment="0" attributes="0">
@@ -83,11 +85,16 @@
                                   </Group>
                               </Group>
                               <Group type="102" alignment="1" attributes="0">
-                                  <Component id="bt_kosong" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace max="-2" attributes="0"/>
-                                  <Component id="bt_simpan" min="-2" max="-2" attributes="0"/>
+                                  <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                      <Component id="bt_kosong" max="32767" attributes="0"/>
+                                      <Component id="bt_simpan" max="32767" attributes="0"/>
+                                  </Group>
                                   <EmptySpace max="-2" attributes="0"/>
-                                  <Component id="bt_hapus" min="-2" max="-2" attributes="0"/>
+                                  <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                      <Component id="bt_ubah" max="32767" attributes="0"/>
+                                      <Component id="bt_hapus" max="32767" attributes="0"/>
+                                  </Group>
                               </Group>
                           </Group>
                       </Group>
@@ -107,7 +114,6 @@
                           <Group type="103" groupAlignment="3" attributes="0">
                               <Component id="jLabel5" alignment="3" min="-2" pref="24" max="-2" attributes="0"/>
                               <Component id="cb_kategori" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="tx_id" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace min="-2" pref="17" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
@@ -122,19 +128,29 @@
                           <EmptySpace min="-2" pref="25" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
                               <Component id="jLabel7" alignment="3" min="-2" pref="24" max="-2" attributes="0"/>
-                              <Component id="jButton1" alignment="3" min="-2" pref="22" max="-2" attributes="0"/>
+                              <Component id="bt_tambahIsi" alignment="3" min="-2" pref="22" max="-2" attributes="0"/>
                           </Group>
-                          <EmptySpace max="-2" attributes="0"/>
-                          <Component id="jScrollPane2" min="-2" pref="132" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Group type="102" attributes="0">
+                                  <EmptySpace max="-2" attributes="0"/>
+                                  <Component id="jScrollPane2" min="-2" pref="132" max="-2" attributes="0"/>
+                              </Group>
+                              <Group type="102" alignment="0" attributes="0">
+                                  <EmptySpace min="-2" pref="29" max="-2" attributes="0"/>
+                                  <Component id="tx_id" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                          </Group>
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Group type="103" alignment="0" groupAlignment="3" attributes="0">
-                                  <Component id="bt_simpan" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  <Component id="bt_kosong" alignment="3" min="-2" max="-2" attributes="0"/>
-                              </Group>
+                              <Component id="bt_simpan" alignment="0" min="-2" max="-2" attributes="0"/>
                               <Component id="bt_hapus" min="-2" max="-2" attributes="0"/>
                           </Group>
-                          <EmptySpace min="-2" pref="147" max="-2" attributes="0"/>
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="3" attributes="0">
+                              <Component id="bt_ubah" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="bt_kosong" alignment="3" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                          <EmptySpace min="-2" pref="109" max="-2" attributes="0"/>
                           <Component id="bt_tambahKtgr" min="-2" pref="22" max="-2" attributes="0"/>
                       </Group>
                       <Component id="jScrollPane1" max="32767" attributes="0"/>
@@ -215,6 +231,9 @@
         <Component class="javax.swing.JTextField" name="tx_namaPromo">
         </Component>
         <Component class="javax.swing.JTextField" name="tx_harga">
+          <Events>
+            <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="tx_hargaKeyTyped"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="bt_simpan">
           <Properties>
@@ -243,7 +262,7 @@
               <Properties>
                 <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
                   <Table columnCount="4" rowCount="0">
-                    <Column editable="false" title="KODE PROMO" type="java.lang.Object"/>
+                    <Column editable="false" title="KODE" type="java.lang.Object"/>
                     <Column editable="false" title="KATEGORI" type="java.lang.Object"/>
                     <Column editable="false" title="NAMA" type="java.lang.Object"/>
                     <Column editable="false" title="HARGA" type="java.lang.Object"/>
@@ -337,7 +356,7 @@
             <Property name="text" type="java.lang.String" value="id"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JButton" name="jButton1">
+        <Component class="javax.swing.JButton" name="bt_tambahIsi">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Dialog" size="10" style="0"/>
@@ -345,8 +364,8 @@
             <Property name="text" type="java.lang.String" value="Tambah Isi Paket"/>
           </Properties>
           <Events>
-            <EventHandler event="focusGained" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="jButton1FocusGained"/>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton1ActionPerformed"/>
+            <EventHandler event="focusGained" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="bt_tambahIsiFocusGained"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="bt_tambahIsiActionPerformed"/>
           </Events>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel7">
@@ -362,7 +381,7 @@
         </Component>
         <Component class="javax.swing.JButton" name="bt_kosong">
           <Properties>
-            <Property name="text" type="java.lang.String" value="KOSONG"/>
+            <Property name="text" type="java.lang.String" value="BERSIHKAN"/>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="bt_kosongActionPerformed"/>
@@ -378,6 +397,14 @@
           <Events>
             <EventHandler event="focusGained" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="bt_tambahKtgrFocusGained"/>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="bt_tambahKtgrActionPerformed"/>
+          </Events>
+        </Component>
+        <Component class="javax.swing.JButton" name="bt_ubah">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="UBAH"/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="bt_ubahActionPerformed"/>
           </Events>
         </Component>
       </SubComponents>

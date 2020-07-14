@@ -7,7 +7,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.SwingConstants;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumn;
 
 public class CariProduk extends javax.swing.JFrame {
 
@@ -21,6 +24,12 @@ public class CariProduk extends javax.swing.JFrame {
     public CariProduk() {
         initComponents();
         datatabel();
+        if(getTokenPromo() == 1){
+            bt_cari.setVisible(false);
+            bt_normal.setVisible(false);
+            bt_promo.setVisible(false);
+            tx_cari.setVisible(false);
+        }
     }
     
      private void datatabel() {
@@ -38,6 +47,7 @@ public class CariProduk extends javax.swing.JFrame {
                     hasil.getString("pd_stock")});
             }
             jTable1.setModel(tabMode);
+            settingKolom();
         } catch (SQLException e) {
             System.out.println("error :" + e);
         }
@@ -55,7 +65,7 @@ public class CariProduk extends javax.swing.JFrame {
                 String sql2 = "SELECT mpd_produk FROM master_promo_detail WHERE mpd_kode='"+hasil.getString("mph_kode")+"'";
                 ResultSet rs = Koneksi_1.con_stat().executeQuery(sql2);
                 while (rs.next()){
-                    isi += rs.getString("mpd_produk")+", ";
+                    isi = rs.getString("mpd_produk")+", ";
                 }
                 tabMode.addRow(new Object[]{
                     hasil.getString("mph_kode"),
@@ -65,10 +75,35 @@ public class CariProduk extends javax.swing.JFrame {
                     });
             }
             jTable1.setModel(tabMode);
+            settingKolom();
         } catch (SQLException e) {
             System.out.println("error :" + e);
         }
     }
+      
+        public void settingKolom(){
+                // lebar kolom
+                TableColumn column;
+                jTable1.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_OFF); 
+                column = jTable1.getColumnModel().getColumn(0); 
+                column.setPreferredWidth(60);
+                column = jTable1.getColumnModel().getColumn(1); 
+                column.setPreferredWidth(422);
+                column = jTable1.getColumnModel().getColumn(2); 
+                column.setPreferredWidth(60);
+                column = jTable1.getColumnModel().getColumn(3); 
+                column.setPreferredWidth(60);
+                
+                // align kolom
+                DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+                DefaultTableCellRenderer rightRenderer = new DefaultTableCellRenderer();
+                centerRenderer.setHorizontalAlignment( SwingConstants.CENTER );
+                rightRenderer.setHorizontalAlignment(SwingConstants.RIGHT);
+                jTable1.getColumnModel().getColumn(0).setCellRenderer( centerRenderer );
+                jTable1.getColumnModel().getColumn(3).setCellRenderer( centerRenderer );
+                jTable1.getColumnModel().getColumn(2).setCellRenderer( rightRenderer );
+                
+        }
 
 
     @SuppressWarnings("unchecked")
@@ -84,6 +119,7 @@ public class CariProduk extends javax.swing.JFrame {
         bt_normal = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setAlwaysOnTop(true);
 
         jPanel1.setBackground(new java.awt.Color(0, 102, 153));
 
@@ -100,6 +136,7 @@ public class CariProduk extends javax.swing.JFrame {
             }
         });
 
+        jTable1.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null},
@@ -111,6 +148,7 @@ public class CariProduk extends javax.swing.JFrame {
                 "KODE PRODUK", "NAMA PRODUK", "QTY", "HARGA", "Stok"
             }
         ));
+        jTable1.setGridColor(new java.awt.Color(0, 0, 0));
         jTable1.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jTable1MouseClicked(evt);
@@ -227,7 +265,6 @@ public class CariProduk extends javax.swing.JFrame {
 
     private void bt_promoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_promoActionPerformed
         tabelPromo();
-        CariProduk.setTokenPromo(1);
         tx_cari.setVisible(false);
         bt_cari.setVisible(false);
     }//GEN-LAST:event_bt_promoActionPerformed

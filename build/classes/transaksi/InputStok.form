@@ -50,7 +50,10 @@
                       <Component id="jPanel3" max="32767" attributes="0"/>
                       <Component id="jScrollPane2" alignment="0" max="32767" attributes="0"/>
                       <Group type="102" alignment="1" attributes="0">
-                          <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                          <Component id="bt_reset" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace max="32767" attributes="0"/>
+                          <Component id="bt_kembali" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
                           <Component id="bt_simpan" min="-2" max="-2" attributes="0"/>
                       </Group>
                   </Group>
@@ -66,7 +69,11 @@
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="jScrollPane2" min="-2" pref="403" max="-2" attributes="0"/>
                   <EmptySpace pref="11" max="32767" attributes="0"/>
-                  <Component id="bt_simpan" min="-2" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="3" attributes="0">
+                      <Component id="bt_simpan" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="bt_kembali" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="bt_reset" alignment="3" min="-2" max="-2" attributes="0"/>
+                  </Group>
                   <EmptySpace max="-2" attributes="0"/>
               </Group>
           </Group>
@@ -174,6 +181,22 @@
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="bt_simpanActionPerformed"/>
+          </Events>
+        </Component>
+        <Component class="javax.swing.JButton" name="bt_kembali">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="KEMBALI"/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="bt_kembaliActionPerformed"/>
+          </Events>
+        </Component>
+        <Component class="javax.swing.JButton" name="bt_reset">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="RESET"/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="bt_resetActionPerformed"/>
           </Events>
         </Component>
       </SubComponents>

@@ -2,13 +2,17 @@ package transaksi;
 
 import config.Koneksi_1;
 import java.awt.Frame;
+import java.awt.HeadlessException;
 import java.awt.event.KeyEvent;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.SwingConstants;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumn;
 
 public class KategoriPromo extends javax.swing.JFrame {
 
@@ -16,6 +20,7 @@ public class KategoriPromo extends javax.swing.JFrame {
         initComponents();
         datatabel();
         tx_id.setVisible(false);
+        btSimpanAktif(true);
     }
 
     private void datatabel() {
@@ -30,10 +35,28 @@ public class KategoriPromo extends javax.swing.JFrame {
                     rs.getString("mpk_nama")
                 });
             }
-        } catch (Exception e) {
+            settingKolom();
+        } catch (SQLException e) {
             System.out.println(e);
         }
     }
+    
+      public void settingKolom(){
+                // lebar kolom
+                TableColumn column;
+                jTable1.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_OFF); 
+                column = jTable1.getColumnModel().getColumn(0); 
+                column.setPreferredWidth(40);
+                column = jTable1.getColumnModel().getColumn(1); 
+                column.setPreferredWidth(200);
+                // align kolom
+                DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+                DefaultTableCellRenderer rightRenderer = new DefaultTableCellRenderer();
+                centerRenderer.setHorizontalAlignment( SwingConstants.CENTER );
+                rightRenderer.setHorizontalAlignment(SwingConstants.RIGHT);
+                jTable1.getColumnModel().getColumn(0).setCellRenderer( centerRenderer );
+                 
+        }
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -47,6 +70,7 @@ public class KategoriPromo extends javax.swing.JFrame {
         bt_simpan = new javax.swing.JButton();
         bt_hapus = new javax.swing.JButton();
         bt_edit = new javax.swing.JButton();
+        btClear = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -100,10 +124,17 @@ public class KategoriPromo extends javax.swing.JFrame {
             }
         });
 
-        bt_edit.setText("EDIT");
+        bt_edit.setText("UBAH");
         bt_edit.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 bt_editActionPerformed(evt);
+            }
+        });
+
+        btClear.setText("BERSIHKAN");
+        btClear.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btClearActionPerformed(evt);
             }
         });
 
@@ -114,23 +145,24 @@ public class KategoriPromo extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 239, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(tx_kategori)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(tx_kategori)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(tx_id)
-                                .addGap(0, 0, Short.MAX_VALUE))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(bt_hapus)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 50, Short.MAX_VALUE)
-                                .addComponent(bt_simpan)))
-                        .addContainerGap())
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(64, 64, 64)
-                        .addComponent(bt_edit, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                        .addComponent(tx_id)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addGap(0, 12, Short.MAX_VALUE)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                .addComponent(bt_hapus, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(bt_simpan))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                .addComponent(btClear)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(bt_edit, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -143,11 +175,13 @@ public class KategoriPromo extends javax.swing.JFrame {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(tx_kategori, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(bt_hapus)
-                            .addComponent(bt_simpan))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(bt_simpan)
+                            .addComponent(bt_hapus))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(bt_edit)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(bt_edit)
+                            .addComponent(btClear))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(tx_id)))
                 .addContainerGap())
@@ -173,22 +207,28 @@ public class KategoriPromo extends javax.swing.JFrame {
         int row = jTable1.getSelectedRow();
         tx_id.setText(model.getValueAt(row, 0).toString());
         tx_kategori.setText(model.getValueAt(row, 1).toString());
-        bt_simpan.setEnabled(false);
+        btSimpanAktif(false);
     }//GEN-LAST:event_jTable1MouseClicked
 
     private void bt_editActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_editActionPerformed
-        try {
-            String sql = "UPDATE master_promo_kategori SET mpk_nama=? WHERE mpk_id=?";
-            PreparedStatement ps = Koneksi_1.con().prepareStatement(sql);
-            ps.setString(1, tx_kategori.getText());
-            ps.setString(2, tx_id.getText());
-            ps.executeUpdate();
-            JOptionPane.showMessageDialog(this, "Data berhasil diedit");
-            datatabel();
-            bt_simpan.setEnabled(true);
-        } catch (Exception e) {
-            System.out.println(e);
+        if(!tx_kategori.getText().isEmpty()){
+            try {
+                String sql = "UPDATE master_promo_kategori SET mpk_nama=? WHERE mpk_id=?";
+                PreparedStatement ps = Koneksi_1.con().prepareStatement(sql);
+                ps.setString(1, tx_kategori.getText());
+                ps.setString(2, tx_id.getText());
+                ps.executeUpdate();
+                JOptionPane.showMessageDialog(this, "Data berhasil diedit");
+                datatabel();
+                tx_kategori.setText("");
+                btSimpanAktif(true);
+            } catch (HeadlessException | SQLException e) {
+                System.out.println(e);
+            }
+        }else{
+            JOptionPane.showMessageDialog(this, "Kolom kategori tidak boleh kosong");
         }
+        
     }//GEN-LAST:event_bt_editActionPerformed
 
     private void bt_hapusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_hapusActionPerformed
@@ -199,28 +239,40 @@ public class KategoriPromo extends javax.swing.JFrame {
             ps.executeUpdate();
             JOptionPane.showMessageDialog(this, "Data berhasil dihapus");
             datatabel();
-            bt_simpan.setEnabled(true);
-        } catch (Exception e) {
+            tx_kategori.setText("");
+            btSimpanAktif(true);
+        } catch (HeadlessException | SQLException e) {
             System.out.println(e);
         }
     }//GEN-LAST:event_bt_hapusActionPerformed
 
     private void bt_simpanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_simpanActionPerformed
-        try {
-            String sql = "INSERT INTO master_promo_kategori (mpk_nama) VALUES (?)";
-            PreparedStatement ps = Koneksi_1.con().prepareStatement(sql);
-            ps.setString(1, tx_kategori.getText());
-            ps.executeUpdate();
-            JOptionPane.showMessageDialog(this, "Data berhasil disimpan");
-            datatabel();
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, "Terjadi kesalahan / Data duplikat");
+        if(!tx_kategori.getText().isEmpty()){
+            try {
+                String sql = "INSERT INTO master_promo_kategori (mpk_nama) VALUES (?)";
+                PreparedStatement ps = Koneksi_1.con().prepareStatement(sql);
+                ps.setString(1, tx_kategori.getText());
+                ps.executeUpdate();
+                JOptionPane.showMessageDialog(this, "Data berhasil disimpan");
+                datatabel();
+                tx_kategori.setText("");
+            } catch (HeadlessException | SQLException e) {
+                JOptionPane.showMessageDialog(this, "Terjadi kesalahan / Data duplikat");
+            }
+        }else{
+            JOptionPane.showMessageDialog(this, "Kolom kategori tidak boleh kosong");
         }
+       
     }//GEN-LAST:event_bt_simpanActionPerformed
 
     private void tx_kategoriFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_tx_kategoriFocusGained
         // TODO add your handling code here:
     }//GEN-LAST:event_tx_kategoriFocusGained
+
+    private void btClearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btClearActionPerformed
+        tx_kategori.setText("");
+        btSimpanAktif(true);
+    }//GEN-LAST:event_btClearActionPerformed
 
     /**
      * @param args the command line arguments
@@ -258,6 +310,7 @@ public class KategoriPromo extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btClear;
     private javax.swing.JButton bt_edit;
     private javax.swing.JButton bt_hapus;
     private javax.swing.JButton bt_simpan;
@@ -267,5 +320,9 @@ public class KategoriPromo extends javax.swing.JFrame {
     private javax.swing.JLabel tx_id;
     private javax.swing.JTextField tx_kategori;
     // End of variables declaration//GEN-END:variables
-
+    private void btSimpanAktif(boolean aktif){
+        bt_simpan.setEnabled(aktif);
+        bt_edit.setEnabled(!aktif);
+        bt_hapus.setEnabled(!aktif);
+    }
 }

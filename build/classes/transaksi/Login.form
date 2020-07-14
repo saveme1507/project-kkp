@@ -20,7 +20,6 @@
   </NonVisualComponents>
   <Properties>
     <Property name="defaultCloseOperation" type="int" value="3"/>
-    <Property name="autoRequestFocus" type="boolean" value="false"/>
     <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
       <Color blue="cc" green="66" red="0" type="rgb"/>
     </Property>
@@ -167,6 +166,9 @@
           </Properties>
         </Component>
         <Component class="javax.swing.JTextField" name="tx_user">
+          <Events>
+            <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="tx_userKeyPressed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="bt_login">
           <Properties>
@@ -179,10 +181,14 @@
             <Property name="text" type="java.lang.String" value="LOGIN"/>
           </Properties>
           <Events>
-            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="bt_loginMouseClicked"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="bt_loginActionPerformed"/>
           </Events>
         </Component>
         <Component class="javax.swing.JPasswordField" name="tx_pass">
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="tx_passActionPerformed"/>
+            <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="tx_passKeyPressed"/>
+          </Events>
         </Component>
       </SubComponents>
     </Container>

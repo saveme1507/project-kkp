@@ -1,20 +1,26 @@
 package transaksi;
 
 import config.Koneksi_1;
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
 import javax.swing.JOptionPane;
+import javax.swing.SwingConstants;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumn;
 
 public class InputStok extends javax.swing.JFrame {
-
+    private final Connection conn = Koneksi_1.con();
     private DefaultTableModel tabMode;
 
     public InputStok() {
         initComponents();
         datatabel();
-        inputStok();
+        cekSimpan();
     }
 
     private void datatabel() {
@@ -23,7 +29,8 @@ public class InputStok extends javax.swing.JFrame {
         jTable1.setModel(tabMode);
         try {
             String sql = "SELECT * FROM produk";
-            ResultSet hasil = Koneksi_1.con_stat().executeQuery(sql);
+            java.sql.Statement stat = conn.createStatement();
+            ResultSet hasil = stat.executeQuery(sql);
             while (hasil.next()) {
                 tabMode.addRow(new Object[]{
                     hasil.getString("pd_kode"),
@@ -34,26 +41,69 @@ public class InputStok extends javax.swing.JFrame {
                 });
             }
             jTable1.setModel(tabMode);
+            settingKolom();
         } catch (SQLException e) {
             System.out.println("error :" + e);
         }
     }
-    private void inputStok() {
-        if (config.CurrentDate.jam() >= 0 && config.CurrentDate.jam() <= 2) {
-            try {
-                String sql = "SELECT pd_updatedate FROM produk WHERE pd_updatedate='" + config.CurrentDate.tgl_skrg() + "' GROUP BY pd_updatedate";
-                ResultSet rs = Koneksi_1.con_stat().executeQuery(sql);
-                if (! rs.next()) {
-                    new InputStok().setVisible(true);
-                }else{
-                     dispose();
-                    JOptionPane.showMessageDialog(this,"Stok sudah di input sebelumnya");
-                   
-                }
-            } catch (Exception e) {
+    
+    private void cekSimpan(){
+        ArrayList<String> update = new ArrayList<>();
+        try {
+            String sql = "SELECT pd_updatedate FROM produk";
+            java.sql.Statement stat = conn.createStatement();
+            ResultSet hasil = stat.executeQuery(sql);
+            while (hasil.next()) {
+               update.add(hasil.getString("pd_updatedate"));
             }
+            if (!update.contains(config.CurrentDate.tgl_skrg())) {
+                bt_simpan.setEnabled(true);
+                bt_reset.setEnabled(false);
+            }else{
+                bt_simpan.setEnabled(false);
+                bt_reset.setEnabled(true);
+            }
+        } catch (SQLException e) {
+            System.out.println("error :" + e);
         }
     }
+    
+    boolean cekInteger(String s){
+        boolean hasil;
+         try {
+            int test = Integer.parseInt(s);
+            hasil = true;
+        } catch (NumberFormatException e) {
+            hasil = false;
+        }
+        return hasil;
+    }
+    
+      public void settingKolom(){
+                // lebar kolom
+                TableColumn column;
+                jTable1.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_OFF); 
+                column = jTable1.getColumnModel().getColumn(0); 
+                column.setPreferredWidth(60);
+                column = jTable1.getColumnModel().getColumn(1); 
+                column.setPreferredWidth(493);
+                column = jTable1.getColumnModel().getColumn(2); 
+                column.setPreferredWidth(60);
+                column = jTable1.getColumnModel().getColumn(3); 
+                column.setPreferredWidth(60);
+                column = jTable1.getColumnModel().getColumn(4); 
+                column.setPreferredWidth(60);
+                
+                // align kolom
+                DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+                DefaultTableCellRenderer rightRenderer = new DefaultTableCellRenderer();
+                centerRenderer.setHorizontalAlignment( SwingConstants.CENTER );
+                rightRenderer.setHorizontalAlignment(SwingConstants.RIGHT);
+                jTable1.getColumnModel().getColumn(0).setCellRenderer( centerRenderer );
+                jTable1.getColumnModel().getColumn(4).setCellRenderer( centerRenderer );
+                jTable1.getColumnModel().getColumn(3).setCellRenderer( rightRenderer );
+                
+        }
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -65,6 +115,8 @@ public class InputStok extends javax.swing.JFrame {
         jScrollPane2 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
         bt_simpan = new javax.swing.JButton();
+        bt_kembali = new javax.swing.JButton();
+        bt_reset = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setUndecorated(true);
@@ -126,6 +178,20 @@ public class InputStok extends javax.swing.JFrame {
             }
         });
 
+        bt_kembali.setText("KEMBALI");
+        bt_kembali.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bt_kembaliActionPerformed(evt);
+            }
+        });
+
+        bt_reset.setText("RESET");
+        bt_reset.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bt_resetActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -136,7 +202,10 @@ public class InputStok extends javax.swing.JFrame {
                     .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jScrollPane2)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(bt_reset)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(bt_kembali)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(bt_simpan)))
                 .addContainerGap())
         );
@@ -148,7 +217,10 @@ public class InputStok extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 403, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 11, Short.MAX_VALUE)
-                .addComponent(bt_simpan)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(bt_simpan)
+                    .addComponent(bt_kembali)
+                    .addComponent(bt_reset))
                 .addContainerGap())
         );
 
@@ -172,39 +244,70 @@ public class InputStok extends javax.swing.JFrame {
         String a = tabMode.getValueAt(bar, 1).toString();
         String b = tabMode.getValueAt(bar, 0).toString();
         String v = JOptionPane.showInputDialog("Masukan Stok " + a);
-        if (v.length() != 0) {
+        if (v.length() == 0) {
+            System.out.println("Stok belum dimasukan!");
+            
+           
+        } else if(cekInteger(v) == false) {
+            JOptionPane.showMessageDialog(this, "Data stok harus berupa angka");
+        }else{
             int i = jTable1.getSelectedRow();
             DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
             if (i >= 0) {
                 model.setValueAt(v, i, 4);
             }
-        } else {
-            System.out.println("Stok belum dimasukan!");
         }
     }//GEN-LAST:event_jTable1MouseClicked
 
     private void bt_simpanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_simpanActionPerformed
-        int opsi = JOptionPane.showConfirmDialog(null, "Setelah menyimpan, data stok hanya bisa di input di hari berikutnya. "
-                + "Anda yakin menyimpan stok?", "Dialog Konfirmasi" , JOptionPane.YES_NO_OPTION);
-        if (opsi == JOptionPane.YES_OPTION) {
+        
+        try {
+              DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+              String sql = "UPDATE produk SET pd_stock=?,pd_updatedate=? WHERE pd_kode=?";
+              PreparedStatement ps = Koneksi_1.con().prepareStatement(sql);
+              for (int i = 0; i < jTable1.getRowCount(); i++) {
+                  ps.setString(1, model.getValueAt(i, 4).toString());
+                  ps.setString(2, config.CurrentDate.tgl_skrg());
+                  ps.setString(3, model.getValueAt(i, 0).toString());
+                  ps.executeUpdate();
+              }
+              JOptionPane.showMessageDialog(this, "Data stok berhasil diupdate");
+              datatabel();
+              cekSimpan();
+          } catch (SQLException e) {
+              System.out.println(e);
+          }
+    }//GEN-LAST:event_bt_simpanActionPerformed
+
+    private void bt_kembaliActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_kembaliActionPerformed
+        dispose();
+    }//GEN-LAST:event_bt_kembaliActionPerformed
+
+    private void bt_resetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_resetActionPerformed
+        int jawab = JOptionPane.showOptionDialog(this, 
+                        "Apa anda yakin akan mereset daftar stok?", 
+                        "Konfirmasi", 
+                        JOptionPane.YES_NO_OPTION, 
+                        JOptionPane.QUESTION_MESSAGE, null, null, null);
+        
+        if(jawab == JOptionPane.YES_OPTION){
             try {
-                DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
-                String sql = "UPDATE produk SET pd_stock=?,pd_updatedate=? WHERE pd_kode=?";
-                PreparedStatement ps = Koneksi_1.con().prepareStatement(sql);
-                for (int i = 0; i < jTable1.getRowCount(); i++) {
-                    ps.setString(1, model.getValueAt(i, 4).toString());
-                    ps.setString(2, config.CurrentDate.tgl_skrg());
-                    ps.setString(3, model.getValueAt(i, 0).toString());
-                    ps.executeUpdate();
-                }
-                datatabel();
-                dispose();
-            } catch (Exception e) {
-                System.out.println(e);
+              DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+              String sql = "UPDATE produk SET pd_stock=?,pd_updatedate=? WHERE pd_kode=?";
+              PreparedStatement ps = Koneksi_1.con().prepareStatement(sql);
+              for (int i = 0; i < jTable1.getRowCount(); i++) {
+                  ps.setString(1, String.valueOf(0));
+                  ps.setString(2, "2020-01-01");
+                  ps.setString(3, model.getValueAt(i, 0).toString());
+                  ps.executeUpdate();
+              }
+              datatabel();
+              cekSimpan();
+            } catch (SQLException e) {
+                 System.out.println(e);
             }
         }
-
-    }//GEN-LAST:event_bt_simpanActionPerformed
+    }//GEN-LAST:event_bt_resetActionPerformed
 
     public static void main(String args[]) {
         java.awt.EventQueue.invokeLater(new Runnable() {
@@ -215,6 +318,8 @@ public class InputStok extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton bt_kembali;
+    private javax.swing.JButton bt_reset;
     private javax.swing.JButton bt_simpan;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;

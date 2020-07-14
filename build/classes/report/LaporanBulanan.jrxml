@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="null" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" isFloatColumnFooter="true" uuid="867bc927-e089-4877-aec5-1ea1a90e7fcc">
-	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.zoom" value="1.5"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
 	<style name="table">
@@ -72,11 +72,11 @@ JAKARTA BARAT Telp 0878 8579 6712]]></text>
 				<textFieldExpression><![CDATA[$P{periode}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement uuid="0abbe72b-025b-4131-82cf-cb762cf55130" x="174" y="0" width="122" height="35" forecolor="#333333"/>
+				<reportElement uuid="0abbe72b-025b-4131-82cf-cb762cf55130" x="180" y="0" width="116" height="35" forecolor="#333333"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="12" isBold="true" isItalic="false"/>
 				</textElement>
-				<text><![CDATA[LAPORAN BULANAN]]></text>
+				<text><![CDATA[LAPORAN BULAN]]></text>
 			</staticText>
 		</band>
 	</pageHeader>

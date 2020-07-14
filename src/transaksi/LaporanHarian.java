@@ -10,12 +10,16 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 import javax.swing.JOptionPane;
+import javax.swing.SwingConstants;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumn;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.JasperFillManager;
@@ -64,15 +68,30 @@ public class LaporanHarian extends javax.swing.JFrame {
                     bt_simpan.setVisible(true);
                 }
             }
+            settingKolom();
         } catch (SQLException e) {
             System.out.println(e);
         }
     }
+    
+      public void settingKolom(){
+                // align kolom
+                DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+                DefaultTableCellRenderer rightRenderer = new DefaultTableCellRenderer();
+                centerRenderer.setHorizontalAlignment( SwingConstants.CENTER );
+                rightRenderer.setHorizontalAlignment(SwingConstants.RIGHT);
+                jTable1.getColumnModel().getColumn(0).setCellRenderer( centerRenderer );
+                jTable1.getColumnModel().getColumn(2).setCellRenderer( rightRenderer );
+        }
 
     private String dateChose() {
         SimpleDateFormat dcn = new SimpleDateFormat("yyyy-MM-dd");
         String date = dcn.format(jDateChooser1.getDate());
         return date;
+    }
+    
+    public static boolean cekArray(String[] arr, String targetValue) {
+	return Arrays.asList(arr).contains(targetValue);
     }
 
     @SuppressWarnings("unchecked")
@@ -239,9 +258,9 @@ public class LaporanHarian extends javax.swing.JFrame {
             String sql = "INSERT INTO laporan(lph_tanggal,lph_transaksi,lph_total) VALUES(?,?,?)";
             PreparedStatement ps = Koneksi_1.con().prepareStatement(sql);
             for (int i = 0; i < model.getRowCount(); i++) {
-                ps.setString(1, model.getValueAt(i, 2).toString());
-                ps.setString(2, model.getValueAt(i, 1).toString());
-                ps.setString(3, model.getValueAt(i, 3).toString());
+                ps.setString(1, model.getValueAt(i, 1).toString());
+                ps.setString(2, model.getValueAt(i, 0).toString());
+                ps.setString(3, model.getValueAt(i, 2).toString());
                 ps.executeUpdate();
             }
             JOptionPane.showMessageDialog(null, "Laporan berhasil disimpan");

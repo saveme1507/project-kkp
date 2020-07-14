@@ -12,7 +12,10 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
+import javax.swing.SwingConstants;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumn;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.JasperFillManager;
@@ -64,10 +67,35 @@ public class LaporanBulanan extends javax.swing.JFrame {
                 }
                 tx_total.setText(String.valueOf(j));
             }
+            settingKolom();
         } catch (SQLException e) {
             System.out.println(e);
         }
     }
+    
+      public void settingKolom(){
+                // lebar kolom
+                TableColumn column;
+                jTable1.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_OFF); 
+                column = jTable1.getColumnModel().getColumn(0); 
+                column.setPreferredWidth(60);
+                column = jTable1.getColumnModel().getColumn(1); 
+                column.setPreferredWidth(460);
+                column = jTable1.getColumnModel().getColumn(2); 
+                column.setPreferredWidth(150);
+                column = jTable1.getColumnModel().getColumn(3); 
+                column.setPreferredWidth(150);
+                
+                // align kolom
+                DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+                DefaultTableCellRenderer rightRenderer = new DefaultTableCellRenderer();
+                centerRenderer.setHorizontalAlignment( SwingConstants.CENTER );
+                rightRenderer.setHorizontalAlignment(SwingConstants.RIGHT);
+                jTable1.getColumnModel().getColumn(0).setCellRenderer( centerRenderer );
+                jTable1.getColumnModel().getColumn(2).setCellRenderer( centerRenderer );
+                jTable1.getColumnModel().getColumn(3).setCellRenderer( rightRenderer );
+                
+        }
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents

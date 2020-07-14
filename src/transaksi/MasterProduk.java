@@ -3,11 +3,15 @@ package transaksi;
 import config.CurrentDate;
 import config.Koneksi_1;
 import config.Koneksi_2;
+import java.awt.event.KeyEvent;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import javax.swing.JOptionPane;
+import javax.swing.SwingConstants;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumn;
 
 public class MasterProduk extends javax.swing.JFrame {
 
@@ -17,37 +21,10 @@ public class MasterProduk extends javax.swing.JFrame {
         initComponents();
         tx_id.setVisible(false);
         datatabel();
+        btSimpanAktif(true);
     }
 
-    private void datatabel() {
-        Object[] Baris = {"Kode", "Nama", "Satuan", "Harga", "Update"};
-        tabMode = new DefaultTableModel(null, Baris);
-        jtable.setModel(tabMode);
-        try {
-            String sql = "SELECT * FROM produk";
-            ResultSet hasil = Koneksi_1.con_stat().executeQuery(sql);
-            while (hasil.next()) {
-                tabMode.addRow(new Object[]{
-                    hasil.getString("pd_kode"),
-                    hasil.getString("pd_nama"),
-                    hasil.getString("pd_satuan"),
-                    hasil.getString("pd_harga"),
-                    hasil.getString("pd_updatedate")
-                });
-            }
-            jtable.setModel(tabMode);
-        } catch (SQLException e) {
-            System.out.println("error :" + e);
-        }
-    }
-
-    private void kosong() {
-        tx_nama.setText("");
-        tx_harga.setText("");
-        cb_satuan.setSelectedIndex(0);
-        tx_id.setText("");
-    }
-
+  
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -107,6 +84,12 @@ public class MasterProduk extends javax.swing.JFrame {
         jLabel6.setForeground(new java.awt.Color(255, 255, 255));
         jLabel6.setText("HARGA");
 
+        tx_harga.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                tx_hargaKeyTyped(evt);
+            }
+        });
+
         cb_satuan.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Porsi", "Buah", "Potong", "Sendok" }));
 
         bt_batal.setBackground(new java.awt.Color(255, 255, 255));
@@ -153,6 +136,7 @@ public class MasterProduk extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
+        jtable.setGridColor(new java.awt.Color(0, 0, 0));
         jtable.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jtableMouseClicked(evt);
@@ -162,6 +146,7 @@ public class MasterProduk extends javax.swing.JFrame {
         if (jtable.getColumnModel().getColumnCount() > 0) {
             jtable.getColumnModel().getColumn(0).setResizable(false);
             jtable.getColumnModel().getColumn(1).setResizable(false);
+            jtable.getColumnModel().getColumn(2).setResizable(false);
             jtable.getColumnModel().getColumn(3).setResizable(false);
         }
 
@@ -290,6 +275,7 @@ public class MasterProduk extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(this, "Data berhasil di simpan");
                 kosong();
                 datatabel();
+                btSimpanAktif(true);
             } catch (Exception e) {
                 JOptionPane.showMessageDialog(this, "Error menyimpan data");
                 System.out.println(e);
@@ -317,7 +303,7 @@ public class MasterProduk extends javax.swing.JFrame {
             cb_satuan.setSelectedIndex(3);
         }
 
-        bt_simpan.setEnabled(false);
+        btSimpanAktif(false);
     }//GEN-LAST:event_jtableMouseClicked
 
     private void bt_hapusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_hapusActionPerformed
@@ -329,6 +315,7 @@ public class MasterProduk extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Data berhasil di hapus");
             kosong();
             datatabel();
+            btSimpanAktif(true);
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "Error menghapus data");
             System.out.println(e);
@@ -353,7 +340,7 @@ public class MasterProduk extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(this, "Data berhasil di edit");
                 kosong();
                 datatabel();
-                bt_simpan.setEnabled(true);
+                btSimpanAktif(true);
             } catch (Exception e) {
                 JOptionPane.showMessageDialog(this, "Error mengedit data");
                 System.out.println(e);
@@ -365,6 +352,14 @@ public class MasterProduk extends javax.swing.JFrame {
         kosong();
         bt_simpan.setEnabled(true);
     }//GEN-LAST:event_bt_batalActionPerformed
+
+    private void tx_hargaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tx_hargaKeyTyped
+        char c = evt.getKeyChar();
+        if (!(Character.isDigit(c)) || (c == KeyEvent.VK_BACK_SPACE) || c == (KeyEvent.VK_DELETE)) {
+            getToolkit().beep();
+            evt.consume();
+        }
+    }//GEN-LAST:event_tx_hargaKeyTyped
 
     /**
      * @param args the command line arguments
@@ -421,20 +416,63 @@ public class MasterProduk extends javax.swing.JFrame {
     private javax.swing.JTextField tx_nama;
     // End of variables declaration//GEN-END:variables
 
-//    private void backup(String action){
-//        try {
-//            //input backup
-//            String b_sql = "INSERT INTO back_produk(pd_nama,pd_satuan,pd_harga,pd_updatedate,pd_action) VALUES (?,?,?,?,?)";
-//            PreparedStatement bps = Koneksi_2.con().prepareStatement(b_sql);
-//            bps.setString(1, tx_nama.getText());
-//            bps.setString(2, cb_satuan.getSelectedItem().toString());
-//            bps.setString(3, tx_harga.getText().toString());
-//            bps.setString(4, CurrentDate.tgl_skrg());
-//            bps.setString(5, action);
-//            bps.executeUpdate();
-//        } catch (Exception e) {
-//            JOptionPane.showMessageDialog(this, "Error menyimpan data 2");
-//            System.out.println(e);
-//        }
-//    }
+    private void datatabel() {
+    Object[] Baris = {"Kode", "Nama", "Satuan", "Harga"};
+    tabMode = new DefaultTableModel(null, Baris);
+    jtable.setModel(tabMode);
+        try {
+            String sql = "SELECT * FROM produk";
+            ResultSet hasil = Koneksi_1.con_stat().executeQuery(sql);
+            while (hasil.next()) {
+                tabMode.addRow(new Object[]{
+                    hasil.getString("pd_kode"),
+                    hasil.getString("pd_nama"),
+                    hasil.getString("pd_satuan"),
+                    hasil.getString("pd_harga")
+                });
+            }
+            jtable.setModel(tabMode);
+            settingKolom();
+        } catch (SQLException e) {
+            System.out.println("error :" + e);
+        }
+    }
+
+    private void kosong() {
+        tx_id.setText("");
+        tx_nama.setText("");
+        tx_harga.setText("");
+        cb_satuan.setSelectedIndex(0);
+        btSimpanAktif(true);
+    }
+    
+    private void btSimpanAktif(boolean aktif){
+        bt_simpan.setEnabled(aktif);
+        bt_hapus.setEnabled(!aktif);
+        bt_edit.setEnabled(!aktif);
+    }
+    
+      public void settingKolom(){
+                // lebar kolom
+                TableColumn column;
+                jtable.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_OFF); 
+                column = jtable.getColumnModel().getColumn(0); 
+                column.setPreferredWidth(40);
+                column = jtable.getColumnModel().getColumn(1); 
+                column.setPreferredWidth(300);
+                column = jtable.getColumnModel().getColumn(2); 
+                column.setPreferredWidth(60);
+                column = jtable.getColumnModel().getColumn(3); 
+                column.setPreferredWidth(60);
+                
+                // align kolom
+                DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+                DefaultTableCellRenderer rightRenderer = new DefaultTableCellRenderer();
+                centerRenderer.setHorizontalAlignment( SwingConstants.CENTER );
+                rightRenderer.setHorizontalAlignment(SwingConstants.RIGHT);
+                jtable.getColumnModel().getColumn(0).setCellRenderer( centerRenderer );
+                jtable.getColumnModel().getColumn(3).setCellRenderer( rightRenderer );
+                
+        }
+
 }

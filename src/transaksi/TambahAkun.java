@@ -6,7 +6,9 @@
 package transaksi;
 
 import config.Koneksi_1;
+import java.awt.HeadlessException;
 import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import javax.swing.JOptionPane;
 
 /**
@@ -149,20 +151,23 @@ public class TambahAkun extends javax.swing.JFrame {
     }//GEN-LAST:event_tx_userActionPerformed
 
     private void bt_simpanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_simpanActionPerformed
-        // TODO add your handling code here:
-        if(tx_pass.getText().equals(tx_conf_pass.getText())){
-            try{
+        if(tx_user.getText().isEmpty()){
+            JOptionPane.showMessageDialog(this, "Username tidak boleh kosong");
+        }else if(tx_pass.getText().length() == 0 && tx_conf_pass.getText().length() == 0){
+            JOptionPane.showMessageDialog(this, "Password tidak boleh kosong");
+        }else if (!tx_pass.getText().equals(tx_conf_pass.getText())){
+            JOptionPane.showMessageDialog(this, "Password tidak sama");
+        }else{
+             try{
                 String sql ="INSERT INTO user (usr_username,usr_password) VALUES ('"+tx_user.getText()+"','"+tx_pass.getText()+"')";
                 PreparedStatement ps = Koneksi_1.con().prepareStatement(sql);
                 ps.executeUpdate();
                 JOptionPane.showMessageDialog(this, "User berhasil ditambah");
                 kosong();
-            }catch(Exception e){
+                dispose();
+             }catch(HeadlessException | SQLException e){
                 System.out.println(e);
-            }
-        }else{
-            JOptionPane.showMessageDialog(this, "Password tidak sama");
-            tx_pass.requestFocus();
+             }
         }
     }//GEN-LAST:event_bt_simpanActionPerformed
 
