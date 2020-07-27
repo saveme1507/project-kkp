@@ -11,6 +11,7 @@ import java.io.File;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -37,7 +38,8 @@ import net.sf.jasperreports.view.JasperViewer;
 
 public class MenuUtama extends javax.swing.JFrame {
     public static String nama_user = getNama_user();
-
+    DecimalFormat df = new DecimalFormat("Rp ###,###,###.-");
+    
     public MenuUtama() {
         initComponents();
         datatabel();
@@ -414,7 +416,7 @@ public class MenuUtama extends javax.swing.JFrame {
                 itemLaporan = new ItemLaporan(
                         model.getValueAt(i, 0).toString(),
                         model.getValueAt(i, 1).toString(),
-                        Integer.parseInt(model.getValueAt(i, 3).toString()),
+                        df.format(Integer.parseInt(model.getValueAt(i, 3).toString())),
                         Integer.parseInt(model.getValueAt(i, 2).toString())
                 );
                 itemList.add(itemLaporan);
@@ -422,6 +424,7 @@ public class MenuUtama extends javax.swing.JFrame {
             Map map = new HashMap();
             map.put("tanggal", config.CurrentDate.tgl_skrg_string());
             File file = new File("src/report/LapHarian.jrxml");
+            
             JasperDesign jasperDesign = JRXmlLoader.load(file);
             JasperReport jasperReport = JasperCompileManager.compileReport(jasperDesign);
             JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, map, new JRBeanCollectionDataSource(itemList));

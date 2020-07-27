@@ -24,11 +24,11 @@
 		</box>
 	</style>
 	<subDataset name="Table Dataset 1" uuid="934f1df3-c15c-4187-bdd4-97d63797c935"/>
-	<parameter name="total" class="java.lang.Integer"/>
+	<parameter name="total" class="java.lang.String"/>
 	<parameter name="periode" class="java.lang.String"/>
 	<field name="no" class="java.lang.Integer"/>
 	<field name="jml_transaksi" class="java.lang.Integer"/>
-	<field name="jml_pendapatan" class="java.lang.Integer"/>
+	<field name="jml_pendapatan" class="java.lang.String"/>
 	<field name="tanggal" class="java.lang.String"/>
 	<background>
 		<band splitType="Stretch"/>
@@ -125,14 +125,14 @@ JAKARTA BARAT Telp 0878 8579 6712]]></text>
 				<textFieldExpression><![CDATA[$F{tanggal}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement uuid="6b36470e-7ed7-434e-9b7a-1e4445b34a09" style="table_TD" x="214" y="0" width="110" height="17"/>
+				<reportElement uuid="6b36470e-7ed7-434e-9b7a-1e4445b34a09" style="table_TD" x="214" y="0" width="109" height="17"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$F{jml_transaksi}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement uuid="3f262813-88b7-464f-ab6b-d051531bad8f" style="table_TD" x="323" y="0" width="118" height="17"/>
+				<reportElement uuid="143caac4-3aa3-4339-b49c-c7b6ea3bec70" style="table_TD" x="324" y="0" width="117" height="17"/>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
-					<paragraph rightIndent="5"/>
+					<paragraph rightIndent="3"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{jml_pendapatan}]]></textFieldExpression>
 			</textField>
@@ -140,18 +140,21 @@ JAKARTA BARAT Telp 0878 8579 6712]]></text>
 	</detail>
 	<columnFooter>
 		<band height="20" splitType="Stretch">
+			<staticText>
+				<reportElement uuid="5b50ca1e-22ca-44c8-bad4-7966a8b5f1fc" style="table_CH" x="283" y="0" width="40" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[TOTAL]]></text>
+			</staticText>
 			<textField>
-				<reportElement uuid="323ed70d-247f-41a2-bfab-158b231056a5" style="table_CH" x="323" y="0" width="118" height="20"/>
+				<reportElement uuid="2a74c05f-109f-4968-9ef4-7cfe87b899c6" style="table_CH" x="324" y="0" width="117" height="20"/>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
-					<paragraph rightIndent="5"/>
+					<font isBold="true"/>
+					<paragraph rightIndent="3"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{total}]]></textFieldExpression>
 			</textField>
-			<staticText>
-				<reportElement uuid="5b50ca1e-22ca-44c8-bad4-7966a8b5f1fc" style="table_CH" x="283" y="0" width="40" height="20"/>
-				<textElement textAlignment="Center" verticalAlignment="Middle"/>
-				<text><![CDATA[TOTAL]]></text>
-			</staticText>
 		</band>
 	</columnFooter>
 </jasperReport>

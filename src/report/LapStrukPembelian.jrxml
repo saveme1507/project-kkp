@@ -27,22 +27,22 @@
 	<parameter name="noTransaksi" class="java.lang.String">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
-	<parameter name="total" class="java.lang.Integer">
+	<parameter name="total" class="java.lang.String">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
-	<parameter name="bayar" class="java.lang.Integer">
+	<parameter name="bayar" class="java.lang.String">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
-	<parameter name="kembali" class="java.lang.Integer">
+	<parameter name="kembali" class="java.lang.String">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
 	<queryString>
 		<![CDATA[]]>
 	</queryString>
 	<field name="namaPd" class="java.lang.String"/>
-	<field name="harga" class="java.lang.Integer"/>
+	<field name="harga" class="java.lang.String"/>
 	<field name="qty" class="java.lang.Integer"/>
-	<field name="jumlah" class="java.lang.Integer"/>
+	<field name="jumlah" class="java.lang.String"/>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
@@ -101,7 +101,7 @@ Telp 0878 8579 6712]]></text>
 	<columnHeader>
 		<band height="13" splitType="Stretch">
 			<staticText>
-				<reportElement uuid="27afbcbc-ad12-4676-912f-34ae7402a044" x="2" y="0" width="79" height="13"/>
+				<reportElement uuid="27afbcbc-ad12-4676-912f-34ae7402a044" x="2" y="0" width="70" height="13"/>
 				<textElement verticalAlignment="Middle">
 					<font size="8" isBold="true"/>
 					<paragraph leftIndent="5"/>
@@ -116,7 +116,7 @@ Telp 0878 8579 6712]]></text>
 				<text><![CDATA[Qty]]></text>
 			</staticText>
 			<staticText>
-				<reportElement uuid="f34a0153-8d1a-4ce0-9d5a-8c27893ee5fd" x="82" y="0" width="34" height="13"/>
+				<reportElement uuid="f34a0153-8d1a-4ce0-9d5a-8c27893ee5fd" x="72" y="0" width="45" height="13"/>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
 					<font size="8" isBold="true"/>
 					<paragraph rightIndent="5"/>
@@ -124,7 +124,7 @@ Telp 0878 8579 6712]]></text>
 				<text><![CDATA[Harga]]></text>
 			</staticText>
 			<staticText>
-				<reportElement uuid="72b0bcc7-6f43-48a5-9243-411742a8835b" x="137" y="0" width="46" height="13"/>
+				<reportElement uuid="72b0bcc7-6f43-48a5-9243-411742a8835b" x="136" y="0" width="47" height="13"/>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
 					<font size="8" isBold="true"/>
 					<paragraph rightIndent="5"/>
@@ -136,33 +136,33 @@ Telp 0878 8579 6712]]></text>
 	<detail>
 		<band height="12" splitType="Stretch">
 			<textField>
-				<reportElement uuid="0bbabe02-3c56-41a9-aa90-b4d2c3c70b13" x="2" y="0" width="79" height="12"/>
+				<reportElement uuid="0bbabe02-3c56-41a9-aa90-b4d2c3c70b13" x="2" y="0" width="70" height="12"/>
 				<textElement verticalAlignment="Middle">
-					<font size="8"/>
+					<font size="6"/>
 					<paragraph leftIndent="3"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{namaPd}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement uuid="b3d183bd-0f32-45f1-a9ab-69d95d925416" x="82" y="0" width="34" height="12"/>
-				<textElement textAlignment="Right" verticalAlignment="Middle">
-					<font size="8"/>
-					<paragraph rightIndent="3"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{harga}]]></textFieldExpression>
-			</textField>
-			<textField>
 				<reportElement uuid="f5286246-83c9-49e6-b6e7-f35b7dbd095c" x="117" y="0" width="19" height="12"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="8"/>
+					<font size="6"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{qty}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement uuid="59a1d385-1315-4532-a206-161305850668" x="137" y="0" width="46" height="12"/>
+				<reportElement uuid="fedd1aa2-0e9d-4309-868b-d9f8c01df4a0" x="72" y="0" width="45" height="12"/>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
-					<font size="8"/>
-					<paragraph rightIndent="3"/>
+					<font size="6"/>
+					<paragraph rightIndent="2"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{harga}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="681f1bc7-cb71-49a5-a2eb-031c6a9119bc" x="136" y="0" width="47" height="12"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="6"/>
+					<paragraph rightIndent="2"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{jumlah}]]></textFieldExpression>
 			</textField>
@@ -173,52 +173,28 @@ Telp 0878 8579 6712]]></text>
 			<staticText>
 				<reportElement uuid="72b0bcc7-6f43-48a5-9243-411742a8835b" x="93" y="33" width="38" height="12"/>
 				<textElement textAlignment="Right">
-					<font size="8"/>
+					<font size="6"/>
 				</textElement>
 				<text><![CDATA[Kembali :]]></text>
 			</staticText>
 			<staticText>
 				<reportElement uuid="72b0bcc7-6f43-48a5-9243-411742a8835b" x="100" y="21" width="31" height="12"/>
 				<textElement textAlignment="Right">
-					<font size="8"/>
+					<font size="6"/>
 				</textElement>
 				<text><![CDATA[Bayar :]]></text>
 			</staticText>
 			<staticText>
 				<reportElement uuid="72b0bcc7-6f43-48a5-9243-411742a8835b" x="103" y="9" width="28" height="12"/>
 				<textElement textAlignment="Right">
-					<font size="8"/>
+					<font size="6"/>
 				</textElement>
 				<text><![CDATA[Total :]]></text>
 			</staticText>
-			<textField>
-				<reportElement uuid="3758314f-9550-4dfc-9d61-14a214067b60" x="137" y="9" width="46" height="12"/>
-				<textElement textAlignment="Right" verticalAlignment="Middle">
-					<font size="8"/>
-					<paragraph rightIndent="3"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$P{total}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement uuid="0ba2b896-1d57-4931-9c4b-cb915ffca3b1" x="137" y="21" width="46" height="12"/>
-				<textElement textAlignment="Right" verticalAlignment="Middle">
-					<font size="8"/>
-					<paragraph rightIndent="3"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$P{bayar}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement uuid="a64ba710-9773-4dbf-a3c9-eb0632a65e39" x="137" y="33" width="46" height="12"/>
-				<textElement textAlignment="Right" verticalAlignment="Middle">
-					<font size="8"/>
-					<paragraph rightIndent="3"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$P{kembali}]]></textFieldExpression>
-			</textField>
 			<staticText>
 				<reportElement uuid="0325ee6c-307c-4272-bedd-1330aa958b4d" x="42" y="45" width="100" height="16"/>
 				<textElement textAlignment="Center" verticalAlignment="Bottom">
-					<font size="8"/>
+					<font size="6"/>
 				</textElement>
 				<text><![CDATA[Terima Atas Kunjungan]]></text>
 			</staticText>
@@ -230,6 +206,30 @@ Telp 0878 8579 6712]]></text>
 			<line>
 				<reportElement uuid="f00fdbaf-2e3e-4f84-abb6-e4779e897d3d" x="91" y="4" width="91" height="1"/>
 			</line>
+			<textField>
+				<reportElement uuid="51e9fca2-6f47-484e-bf53-0b32a254a2f9" x="136" y="9" width="47" height="12"/>
+				<textElement textAlignment="Right">
+					<font size="6"/>
+					<paragraph rightIndent="2"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{total}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="1f406a8c-e9df-40d3-9b55-14264fa51e34" x="136" y="21" width="47" height="12"/>
+				<textElement textAlignment="Right">
+					<font size="6"/>
+					<paragraph rightIndent="2"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{bayar}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="9f689564-ae6f-4655-9037-cac3af58f00c" x="136" y="33" width="47" height="12"/>
+				<textElement textAlignment="Right">
+					<font size="6"/>
+					<paragraph rightIndent="2"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{kembali}]]></textFieldExpression>
+			</textField>
 		</band>
 	</columnFooter>
 </jasperReport>

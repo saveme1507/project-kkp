@@ -1,7 +1,9 @@
 package config;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.GregorianCalendar;
 
 /**
@@ -38,6 +40,42 @@ public class CurrentDate {
         GregorianCalendar date =  new GregorianCalendar();
         jam = date.get(Calendar.HOUR_OF_DAY);
         return jam;
+    }
+    
+      public static String tglSql_toFormatTb(String dateSql) {
+        int hari, bulan, tahun;
+        SimpleDateFormat formatInput = new SimpleDateFormat("yyyy-MM-dd");
+        String dateHasil = null;
+        try {
+            Date dateInput = formatInput.parse(dateSql);
+            GregorianCalendar date = (GregorianCalendar) GregorianCalendar.getInstance();
+            date.setTime(dateInput);
+            String namabulan[] = {"Jan", "Feb", "Mar", "Apr", "Mei", "Jun", "Jul", "Agu", "Sep", "Okt", "Nov", "Des"};
+            hari = date.get(Calendar.DAY_OF_MONTH);
+            bulan = date.get(Calendar.MONTH);
+            tahun = date.get(Calendar.YEAR);
+            dateHasil =String.valueOf(hari + " " + namabulan[bulan]+ " " + tahun);
+        }catch (ParseException e) {
+        }
+        return dateHasil;
+    }
+      
+        public static String tglSql_toString(String dateSql) {
+        int hari, bulan, tahun;
+        SimpleDateFormat formatInput = new SimpleDateFormat("yyyy-MM-dd");
+        String dateHasil = null;
+        try {
+            Date dateInput = formatInput.parse(dateSql);
+            GregorianCalendar date = (GregorianCalendar) GregorianCalendar.getInstance();
+            date.setTime(dateInput);
+            String namabulan[] = {"Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"};
+            hari = date.get(Calendar.DAY_OF_MONTH);
+            bulan = date.get(Calendar.MONTH);
+            tahun = date.get(Calendar.YEAR);
+            dateHasil =String.valueOf(hari + " " + namabulan[bulan]+ " " + tahun);
+        }catch (ParseException e) {
+        }
+        return dateHasil;
     }
     
 }

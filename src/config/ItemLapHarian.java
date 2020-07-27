@@ -5,10 +5,10 @@ package config;
  * @author saveme
  */
 public class ItemLapHarian {
-    int noTransaksi,jumlah;
-    String tanggal;
+    int noTransaksi;
+    String tanggal,jumlah;
 
-    public ItemLapHarian(int noTransaksi, String tanggal, int jumlah) {
+    public ItemLapHarian(int noTransaksi, String tanggal, String jumlah) {
         this.noTransaksi = noTransaksi;
         this.jumlah = jumlah;
         this.tanggal = tanggal;
@@ -22,11 +22,11 @@ public class ItemLapHarian {
         this.noTransaksi = noTransaksi;
     }
 
-    public int getJumlah() {
+    public String getJumlah() {
         return jumlah;
     }
 
-    public void setJumlah(int jumlah) {
+    public void setJumlah(String jumlah) {
         this.jumlah = jumlah;
     }
 

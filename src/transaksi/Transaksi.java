@@ -37,6 +37,7 @@ public class Transaksi extends javax.swing.JFrame {
     private final Connection conn = Koneksi_1.con();
     DefaultTableModel tabMode;
     DecimalFormat df = new DecimalFormat("##,###,###.-");
+    DecimalFormat dff = new DecimalFormat("Rp ###,###,###.-");
     double total, bayar, kembali;
 
     public Transaksi() {
@@ -120,17 +121,17 @@ public class Transaksi extends javax.swing.JFrame {
             for (int i = 0; i < model.getRowCount(); i++) {
                 itemStruk = new ItemStruk(
                         model.getValueAt(i, 1).toString(),
-                        Integer.parseInt(model.getValueAt(i, 2).toString()),
+                        dff.format(Integer.parseInt(model.getValueAt(i, 2).toString())),
                         Integer.parseInt(model.getValueAt(i, 3).toString()),
-                        Integer.parseInt(model.getValueAt(i, 4).toString().replace(",", "").replace("-", "").replace(".", ""))
+                        dff.format(Integer.parseInt(model.getValueAt(i, 4).toString().replace(",", "").replace("-", "").replace(".", "")))
                 );
                 itemList.add(itemStruk);
             }
             Map map = new HashMap();
             map.put("noTransaksi", Integer.parseInt(tx_no.getText()));
-            map.put("total", Integer.parseInt(tx_total.getText().replace(",", "").replace("-", "").replace(".", "")));
-            map.put("bayar", Integer.parseInt(tx_bayar.getText()));
-            map.put("kembali", Integer.parseInt(tx_kembali.getText().replace(",", "").replace("-", "").replace(".", "")));
+            map.put("total", dff.format(Integer.parseInt(tx_total.getText().replace(",", "").replace("-", "").replace(".", ""))));
+            map.put("bayar", dff.format(Integer.parseInt(tx_bayar.getText())));
+            map.put("kembali", dff.format(Integer.parseInt(tx_kembali.getText().replace(",", "").replace("-", "").replace(".", ""))));
             File file = new File("src/report/LapStrukPembelian.jrxml");
             JasperDesign jasperDesign = JRXmlLoader.load(file);
             JasperReport jasperReport = JasperCompileManager.compileReport(jasperDesign);

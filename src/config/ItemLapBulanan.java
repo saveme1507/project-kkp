@@ -11,10 +11,10 @@ package config;
  */
 public class ItemLapBulanan {
 
-    int no, jml_transaksi, jml_pendapatan;
-    String tanggal;
+    int no, jml_transaksi;
+    String tanggal, jml_pendapatan;
 
-    public ItemLapBulanan(int no, int jml_transaksi, int jml_pendapatan, String tanggal) {
+    public ItemLapBulanan(int no, int jml_transaksi, String jml_pendapatan, String tanggal) {
         this.no = no;
         this.jml_transaksi = jml_transaksi;
         this.jml_pendapatan = jml_pendapatan;
@@ -37,11 +37,11 @@ public class ItemLapBulanan {
         this.jml_transaksi = jml_transaksi;
     }
 
-    public int getJml_pendapatan() {
+    public String getJml_pendapatan() {
         return jml_pendapatan;
     }
 
-    public void setJml_pendapatan(int jml_pendapatan) {
+    public void setJml_pendapatan(String jml_pendapatan) {
         this.jml_pendapatan = jml_pendapatan;
     }
 

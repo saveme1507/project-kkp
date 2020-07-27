@@ -1,10 +1,10 @@
 package config;
 
 public class ItemStruk {
-    String namaPd;
-    int harga, qty,jumlah;
+    String namaPd,harga,jumlah;
+    int qty;
 
-    public ItemStruk(String namaPd, int harga, int qty, int jumlah) {
+    public ItemStruk(String namaPd, String harga, int qty, String jumlah) {
         this.namaPd = namaPd;
         this.harga = harga;
         this.qty = qty;
@@ -19,14 +19,6 @@ public class ItemStruk {
         this.namaPd = namaPd;
     }
 
-    public int getHarga() {
-        return harga;
-    }
-
-    public void setHarga(int harga) {
-        this.harga = harga;
-    }
-
     public int getQty() {
         return qty;
     }
@@ -35,13 +27,22 @@ public class ItemStruk {
         this.qty = qty;
     }
 
-    public int getJumlah() {
+    public String getHarga() {
+        return harga;
+    }
+
+    public void setHarga(String harga) {
+        this.harga = harga;
+    }
+
+    public String getJumlah() {
         return jumlah;
     }
 
-    public void setJumlah(int jumlah) {
+    public void setJumlah(String jumlah) {
         this.jumlah = jumlah;
     }
+
     
     
 }

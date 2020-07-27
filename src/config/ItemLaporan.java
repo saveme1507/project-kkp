@@ -3,10 +3,10 @@ package config;
 import java.util.ArrayList;
 
 public class ItemLaporan {
-    String kode,nama;
-    int harga,stok;
+    String kode,nama,harga;
+    int stok;
 
-    public ItemLaporan(String kode, String nama, int harga, int stok) {
+    public ItemLaporan(String kode, String nama, String harga, int stok) {
         this.kode = kode;
         this.nama = nama;
         this.harga = harga;
@@ -29,11 +29,11 @@ public class ItemLaporan {
         this.nama = nama;
     }
 
-    public int getHarga() {
+    public String getHarga() {
         return harga;
     }
 
-    public void setHarga(int harga) {
+    public void setHarga(String harga) {
         this.harga = harga;
     }
 

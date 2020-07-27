@@ -2,14 +2,14 @@ package transaksi;
 
 import config.CurrentDate;
 import config.ItemLapBulanan;
-import config.ItemLapHarian;
 import config.Koneksi_1;
 import java.io.File;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.text.SimpleDateFormat;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.Map;
 import javax.swing.SwingConstants;
@@ -27,12 +27,14 @@ import net.sf.jasperreports.engine.xml.JRXmlLoader;
 import net.sf.jasperreports.view.JasperViewer;
 
 public class LaporanBulanan extends javax.swing.JFrame {
-
+    DecimalFormat dff = new DecimalFormat("Rp ###,###,###.-");
+    GregorianCalendar date = new GregorianCalendar();
     public LaporanBulanan() {
         initComponents();
-        jMonthChooser1.setMonth(Calendar.MONTH);
-        jYearChooser1.setYear(Calendar.YEAR);
+        jMonthChooser1.setMonth(Calendar.getInstance().getTime().getMonth());
+        jYearChooser1.setYear(Calendar.getInstance().getTime().getYear());
         dataTabel();
+        System.out.println(String.valueOf(Calendar.getInstance().getTime().getMonth()));
     }
 
     private void dataTabel() {
@@ -68,6 +70,16 @@ public class LaporanBulanan extends javax.swing.JFrame {
                 tx_total.setText(String.valueOf(j));
             }
             settingKolom();
+            if (jTable1.getModel().getRowCount()==0) {
+                bt_cetak.setVisible(false);
+                bt_cetak1.setVisible(false);
+            }else if (jTable1.getModel().getRowCount() !=0 && jMonthChooser1.getMonth()==date.get(Calendar.MONTH)) {
+                bt_cetak.setVisible(true);
+                bt_cetak1.setVisible(true);
+            }else if(jTable1.getModel().getRowCount() !=0 ){
+                bt_cetak.setVisible(true);
+                bt_cetak1.setVisible(false);
+            }
         } catch (SQLException e) {
             System.out.println(e);
         }
@@ -84,7 +96,7 @@ public class LaporanBulanan extends javax.swing.JFrame {
                 column = jTable1.getColumnModel().getColumn(2); 
                 column.setPreferredWidth(150);
                 column = jTable1.getColumnModel().getColumn(3); 
-                column.setPreferredWidth(150);
+                column.setPreferredWidth(149);
                 
                 // align kolom
                 DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
@@ -112,6 +124,7 @@ public class LaporanBulanan extends javax.swing.JFrame {
         jMonthChooser1 = new com.toedter.calendar.JMonthChooser();
         jYearChooser1 = new com.toedter.calendar.JYearChooser();
         bt_cetak = new javax.swing.JButton();
+        bt_cetak1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -126,7 +139,7 @@ public class LaporanBulanan extends javax.swing.JFrame {
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addContainerGap(248, Short.MAX_VALUE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel1)
                 .addGap(202, 202, 202))
         );
@@ -190,6 +203,13 @@ public class LaporanBulanan extends javax.swing.JFrame {
             }
         });
 
+        bt_cetak1.setText("BUAT LAPORAN LABA");
+        bt_cetak1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bt_cetak1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -205,7 +225,8 @@ public class LaporanBulanan extends javax.swing.JFrame {
                         .addComponent(jYearChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(bt_tampil)
-                        .addGap(0, 0, Short.MAX_VALUE))
+                        .addGap(404, 404, 404)
+                        .addComponent(bt_cetak1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(bt_cetak)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -223,7 +244,8 @@ public class LaporanBulanan extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
                     .addComponent(bt_tampil, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jYearChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jMonthChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jMonthChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(bt_cetak1, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 499, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -266,14 +288,14 @@ public class LaporanBulanan extends javax.swing.JFrame {
                 itemLapBulanan = new ItemLapBulanan(
                         Integer.parseInt(model.getValueAt(i, 0).toString()),
                         Integer.parseInt(model.getValueAt(i, 2).toString()),
-                        Integer.parseInt(model.getValueAt(i, 3).toString()),
-                        model.getValueAt(i, 1).toString()
+                       dff.format( Integer.parseInt(model.getValueAt(i, 3).toString())),
+                        CurrentDate.tglSql_toFormatTb(model.getValueAt(i, 1).toString())
                 );
                 itemList.add(itemLapBulanan);
             }
             Map map = new HashMap();
             map.put("periode",config.CurrentDate.periodeBulan(jMonthChooser1.getMonth())+" "+jYearChooser1.getYear());
-            map.put("total", Integer.parseInt(tx_total.getText()));
+            map.put("total", dff.format(Integer.parseInt(tx_total.getText())));
             File file = new File("src/report/LaporanBulanan.jrxml");
             JasperDesign jasperDesign = JRXmlLoader.load(file);
             JasperReport jasperReport = JasperCompileManager.compileReport(jasperDesign);
@@ -282,9 +304,19 @@ public class LaporanBulanan extends javax.swing.JFrame {
 
         } catch (JRException e) {
             System.out.println(e);
-
         }
     }//GEN-LAST:event_bt_cetakActionPerformed
+
+    private void bt_cetak1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_cetak1ActionPerformed
+        int total = 0;
+        String jumlah;
+        for (int i = 0; i < jTable1.getModel().getRowCount(); i++) {
+            jumlah = jTable1.getModel().getValueAt(i, 3).toString();
+            total += Integer.parseInt(jumlah);
+        }
+        LaporanLaba.setPendapatan(String.valueOf(total));
+        new LaporanLaba().setVisible(true);
+    }//GEN-LAST:event_bt_cetak1ActionPerformed
 
     public static void main(String args[]) {
         java.awt.EventQueue.invokeLater(new Runnable() {
@@ -296,6 +328,7 @@ public class LaporanBulanan extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton bt_cetak;
+    private javax.swing.JButton bt_cetak1;
     private javax.swing.JButton bt_tampil;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;

@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="240ca171-8356-4b76-93d9-785b3a1ce47d">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="pendapatan" class="java.lang.String"/>
+	<parameter name="omset" class="java.lang.String"/>
+	<parameter name="gaji" class="java.lang.String"/>
+	<parameter name="pengiriman" class="java.lang.String"/>
+	<parameter name="tempat" class="java.lang.String"/>
+	<parameter name="bahan" class="java.lang.String"/>
+	<parameter name="totOut" class="java.lang.String"/>
+	<parameter name="bersih" class="java.lang.String"/>
+	<field name="nama" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="62" splitType="Stretch">
+			<staticText>
+				<reportElement uuid="13593612-1951-4058-ac84-e9361b456197" x="148" y="33" width="261" height="27" forecolor="#333333"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="9"/>
+				</textElement>
+				<text><![CDATA[JL. MERUYA ILIR, PASAR PENGAMPUNGAN MERUYA 
+JAKARTA BARAT Telp 0878 8579 6712]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="0abbe72b-025b-4131-82cf-cb762cf55130" x="207" y="11" width="142" height="24" forecolor="#333333"/>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font fontName="Algerian" size="16" isBold="true"/>
+				</textElement>
+				<text><![CDATA[BERKAH BUANA]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="0abbe72b-025b-4131-82cf-cb762cf55130" x="211" y="4" width="135" height="26" forecolor="#333333"/>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font size="12" isBold="true" isItalic="false"/>
+				</textElement>
+				<text><![CDATA[RUMAH MAKAN]]></text>
+			</staticText>
+			<line>
+				<reportElement uuid="2073f76f-e567-42d4-9d50-b9b6d88fc5db" x="0" y="60" width="555" height="1"/>
+			</line>
+		</band>
+	</title>
+	<columnHeader>
+		<band height="54" splitType="Stretch">
+			<staticText>
+				<reportElement uuid="35b80e4a-0e02-40f4-b4cf-6b4f2cd10637" x="0" y="0" width="555" height="37"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[LAPORAN LABA]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="286" splitType="Stretch">
+			<textField>
+				<reportElement uuid="567008a5-150f-4e8d-8dd6-5097b1915078" x="107" y="20" width="276" height="20"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{pendapatan}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="10aed823-20e5-4b7d-b0c5-8151e4f36138" x="64" y="0" width="100" height="20"/>
+				<textElement>
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Pendapatan]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="10aed823-20e5-4b7d-b0c5-8151e4f36138" x="64" y="51" width="100" height="20"/>
+				<textElement>
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Pengeluaran]]></text>
+			</staticText>
+			<textField>
+				<reportElement uuid="777e9b76-5154-47ef-b843-07acc5da5a17" x="383" y="20" width="100" height="20"/>
+				<textElement textAlignment="Right">
+					<font isBold="true"/>
+					<paragraph rightIndent="3"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{omset}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="af3bb6a2-0620-4b6e-9d1c-3ecba5a19b5d" x="383" y="71" width="100" height="20"/>
+				<textElement textAlignment="Right">
+					<paragraph rightIndent="3"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{gaji}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="4ee7c82e-be39-4878-96d9-115bb1b545d0" x="383" y="96" width="100" height="20"/>
+				<textElement textAlignment="Right">
+					<paragraph rightIndent="3"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{pengiriman}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="a7fc3f5b-5185-476b-98ee-7f19f4938367" x="383" y="121" width="100" height="20"/>
+				<textElement textAlignment="Right">
+					<paragraph rightIndent="3"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{tempat}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="ed6cc727-cf03-40f5-b5bf-cb57ccdef60e" x="383" y="146" width="100" height="20"/>
+				<textElement textAlignment="Right">
+					<paragraph rightIndent="3"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{bahan}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="b4d31909-f832-40e2-9396-bc0f75012513" x="383" y="177" width="100" height="20"/>
+				<textElement textAlignment="Right">
+					<font isBold="true"/>
+					<paragraph rightIndent="3"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{totOut}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="ebdfdc24-08f5-4dce-b2f7-fdb5587f613e" x="107" y="71" width="276" height="20"/>
+				<textElement/>
+				<text><![CDATA[Gaji Karyawan]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="ebdfdc24-08f5-4dce-b2f7-fdb5587f613e" x="107" y="96" width="276" height="20"/>
+				<textElement/>
+				<text><![CDATA[Biaya Pengiriman]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="ebdfdc24-08f5-4dce-b2f7-fdb5587f613e" x="107" y="121" width="276" height="20"/>
+				<textElement/>
+				<text><![CDATA[Biaya Sewa Tempat]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="ebdfdc24-08f5-4dce-b2f7-fdb5587f613e" x="107" y="146" width="276" height="20"/>
+				<textElement/>
+				<text><![CDATA[Pembelian Bahan Baku]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="ebdfdc24-08f5-4dce-b2f7-fdb5587f613e" x="270" y="177" width="113" height="20"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Total Pengeluaran]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="ebdfdc24-08f5-4dce-b2f7-fdb5587f613e" x="270" y="207" width="113" height="20"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Laba Bersih]]></text>
+			</staticText>
+			<textField>
+				<reportElement uuid="4e823afa-5b41-4e2e-8731-2a6541bc1f6a" x="383" y="207" width="100" height="20"/>
+				<textElement textAlignment="Right">
+					<font isBold="true"/>
+					<paragraph rightIndent="3"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{bersih}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="45" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="54" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>

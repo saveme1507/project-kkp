@@ -8,10 +8,13 @@ import java.io.File;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.DateFormat;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
@@ -20,6 +23,7 @@ import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
+import javax.swing.text.DateFormatter;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.JasperFillManager;
@@ -32,11 +36,13 @@ import net.sf.jasperreports.view.JasperViewer;
 
 public class LaporanHarian extends javax.swing.JFrame {
 
+    DecimalFormat dff = new DecimalFormat("Rp ###,###,###.-");
+
     public LaporanHarian() {
         initComponents();
         jDateChooser1.setDate(Calendar.getInstance().getTime());
         dataTabel();
-        
+
     }
 
     private void dataTabel() {
@@ -49,7 +55,7 @@ public class LaporanHarian extends javax.swing.JFrame {
             while (hasil.next()) {
                 model.addRow(new Object[]{
                     hasil.getString("trh_no_transaksi"),
-                    hasil.getString("trh_updatedate"),
+                    CurrentDate.tglSql_toFormatTb(hasil.getString("trh_updatedate")),
                     hasil.getString("trh_total")
                 });
                 j += Integer.parseInt(hasil.getString("trh_total"));
@@ -61,11 +67,14 @@ public class LaporanHarian extends javax.swing.JFrame {
             ResultSet rs = Koneksi_1.con_stat().executeQuery(cek);
             if (rs.next()) {
                 bt_simpan.setVisible(false);
+                bt_cetak.setVisible(true);
             } else {
-                if(jTable1.getRowCount()<=0){
+                if (jTable1.getRowCount() <= 0) {
                     bt_simpan.setVisible(false);
-                }else{
+                    bt_cetak.setVisible(false);
+                } else {
                     bt_simpan.setVisible(true);
+                    bt_cetak.setVisible(true);
                 }
             }
             settingKolom();
@@ -73,25 +82,26 @@ public class LaporanHarian extends javax.swing.JFrame {
             System.out.println(e);
         }
     }
-    
-      public void settingKolom(){
-                // align kolom
-                DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
-                DefaultTableCellRenderer rightRenderer = new DefaultTableCellRenderer();
-                centerRenderer.setHorizontalAlignment( SwingConstants.CENTER );
-                rightRenderer.setHorizontalAlignment(SwingConstants.RIGHT);
-                jTable1.getColumnModel().getColumn(0).setCellRenderer( centerRenderer );
-                jTable1.getColumnModel().getColumn(2).setCellRenderer( rightRenderer );
-        }
+
+    public void settingKolom() {
+        // align kolom
+        DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+        DefaultTableCellRenderer rightRenderer = new DefaultTableCellRenderer();
+        centerRenderer.setHorizontalAlignment(SwingConstants.CENTER);
+        rightRenderer.setHorizontalAlignment(SwingConstants.RIGHT);
+        jTable1.getColumnModel().getColumn(0).setCellRenderer(centerRenderer);
+        jTable1.getColumnModel().getColumn(1).setCellRenderer(centerRenderer);
+        jTable1.getColumnModel().getColumn(2).setCellRenderer(rightRenderer);
+    }
 
     private String dateChose() {
         SimpleDateFormat dcn = new SimpleDateFormat("yyyy-MM-dd");
         String date = dcn.format(jDateChooser1.getDate());
         return date;
     }
-    
+
     public static boolean cekArray(String[] arr, String targetValue) {
-	return Arrays.asList(arr).contains(targetValue);
+        return Arrays.asList(arr).contains(targetValue);
     }
 
     @SuppressWarnings("unchecked")
@@ -258,7 +268,7 @@ public class LaporanHarian extends javax.swing.JFrame {
             String sql = "INSERT INTO laporan(lph_tanggal,lph_transaksi,lph_total) VALUES(?,?,?)";
             PreparedStatement ps = Koneksi_1.con().prepareStatement(sql);
             for (int i = 0; i < model.getRowCount(); i++) {
-                ps.setString(1, model.getValueAt(i, 1).toString());
+                ps.setString(1, dateChose());
                 ps.setString(2, model.getValueAt(i, 0).toString());
                 ps.setString(3, model.getValueAt(i, 2).toString());
                 ps.executeUpdate();
@@ -280,17 +290,16 @@ public class LaporanHarian extends javax.swing.JFrame {
             ItemLapHarian itemLapHarian;
             itemList.clear();
             for (int i = 0; i < model.getRowCount(); i++) {
-                int no = i + 1;
                 itemLapHarian = new ItemLapHarian(
                         Integer.parseInt(model.getValueAt(i, 0).toString()),
                         model.getValueAt(i, 1).toString(),
-                        Integer.parseInt(model.getValueAt(i, 2).toString())
+                        dff.format(Integer.parseInt(model.getValueAt(i, 2).toString()))
                 );
                 itemList.add(itemLapHarian);
             }
             Map map = new HashMap();
-            map.put("tgl_harian", CurrentDate.tgl_skrg_string());
-            map.put("total_harian", Integer.parseInt(tx_total.getText()));
+            map.put("tgl_harian", CurrentDate.tglSql_toString(dateChose()));
+            map.put("total_harian", dff.format(Integer.parseInt(tx_total.getText())));
             File file = new File("src/report/LaporanHarian.jrxml");
             JasperDesign jasperDesign = JRXmlLoader.load(file);
             JasperReport jasperReport = JasperCompileManager.compileReport(jasperDesign);

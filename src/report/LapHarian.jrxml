@@ -76,7 +76,7 @@
 	<queryString>
 		<![CDATA[]]>
 	</queryString>
-	<field name="harga" class="java.lang.Integer">
+	<field name="harga" class="java.lang.String">
 		<fieldDescription><![CDATA[harga]]></fieldDescription>
 	</field>
 	<field name="kode" class="java.lang.String">
@@ -144,21 +144,21 @@ JAKARTA BARAT Telp 0878 8579 6712]]></text>
 				<text><![CDATA[KODE]]></text>
 			</staticText>
 			<staticText>
-				<reportElement uuid="7cb5dbc0-e24e-4918-83b5-ddf96e25c512" style="Table_TH" mode="Opaque" x="110" y="0" width="240" height="19" backcolor="#CCCCFF"/>
+				<reportElement uuid="7cb5dbc0-e24e-4918-83b5-ddf96e25c512" style="Table_TH" mode="Opaque" x="110" y="0" width="235" height="19" backcolor="#CCCCFF"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font isBold="true"/>
 				</textElement>
 				<text><![CDATA[PRODUK]]></text>
 			</staticText>
 			<staticText>
-				<reportElement uuid="b7fd16b1-3936-48c5-ae83-9ca700aa9e27" style="Table_TH" mode="Opaque" x="350" y="0" width="57" height="19" backcolor="#CCCCFF"/>
+				<reportElement uuid="b7fd16b1-3936-48c5-ae83-9ca700aa9e27" style="Table_TH" mode="Opaque" x="345" y="0" width="80" height="19" backcolor="#CCCCFF"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font isBold="true"/>
 				</textElement>
 				<text><![CDATA[HARGA]]></text>
 			</staticText>
 			<staticText>
-				<reportElement uuid="d7c98641-2bfa-4407-8d16-178287d9fb60" style="Table_TH" mode="Opaque" x="407" y="0" width="72" height="19" backcolor="#CCCCFF"/>
+				<reportElement uuid="d7c98641-2bfa-4407-8d16-178287d9fb60" style="Table_TH" mode="Opaque" x="425" y="0" width="54" height="19" backcolor="#CCCCFF"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font isBold="true"/>
 				</textElement>
@@ -174,23 +174,23 @@ JAKARTA BARAT Telp 0878 8579 6712]]></text>
 				<textFieldExpression><![CDATA[$F{kode}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement uuid="3936351f-4086-4168-b79c-284cf07fbc81" style="Table_TD" mode="Opaque" x="350" y="0" width="57" height="17"/>
-				<textElement textAlignment="Right" verticalAlignment="Middle">
-					<paragraph rightIndent="5"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{harga}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement uuid="0276849f-29f8-4ed1-9786-51be16888860" style="Table_TD" x="110" y="0" width="240" height="17"/>
+				<reportElement uuid="0276849f-29f8-4ed1-9786-51be16888860" style="Table_TD" x="110" y="0" width="235" height="17"/>
 				<textElement verticalAlignment="Middle">
 					<paragraph leftIndent="5"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{nama}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement uuid="b4148020-429f-4412-a2f3-aab0bf733ee5" style="Table_TD" x="407" y="0" width="72" height="17"/>
+				<reportElement uuid="b4148020-429f-4412-a2f3-aab0bf733ee5" style="Table_TD" x="424" y="0" width="55" height="17"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$F{stok}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="3e7f7864-9837-4285-a85d-32fb1e3c7fc2" style="Table_TD" x="345" y="0" width="80" height="17"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<paragraph rightIndent="2"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{harga}]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>
