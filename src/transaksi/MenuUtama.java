@@ -1,5 +1,6 @@
 package transaksi;
 
+import config.CurrentDate;
 import config.ItemLaporan;
 import config.Koneksi_1;
 import java.awt.List;
@@ -422,7 +423,9 @@ public class MenuUtama extends javax.swing.JFrame {
                 itemList.add(itemLaporan);
             }
             Map map = new HashMap();
-            map.put("tanggal", config.CurrentDate.tgl_skrg_string());
+            map.put("tanggal", "SISA STOK "+config.CurrentDate.tgl_skrg_string());
+            map.put("ttd", CurrentDate.tgl_skrng_ttd());
+            map.put("user", MenuUtama.getNama_user());
             File file = new File("src/report/LapHarian.jrxml");
             
             JasperDesign jasperDesign = JRXmlLoader.load(file);

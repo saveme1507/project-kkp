@@ -34,15 +34,15 @@ public class CurrentDate {
         String periode = namabulan[bulan].toUpperCase();
         return periode;
     }
-    
-    public static int jam(){
+
+    public static int jam() {
         int jam;
-        GregorianCalendar date =  new GregorianCalendar();
+        GregorianCalendar date = new GregorianCalendar();
         jam = date.get(Calendar.HOUR_OF_DAY);
         return jam;
     }
-    
-      public static String tglSql_toFormatTb(String dateSql) {
+
+    public static String tglSql_toFormatTb(String dateSql) {
         int hari, bulan, tahun;
         SimpleDateFormat formatInput = new SimpleDateFormat("yyyy-MM-dd");
         String dateHasil = null;
@@ -54,13 +54,13 @@ public class CurrentDate {
             hari = date.get(Calendar.DAY_OF_MONTH);
             bulan = date.get(Calendar.MONTH);
             tahun = date.get(Calendar.YEAR);
-            dateHasil =String.valueOf(hari + " " + namabulan[bulan]+ " " + tahun);
-        }catch (ParseException e) {
+            dateHasil = String.valueOf(hari + " " + namabulan[bulan] + " " + tahun);
+        } catch (ParseException e) {
         }
         return dateHasil;
     }
-      
-        public static String tglSql_toString(String dateSql) {
+
+    public static String tglSql_toString(String dateSql) {
         int hari, bulan, tahun;
         SimpleDateFormat formatInput = new SimpleDateFormat("yyyy-MM-dd");
         String dateHasil = null;
@@ -72,10 +72,43 @@ public class CurrentDate {
             hari = date.get(Calendar.DAY_OF_MONTH);
             bulan = date.get(Calendar.MONTH);
             tahun = date.get(Calendar.YEAR);
-            dateHasil =String.valueOf(hari + " " + namabulan[bulan]+ " " + tahun);
-        }catch (ParseException e) {
+            dateHasil = String.valueOf(hari + " " + namabulan[bulan] + " " + tahun);
+        } catch (ParseException e) {
         }
         return dateHasil;
     }
-    
+
+    public static String tgl_skrng_ttd() {
+        int hari, tgl, bulan, tahun;
+        GregorianCalendar date = new GregorianCalendar();
+        String namaHari[] = {"Senin", "Selasa", "Rabu", "Kamis", "Jum'at", "Sabtu", "Minggu"};
+        String namabulan[] = {"Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"};
+        hari = date.get(Calendar.DAY_OF_WEEK);
+        tgl = date.get(Calendar.DAY_OF_MONTH);
+        bulan = date.get(Calendar.MONTH);
+        tahun = date.get(Calendar.YEAR);
+        String tglSekarang = "Jakarta, " + namaHari[hari] + " " + String.valueOf(tgl + " " + namabulan[bulan] + " " + tahun);
+        return tglSekarang;
+    }
+
+    public static String tglSql_toString_ttd(String dateSql) {
+        int hari,tgl, bulan, tahun;
+        SimpleDateFormat formatInput = new SimpleDateFormat("yyyy-MM-dd");
+        String dateHasil = null;
+        try {
+            Date dateInput = formatInput.parse(dateSql);
+            GregorianCalendar date = (GregorianCalendar) GregorianCalendar.getInstance();
+            date.setTime(dateInput);
+             String namaHari[] = {"Senin", "Selasa", "Rabu", "Kamis", "Jum'at", "Sabtu", "Minggu"};
+            String namabulan[] = {"Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"};
+            hari = date.get(Calendar.DAY_OF_WEEK);
+            tgl = date.get(Calendar.DAY_OF_MONTH);
+            bulan = date.get(Calendar.MONTH);
+            tahun = date.get(Calendar.YEAR);
+            dateHasil = "Jakarta, "+namaHari[hari]+" "+String.valueOf(tgl + " " + namabulan[bulan] + " " + tahun);
+        } catch (ParseException e) {
+        }
+        return dateHasil;
+    }
+
 }

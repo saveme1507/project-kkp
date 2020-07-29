@@ -275,6 +275,8 @@ public class LaporanLaba extends javax.swing.JFrame {
             map.put("bahan",String.valueOf(df.format(nominal(tx_bahanBaku))));
             map.put("totOut",String.valueOf(df.format(nominal(tx_gajiKry)+nominal(tx_biayaPeng)+nominal(tx_sewaTemp)+nominal(tx_bahanBaku))));
             map.put("bersih", String.valueOf(df.format(nominal(tx_labaBers))));
+            map.put("tgl", CurrentDate.tgl_skrng_ttd());
+            map.put("user", MenuUtama.getNama_user());
             File file = new File("src/report/LaporanLaba.jrxml");
             JasperDesign jasperDesign = JRXmlLoader.load(file);
             JasperReport jasperReport = JasperCompileManager.compileReport(jasperDesign);

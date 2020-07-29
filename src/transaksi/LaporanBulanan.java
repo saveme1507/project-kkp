@@ -296,6 +296,8 @@ public class LaporanBulanan extends javax.swing.JFrame {
             Map map = new HashMap();
             map.put("periode",config.CurrentDate.periodeBulan(jMonthChooser1.getMonth())+" "+jYearChooser1.getYear());
             map.put("total", dff.format(Integer.parseInt(tx_total.getText())));
+            map.put("tgl", CurrentDate.tgl_skrng_ttd());
+            map.put("user", MenuUtama.getNama_user());
             File file = new File("src/report/LaporanBulanan.jrxml");
             JasperDesign jasperDesign = JRXmlLoader.load(file);
             JasperReport jasperReport = JasperCompileManager.compileReport(jasperDesign);
