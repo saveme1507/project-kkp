@@ -164,7 +164,7 @@ JAKARTA BARAT Telp 0878 8579 6712]]></text>
 		</band>
 	</columnFooter>
 	<lastPageFooter>
-		<band height="113">
+		<band height="128">
 			<textField>
 				<reportElement uuid="a5e5e322-3944-4517-966e-36587a0df9b9" x="334" y="0" width="179" height="20"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle"/>

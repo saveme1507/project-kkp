@@ -19,7 +19,11 @@ public class Test {
     static String s = "12";
 
     public static void main(String[] args) {
-        System.out.println(tgl_skrng_ttd());
+        int ka=0;
+        for (int i = 0; i < 10; i++) {
+            ka += 2;
+            System.out.println(String.valueOf(ka));
+        }
     }
 
     static boolean cekInteger(String s) {

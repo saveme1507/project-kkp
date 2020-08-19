@@ -28,6 +28,16 @@ public class CurrentDate {
         String tglSekarang = String.valueOf(hari + " " + namabulan[bulan].toUpperCase() + " " + tahun);
         return tglSekarang;
     }
+     public static String tgl_skrg_string_lowerCase() {
+        int hari, bulan, tahun;
+        GregorianCalendar date = new GregorianCalendar();
+        String namabulan[] = {"Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"};
+        hari = date.get(Calendar.DAY_OF_MONTH);
+        bulan = date.get(Calendar.MONTH);
+        tahun = date.get(Calendar.YEAR);
+        String tglSekarang = String.valueOf(hari + " " + namabulan[bulan] + " " + tahun);
+        return tglSekarang;
+    }
 
     public static String periodeBulan(int bulan) {
         String namabulan[] = {"Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"};
@@ -81,7 +91,7 @@ public class CurrentDate {
     public static String tgl_skrng_ttd() {
         int hari, tgl, bulan, tahun;
         GregorianCalendar date = new GregorianCalendar();
-        String namaHari[] = {"Senin", "Selasa", "Rabu", "Kamis", "Jum'at", "Sabtu", "Minggu"};
+        String namaHari[] = {"Sabtu", "Minggu","Senin", "Selasa", "Rabu", "Kamis", "Jum'at"};
         String namabulan[] = {"Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"};
         hari = date.get(Calendar.DAY_OF_WEEK);
         tgl = date.get(Calendar.DAY_OF_MONTH);

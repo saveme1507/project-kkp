@@ -162,7 +162,7 @@ JAKARTA BARAT Telp 0878 8579 6712]]></text>
 		</band>
 	</detail>
 	<lastPageFooter>
-		<band height="121">
+		<band height="150">
 			<textField>
 				<reportElement uuid="fde5f081-9934-4da0-ab5c-3f4188c17f0f" x="346" y="0" width="159" height="20"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle"/>
@@ -174,7 +174,7 @@ JAKARTA BARAT Telp 0878 8579 6712]]></text>
 				<textFieldExpression><![CDATA[$P{user}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement uuid="64a83aaf-d0ef-46ee-84b4-0b4a9c37985a" x="349" y="20" width="156" height="20"/>
+				<reportElement uuid="64a83aaf-d0ef-46ee-84b4-0b4a9c37985a" x="346" y="20" width="159" height="20"/>
 				<textElement textAlignment="Center" verticalAlignment="Top"/>
 				<text><![CDATA[Kasir]]></text>
 			</staticText>
